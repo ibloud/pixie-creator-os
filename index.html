@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="PIXIE Creator OS — browser-native DJ workstation for the social web.">
+  <title>PIXIE Creator OS // DJ Workstation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="os" aria-label="PIXIE Creator OS">
+    <header class="topbar">
+      <div class="brand"><span class="orb"></span><div><strong>PIXIE</strong><small>CREATOR OS</small></div></div>
+      <div class="session"><span class="live-dot"></span> CREATOR SESSION <b id="clock">--:--:--</b></div>
+      <button class="status" id="connectionBtn" type="button">ATPROTO · OFFLINE</button>
+    </header>
+
+    <section class="workspace">
+      <aside class="dock" aria-label="Applications">
+        <button class="dock-app active" data-panel="deck">DJ<span>DECK</span></button>
+        <button class="dock-app" data-panel="crate">CRATE<span>LIBRARY</span></button>
+        <button class="dock-app" data-panel="projects">PROJECTS<span>CHARLIE</span></button>
+        <button class="dock-app" data-panel="publish">PUBLISH<span>PLYR.FM</span></button>
+        <button class="dock-app" data-panel="social">SOCIAL<span>ATPROTO</span></button>
+        <button class="dock-app" data-panel="routing">ROUTING<span>MIDI / AUDIO</span></button>
+        <button class="dock-app" data-panel="live">LIVE<span>STREAMPLACE</span></button>
+        <button class="dock-app" data-panel="system">SYSTEM<span>WORKSTATION</span></button>
+      </aside>
+
+      <section class="desktop">
+        <div class="desktop-grid"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">CHARLIE / SOCIAL DJ WORKSTATION</p>
+          <h1>MAKE THE SET.<br><em>LEAVE A SIGNAL.</em></h1>
+          <p>Build the music that gives the character something real to perform. Prepare locally, perform with real hardware, then publish socially when the creator chooses.</p>
+          <p class="panel-note">CHARLIE IS A FICTIONAL PIXIE CHARACTER / DESIGN CASE STUDY · NOT AN OFFICIAL CHARLIE J PRODUCT</p>
+        </div>
+
+        <div class="meters" aria-label="Audio meters">
+          <div><span>MASTER L</span><i><b id="meterL"></b></i></div>
+          <div><span>MASTER R</span><i><b id="meterR"></b></i></div>
+        </div>
+
+        <div class="panels">
+          <article class="panel active" id="panel-deck">
+            <div class="panel-head"><span>DECKS // PERFORMANCE</span><button class="close-panel" type="button">×</button></div>
+            <div class="decks">
+              <div class="deck"><div class="deck-label">A <small>USB / MIXED</small></div><div class="platter"><span></span></div><strong id="trackA">NO TRACK LOADED</strong><div class="deck-meta">00:00 / 00:00</div><button class="action" data-action="load-a">LOAD CRATE ITEM</button></div>
+              <div class="mixer"><div class="cross"><label>EQ</label><input type="range" min="0" max="100" value="55"></div><div class="fader"><label>FADER</label><input type="range" min="0" max="100" value="50"></div><div class="cross"><label>MASTER</label><input type="range" min="0" max="100" value="78"></div></div>
+              <div class="deck"><div class="deck-label">B <small>USB / MIXED</small></div><div class="platter second"><span></span></div><strong id="trackB">NO TRACK LOADED</strong><div class="deck-meta">00:00 / 00:00</div><button class="action" data-action="load-b">LOAD CRATE ITEM</button></div>
+            </div>
+            <div class="transport"><button data-action="cue">CUE</button><button data-action="play">▶ PLAY</button><button data-action="sync">SYNC</button><span>ENGINE: EXTERNAL / MIXxx</span></div>
+          </article>
+
+          <article class="panel" id="panel-crate"><div class="panel-head"><span>CRATE // CHARLIE / NIGHT BUS</span><button class="close-panel" type="button">×</button></div><div class="crate-list" id="crateList"></div><div class="panel-note">Fictional project tracks for the PIXIE character. Local prototype metadata only; no audio is uploaded or transmitted by this build.</div></article>
+
+          <article class="panel" id="panel-projects"><div class="panel-head"><span>PROJECTS // CHARLIE</span><button class="close-panel" type="button">×</button></div><div class="service-card"><span class="service-icon">01</span><div><h2>NIGHT BUS</h2><p>Charlie’s first fictional music project: an EP / DJ set developed so the social-network DJ character has original material to prepare, perform and publish through PIXIE.</p></div><span class="tag">WRITING</span></div><div class="record-grid"><div><small>TRACKS</small><strong>05</strong></div><div><small>PERFORMANCE</small><strong>MIXxx</strong></div><div><small>PUBLISH</small><strong>PENDING</strong></div></div><div class="project-list"><div><b>01</b><span>NIGHT BUS</span><small>124 BPM · Am · DEMO</small></div><div><b>02</b><span>SIGNAL LOSS</span><small>118 BPM · Dm · WRITING</small></div><div><b>03</b><span>SUNSHINE CIRCUIT</span><small>128 BPM · F#m · ARRANGING</small></div><div><b>04</b><span>AFTER HOURS</span><small>130 BPM · Gm · DEMO</small></div><div><b>05</b><span>LAST TRAIN HOME</span><small>126 BPM · Cm · OUTLINE</small></div></div><p class="panel-note">Project state is fictional design data. Rights, contributors, masters, publishing and release status remain explicit fields to be established before any real release.</p></article>
+
+          <article class="panel" id="panel-publish"><div class="panel-head"><span>PUBLISH // PLYR.FM</span><button class="close-panel" type="button">×</button></div><div class="service-card"><span class="service-icon">♫</span><div><h2>PLYR.FM ADAPTER</h2><p>Audio publishing and playback target. Connect a real account before sending anything.</p></div><button class="action" data-action="connect-plyr">CONNECT</button></div><div class="record-grid"><div><small>RECORD</small><strong>NIGHT BUS EP</strong></div><div><small>VISIBILITY</small><strong>DRAFT</strong></div><div><small>IDENTITY</small><strong>ATPROTO</strong></div></div></article>
+
+          <article class="panel" id="panel-social"><div class="panel-head"><span>SOCIAL // AT PROTOCOL</span><button class="close-panel" type="button">×</button></div><div class="identity"><div class="avatar">CJ</div><div><small>FICTIONAL CREATOR IDENTITY</small><h2>CHARLIE</h2><p>Social-network DJ character · DID unavailable</p></div><button class="action" data-action="connect-at">CONNECT IDENTITY</button></div><div class="feed"><div><b>SET LOG</b><span>NIGHT BUS // PREP SESSION</span></div><div><b>PUBLIC SIGNAL</b><span>ATProto record preview — not published</span></div></div></article>
+
+          <article class="panel" id="panel-routing"><div class="panel-head"><span>ROUTING // HARDWARE</span><button class="close-panel" type="button">×</button></div><div class="routing"><div class="route"><span>DJ CONTROLLER</span><strong>NOT CONNECTED</strong><button class="action" data-action="midi">REQUEST MIDI</button></div><div class="route"><span>AUDIO INPUT</span><strong>TULA MIC / FUTURE</strong><span class="muted">Real microphone access requires browser permission and a connected device.</span></div><div class="route"><span>AUDIO OUTPUT</span><strong>DEFAULT BROWSER OUTPUT</strong><button class="action" data-action="audio">SELECT OUTPUT</button></div><div class="route"><span>MIXxx ENGINE</span><strong>EXTERNAL</strong><span class="muted">Use Mixxx for hardware mapping and actual DJ transport.</span></div></div></article>
+
+          <article class="panel" id="panel-live"><div class="panel-head"><span>LIVE // STREAMPLACE</span><button class="close-panel" type="button">×</button></div><div class="live-screen"><div class="scan"></div><strong>STREAMPLACE ADAPTER</strong><span>READY · NO BROADCAST ACTIVE</span><button class="action" data-action="stream">PREPARE BROADCAST</button></div></article>
+
+          <article class="panel" id="panel-system"><div class="panel-head"><span>SYSTEM // CREATOR WORKSTATION</span><button class="close-panel" type="button">×</button></div><div class="system-grid"><div><small>CHARACTER</small><strong>CHARLIE / DJ</strong></div><div><small>OS MODEL</small><strong>BROWSER NATIVE</strong></div><div><small>SOCIAL</small><strong>AT PROTOCOL</strong></div><div><small>DJ ENGINE</small><strong>MIXXX</strong></div><div><small>PRIVATE</small><strong>GERM / FUTURE</strong></div><div><small>LIVE</small><strong>STREAMPLACE / FUTURE</strong></div><div><small>AUDIO PUBLISH</small><strong>PLYR.FM / FUTURE</strong></div><div><small>COMPANION</small><strong>iPAD / iPHONE</strong></div></div></article>
+        </div>
+
+        <footer class="taskbar"><span>PIXIE // CHARLIE / NIGHT BUS</span><span id="notice">LOCAL MODE · SAFE TO EXPLORE</span><span>F1 APPS · SPACE PLAY</span></footer>
+      </section>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
