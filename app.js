@@ -1,9 +1,9 @@
 const tracks = [
-  { title: 'NIGHT BUS', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 124, key: 'Am' },
-  { title: 'SIGNAL LOSS', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 118, key: 'Dm' },
-  { title: 'SUNSHINE CIRCUIT', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 128, key: 'F#m' },
-  { title: 'AFTER HOURS', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 130, key: 'Gm' },
-  { title: 'LAST TRAIN HOME', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 126, key: 'Cm' }
+  { title: 'NIGHT BUS', artist: 'PIXIE / LOCAL PROJECT', bpm: 124, key: 'Am' },
+  { title: 'SIGNAL LOSS', artist: 'PIXIE / LOCAL PROJECT', bpm: 118, key: 'Dm' },
+  { title: 'SUNSHINE CIRCUIT', artist: 'PIXIE / LOCAL PROJECT', bpm: 128, key: 'F#m' },
+  { title: 'AFTER HOURS', artist: 'PIXIE / LOCAL PROJECT', bpm: 130, key: 'Gm' },
+  { title: 'LAST TRAIN HOME', artist: 'PIXIE / LOCAL PROJECT', bpm: 126, key: 'Cm' }
 ];
 
 const state = { playing: false, activeDeck: 'A', eq: 55, fader: 50, master: 78 };
@@ -20,13 +20,26 @@ function showNotice(message) {
   noticeTimer = window.setTimeout(() => { notice.textContent = 'LOCAL MODE · SAFE TO EXPLORE'; }, 2600);
 }
 
-function openPanel(panelName) {
+function openPanel(panelName, moveFocus = true) {
   $$(SELECTORS.dockApps).forEach((button) => {
     const active = button.dataset.panel === panelName;
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
+    button.setAttribute('aria-current', active ? 'page' : 'false');
   });
-  $$(SELECTORS.panels).forEach((panel) => panel.classList.toggle('active', panel.id === `panel-${panelName}`));
+  $$(SELECTORS.panels).forEach((panel) => {
+    const active = panel.id === `panel-${panelName}`;
+    panel.classList.toggle('active', active);
+    panel.hidden = !active;
+    panel.setAttribute('aria-hidden', String(!active));
+  });
+  if (moveFocus) {
+    const heading = $(`#panel-${panelName} h2`);
+    if (heading) {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+    }
+  }
 }
 
 function loadTrack(index, deck) {
@@ -42,8 +55,8 @@ function renderCrate() {
   const crateList = $('#crateList');
   if (!crateList) return;
   crateList.innerHTML = tracks.map((track, index) => `
-    <button class="crate-row" type="button" data-index="${index}">
-      <b>${String(index + 1).padStart(2, '0')}</b><span><strong>${track.title}</strong><small>${track.artist} · ${track.bpm} BPM · ${track.key}</small></span><span aria-label="${track.bpm} BPM">${track.bpm}</span>
+    <button class="crate-row" type="button" data-index="${index}" aria-label="Select ${track.title}, ${track.bpm} BPM, ${track.key}">
+      <b aria-hidden="true">${String(index + 1).padStart(2, '0')}</b><span><strong>${track.title}</strong><small>${track.artist} · ${track.bpm} BPM · ${track.key}</small></span><span aria-hidden="true">${track.bpm}</span>
     </button>`).join('');
   $$(SELECTORS.crateRows, crateList).forEach((row) => row.addEventListener('click', () => loadTrack(Number(row.dataset.index), state.activeDeck)));
 }
@@ -73,7 +86,9 @@ function updateMixer(control) {
   if (!Number.isFinite(value)) return;
   const name = control.id;
   state[name] = value;
-  control.setAttribute('aria-valuetext', `${value}%`);
+  control.setAttribute('aria-valuetext', `${value} percent`);
+  const output = $(`#${name}Value`);
+  if (output) output.textContent = `${value}%`;
   showNotice(`LOCAL MIXER · ${name.toUpperCase()} · ${value}%`);
 }
 
