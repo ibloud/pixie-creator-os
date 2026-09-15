@@ -1,4 +1,4 @@
-const crate = [
+const tracks = [
   { title: 'NIGHT BUS', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 124, key: 'Am' },
   { title: 'SIGNAL LOSS', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 118, key: 'Dm' },
   { title: 'SUNSHINE CIRCUIT', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 128, key: 'F#m' },
@@ -6,98 +6,97 @@ const crate = [
   { title: 'LAST TRAIN HOME', artist: 'CHARLIE / FICTIONAL PROJECT', bpm: 126, key: 'Cm' }
 ];
 
+const state = {
+  playing: false,
+  activeDeck: 'A',
+  eq: 55,
+  fader: 50,
+  master: 78
+};
+
 const SELECTORS = {
   dockApps: '.dock-app',
   panels: '.panel',
   actions: '[data-action]',
   closeButtons: '.close-panel',
   platters: '.platter',
-  crateRows: '.crate-row'
+  crateRows: '.crate-row',
+  controls: '.mixer input'
 };
 
-let isPlaying = false;
 let noticeTimer;
 
-const query = (selector) => document.querySelector(selector);
-const queryAll = (selector) => document.querySelectorAll(selector);
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 function showNotice(message) {
-  const notice = query('#notice');
+  const notice = $('#notice');
   if (!notice) return;
 
   notice.textContent = message;
-  clearTimeout(noticeTimer);
-  noticeTimer = setTimeout(() => {
+  window.clearTimeout(noticeTimer);
+  noticeTimer = window.setTimeout(() => {
     notice.textContent = 'LOCAL MODE · SAFE TO EXPLORE';
   }, 2600);
 }
 
 function openPanel(panelName) {
-  queryAll(SELECTORS.dockApps).forEach((button) => {
-    const isActive = button.dataset.panel === panelName;
-    button.classList.toggle('active', isActive);
-    button.setAttribute('aria-pressed', String(isActive));
+  $$(SELECTORS.dockApps).forEach((button) => {
+    const active = button.dataset.panel === panelName;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
   });
 
-  queryAll(SELECTORS.panels).forEach((panel) => {
+  $$(SELECTORS.panels).forEach((panel) => {
     panel.classList.toggle('active', panel.id === `panel-${panelName}`);
   });
 }
 
-function loadTrack(trackIndex, deck) {
-  const track = crate[trackIndex];
-  const trackLabel = query(`#track${deck}`);
+function loadTrack(index, deck) {
+  const track = tracks[index];
+  const label = $(`#track${deck}`);
 
-  if (!track || !trackLabel) return;
+  if (!track || !label) return;
 
-  trackLabel.textContent = `${track.title} · ${track.artist}`;
+  state.activeDeck = deck;
+  label.textContent = `${track.title} · ${track.artist}`;
   showNotice(`DECK ${deck} · ${track.title} selected from local crate`);
 }
 
 function renderCrate() {
-  const crateList = query('#crateList');
+  const crateList = $('#crateList');
   if (!crateList) return;
 
-  crateList.innerHTML = crate
-    .map(
-      (track, index) => `
-        <button class="crate-row" type="button" data-index="${index}">
-          <b>${String(index + 1).padStart(2, '0')}</b>
-          <span>
-            <strong>${track.title}</strong>
-            <small>${track.artist} · ${track.bpm} BPM · ${track.key}</small>
-          </span>
-          <span aria-label="${track.bpm} BPM">${track.bpm}</span>
-        </button>
-      `
-    )
-    .join('');
+  crateList.innerHTML = tracks.map((track, index) => `
+    <button class="crate-row" type="button" data-index="${index}">
+      <b>${String(index + 1).padStart(2, '0')}</b>
+      <span>
+        <strong>${track.title}</strong>
+        <small>${track.artist} · ${track.bpm} BPM · ${track.key}</small>
+      </span>
+      <span aria-label="${track.bpm} BPM">${track.bpm}</span>
+    </button>
+  `).join('');
 
-  queryAll(SELECTORS.crateRows).forEach((row) => {
-    row.addEventListener('click', () => {
-      loadTrack(Number(row.dataset.index), 'A');
-    });
+  $$(SELECTORS.crateRows, crateList).forEach((row) => {
+    row.addEventListener('click', () => loadTrack(Number(row.dataset.index), state.activeDeck));
   });
 }
 
-function togglePlayback() {
-  isPlaying = !isPlaying;
+function setPlayback(playing) {
+  state.playing = playing;
 
-  queryAll(SELECTORS.platters).forEach((platter) => {
-    platter.style.animationPlayState = isPlaying ? 'running' : 'paused';
+  $$(SELECTORS.platters).forEach((platter) => {
+    platter.style.animationPlayState = playing ? 'running' : 'paused';
   });
 
-  const playButton = query('[data-action="play"]');
+  const playButton = $('[data-action="play"]');
   if (playButton) {
-    playButton.setAttribute('aria-pressed', String(isPlaying));
-    playButton.textContent = isPlaying ? '■ STOP' : '▶ PLAY';
+    playButton.setAttribute('aria-pressed', String(playing));
+    playButton.textContent = playing ? '■ STOP' : '▶ PLAY';
   }
 
-  showNotice(
-    isPlaying
-      ? 'LOCAL VISUAL PLAYBACK · NO AUDIO'
-      : 'LOCAL VISUAL PLAYBACK STOPPED'
-  );
+  showNotice(playing ? 'LOCAL VISUAL PLAYBACK · NO AUDIO' : 'LOCAL VISUAL PLAYBACK STOPPED');
 }
 
 function handleAction(action) {
@@ -109,7 +108,7 @@ function handleAction(action) {
       loadTrack(1, 'B');
       break;
     case 'play':
-      togglePlayback();
+      setPlayback(!state.playing);
       break;
     case 'cue':
       showNotice('CUE · visual prototype only; no audio engine');
@@ -118,52 +117,83 @@ function handleAction(action) {
       showNotice('SYNC · visual prototype only; no external engine connected');
       break;
     default:
-      break;
+      showNotice(`ACTION · ${action} is not implemented`);
   }
 }
 
-queryAll(SELECTORS.dockApps).forEach((button) => {
-  button.addEventListener('click', () => openPanel(button.dataset.panel));
-});
+function updateMixer(control) {
+  const value = Number(control.value);
+  const name = control.id;
 
-queryAll(SELECTORS.actions).forEach((button) => {
-  button.addEventListener('click', () => handleAction(button.dataset.action));
-});
+  if (!Number.isFinite(value)) return;
 
-queryAll(SELECTORS.closeButtons).forEach((button) => {
-  button.addEventListener('click', () => openPanel('deck'));
-});
+  state[name] = value;
+  control.setAttribute('aria-valuetext', `${value}%`);
 
-document.addEventListener('keydown', (event) => {
-  const target = event.target;
-  const isTextInput =
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement ||
-    target instanceof HTMLSelectElement;
+  const messages = {
+    eq: `EQ · ${value}%`,
+    fader: `FADER · ${value}%`,
+    master: `MASTER · ${value}%`
+  };
 
-  if (event.code === 'Space' && !isTextInput) {
-    event.preventDefault();
-    togglePlayback();
-  }
+  showNotice(`LOCAL MIXER · ${messages[name] || `${name.toUpperCase()} · ${value}%`}`);
+}
 
-  if (event.key === 'Escape') {
-    openPanel('deck');
-  }
-});
+function bindEvents() {
+  $$(SELECTORS.dockApps).forEach((button) => {
+    button.addEventListener('click', () => openPanel(button.dataset.panel));
+  });
 
-setInterval(() => {
-  const clock = query('#clock');
+  $$(SELECTORS.actions).forEach((button) => {
+    button.addEventListener('click', () => handleAction(button.dataset.action));
+  });
+
+  $$(SELECTORS.closeButtons).forEach((button) => {
+    button.addEventListener('click', () => openPanel('deck'));
+  });
+
+  $$(SELECTORS.controls).forEach((control) => {
+    control.addEventListener('input', () => updateMixer(control));
+    control.addEventListener('change', () => updateMixer(control));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const target = event.target;
+    const isTextInput = target instanceof HTMLInputElement && target.type !== 'range'
+      || target instanceof HTMLTextAreaElement
+      || target instanceof HTMLSelectElement;
+
+    if (event.code === 'Space' && !isTextInput) {
+      event.preventDefault();
+      setPlayback(!state.playing);
+    }
+
+    if (event.key === 'Escape') {
+      openPanel('deck');
+    }
+  });
+}
+
+function updateClock() {
+  const clock = $('#clock');
   if (clock) {
     clock.textContent = new Date().toLocaleTimeString([], { hour12: false });
   }
-}, 1000);
+}
 
-setInterval(() => {
-  const meterLeft = query('#meterL');
-  const meterRight = query('#meterR');
+function updateMeters() {
+  if (!state.playing) return;
 
-  if (meterLeft) meterLeft.style.width = `${25 + Math.random() * 65}%`;
-  if (meterRight) meterRight.style.width = `${25 + Math.random() * 65}%`;
-}, 180);
+  const meterLeft = $('#meterL');
+  const meterRight = $('#meterR');
+  const master = state.master / 100;
 
+  if (meterLeft) meterLeft.style.width = `${25 + Math.random() * 65 * master}%`;
+  if (meterRight) meterRight.style.width = `${25 + Math.random() * 65 * master}%`;
+}
+
+bindEvents();
 renderCrate();
+updateClock();
+window.setInterval(updateClock, 1000);
+window.setInterval(updateMeters, 180);
