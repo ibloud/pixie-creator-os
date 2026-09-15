@@ -1,0 +1,21 @@
+name: PIXIE
+options:
+  bundleIdPrefix: com.local
+  deploymentTarget:
+    iOS: "16.0"
+    iPadOS: "16.0"
+targets:
+  PIXIE:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        excludes:
+          - project.yml
+    info:
+      path: Info.plist
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.local.pixie
+      SWIFT_VERSION: 5.0
+      DEVELOPMENT_TEAM: ""
+      CODE_SIGN_STYLE: Automatic
