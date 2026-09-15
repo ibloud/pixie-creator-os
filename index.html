@@ -2,63 +2,247 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="PIXIE Creator OS — accessible browser-native DJ workstation prototype with local interactions only.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="PIXIE Creator OS — accessible browser-native DJ workstation prototype with local interactions only."
+  >
   <title>PIXIE Creator OS // Local DJ Workstation</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <main class="os" aria-label="PIXIE Creator OS">
     <header class="topbar">
-      <div class="brand"><span class="orb" aria-hidden="true"></span><div><strong>PIXIE</strong><small>CREATOR OS</small></div></div>
-      <div class="session"><span class="live-dot" aria-hidden="true"></span> LOCAL SESSION <b id="clock" aria-label="Current local time">--:--:--</b></div>
-      <span class="status status-static" aria-label="Network integrations are not connected">LOCAL ONLY · NO NETWORK</span>
+      <div class="brand">
+        <span class="orb" aria-hidden="true"></span>
+        <div>
+          <strong>PIXIE</strong>
+          <small>CREATOR OS</small>
+        </div>
+      </div>
+
+      <div class="session">
+        <span class="live-dot" aria-hidden="true"></span>
+        LOCAL SESSION
+        <b id="clock" aria-label="Current local time">--:--:--</b>
+      </div>
+
+      <span
+        class="status status-static"
+        aria-label="Network integrations are not connected"
+      >
+        LOCAL ONLY · NO NETWORK
+      </span>
     </header>
 
     <section class="workspace">
       <nav class="dock" aria-label="Applications">
-        <button class="dock-app active" data-panel="deck" type="button" aria-controls="panel-deck" aria-pressed="true">DJ<span>DECK</span></button>
-        <button class="dock-app" data-panel="crate" type="button" aria-controls="panel-crate" aria-pressed="false">CRATE<span>LIBRARY</span></button>
-        <button class="dock-app" data-panel="projects" type="button" aria-controls="panel-projects" aria-pressed="false">PROJECTS<span>CHARLIE</span></button>
-        <button class="dock-app" data-panel="system" type="button" aria-controls="panel-system" aria-pressed="false">SYSTEM<span>STATUS</span></button>
+        <button
+          class="dock-app active"
+          data-panel="deck"
+          type="button"
+          aria-controls="panel-deck"
+          aria-pressed="true"
+        >
+          DJ<span>DECK</span>
+        </button>
+        <button
+          class="dock-app"
+          data-panel="crate"
+          type="button"
+          aria-controls="panel-crate"
+          aria-pressed="false"
+        >
+          CRATE<span>LIBRARY</span>
+        </button>
+        <button
+          class="dock-app"
+          data-panel="projects"
+          type="button"
+          aria-controls="panel-projects"
+          aria-pressed="false"
+        >
+          PROJECTS<span>CHARLIE</span>
+        </button>
+        <button
+          class="dock-app"
+          data-panel="system"
+          type="button"
+          aria-controls="panel-system"
+          aria-pressed="false"
+        >
+          SYSTEM<span>STATUS</span>
+        </button>
       </nav>
 
       <section class="desktop" aria-label="PIXIE workspace">
         <div class="desktop-grid" aria-hidden="true"></div>
+
         <div class="hero-copy">
           <p class="eyebrow">CHARLIE / LOCAL DJ WORKSTATION</p>
           <h1>MAKE THE SET.<br><em>LEAVE A SIGNAL.</em></h1>
-          <p>Build and organize the fictional character's music locally. This prototype does not upload, authenticate, broadcast, access external DJ hardware, or publish to a service.</p>
-          <p class="panel-note">CHARLIE IS A FICTIONAL PIXIE CHARACTER / DESIGN CASE STUDY · NOT AN OFFICIAL CHARLIE J PRODUCT</p>
+          <p>
+            Build and organize the fictional character's music locally.
+            This prototype does not upload, authenticate, broadcast,
+            access external DJ hardware, or publish to a service.
+          </p>
+          <p class="panel-note">
+            CHARLIE IS A FICTIONAL PIXIE CHARACTER / DESIGN CASE STUDY ·
+            NOT AN OFFICIAL CHARLIE J PRODUCT
+          </p>
         </div>
 
         <div class="meters" aria-label="Decorative local activity meters">
-          <div><span>LOCAL L</span><i aria-hidden="true"><b id="meterL"></b></i></div>
-          <div><span>LOCAL R</span><i aria-hidden="true"><b id="meterR"></b></i></div>
+          <div>
+            <span>LOCAL L</span>
+            <i aria-hidden="true"><b id="meterL"></b></i>
+          </div>
+          <div>
+            <span>LOCAL R</span>
+            <i aria-hidden="true"><b id="meterR"></b></i>
+          </div>
         </div>
 
         <div class="panels">
           <article class="panel active" id="panel-deck" aria-labelledby="deck-title">
-            <div class="panel-head"><span id="deck-title">DECKS // LOCAL PLAYBACK PROTOTYPE</span><button class="close-panel" type="button" aria-label="Close panel">×</button></div>
-            <div class="decks">
-              <div class="deck"><div class="deck-label">A <small>LOCAL</small></div><div class="platter" aria-hidden="true"><span></span></div><strong id="trackA">NO TRACK LOADED</strong><div class="deck-meta">POSITION 00:00</div><button class="action" data-action="load-a" type="button">LOAD CRATE ITEM</button></div>
-              <div class="mixer" aria-label="Local mixer controls"><div class="cross"><label for="eq">EQ</label><input id="eq" type="range" min="0" max="100" value="55" aria-label="EQ level"></div><div class="fader"><label for="fader">FADER</label><input id="fader" type="range" min="0" max="100" value="50" aria-label="Crossfader level"></div><div class="cross"><label for="master">MASTER</label><input id="master" type="range" min="0" max="100" value="78" aria-label="Master level"></div></div>
-              <div class="deck"><div class="deck-label">B <small>LOCAL</small></div><div class="platter second" aria-hidden="true"><span></span></div><strong id="trackB">NO TRACK LOADED</strong><div class="deck-meta">POSITION 00:00</div><button class="action" data-action="load-b" type="button">LOAD CRATE ITEM</button></div>
+            <div class="panel-head">
+              <span id="deck-title">DECKS // LOCAL PLAYBACK PROTOTYPE</span>
+              <button class="close-panel" type="button" aria-label="Close panel">×</button>
             </div>
-            <div class="transport" aria-label="Local playback controls"><button data-action="cue" type="button">CUE</button><button data-action="play" type="button" aria-pressed="false">▶ PLAY</button><button data-action="sync" type="button">SYNC</button><span>LOCAL PROTOTYPE · NO AUDIO ENGINE</span></div>
+
+            <div class="decks">
+              <div class="deck">
+                <div class="deck-label">A <small>LOCAL</small></div>
+                <div class="platter" aria-hidden="true"><span></span></div>
+                <strong id="trackA">NO TRACK LOADED</strong>
+                <div class="deck-meta">POSITION 00:00</div>
+                <button class="action" data-action="load-a" type="button">
+                  LOAD CRATE ITEM
+                </button>
+              </div>
+
+              <div class="mixer" aria-label="Local mixer controls">
+                <div class="cross">
+                  <label for="eq">EQ</label>
+                  <input id="eq" type="range" min="0" max="100" value="55">
+                </div>
+                <div class="fader">
+                  <label for="fader">FADER</label>
+                  <input id="fader" type="range" min="0" max="100" value="50">
+                </div>
+                <div class="cross">
+                  <label for="master">MASTER</label>
+                  <input id="master" type="range" min="0" max="100" value="78">
+                </div>
+              </div>
+
+              <div class="deck">
+                <div class="deck-label">B <small>LOCAL</small></div>
+                <div class="platter second" aria-hidden="true"><span></span></div>
+                <strong id="trackB">NO TRACK LOADED</strong>
+                <div class="deck-meta">POSITION 00:00</div>
+                <button class="action" data-action="load-b" type="button">
+                  LOAD CRATE ITEM
+                </button>
+              </div>
+            </div>
+
+            <div class="transport" aria-label="Local playback controls">
+              <button data-action="cue" type="button">CUE</button>
+              <button data-action="play" type="button" aria-pressed="false">▶ PLAY</button>
+              <button data-action="sync" type="button">SYNC</button>
+              <span>LOCAL PROTOTYPE · NO AUDIO ENGINE</span>
+            </div>
           </article>
 
-          <article class="panel" id="panel-crate" aria-labelledby="crate-title"><div class="panel-head"><span id="crate-title">CRATE // CHARLIE / NIGHT BUS</span><button class="close-panel" type="button" aria-label="Close panel">×</button></div><div class="crate-list" id="crateList" aria-live="polite"></div><p class="panel-note">Fictional project metadata only. Selecting a row changes the local deck label; no audio is loaded, uploaded, or transmitted.</p></article>
+          <article class="panel" id="panel-crate" aria-labelledby="crate-title">
+            <div class="panel-head">
+              <span id="crate-title">CRATE // CHARLIE / NIGHT BUS</span>
+              <button class="close-panel" type="button" aria-label="Close panel">×</button>
+            </div>
+            <div class="crate-list" id="crateList" aria-live="polite"></div>
+            <p class="panel-note">
+              Fictional project metadata only. Selecting a row changes the
+              local deck label; no audio is loaded, uploaded, or transmitted.
+            </p>
+          </article>
 
-          <article class="panel" id="panel-projects" aria-labelledby="projects-title"><div class="panel-head"><span id="projects-title">PROJECTS // CHARLIE</span><button class="close-panel" type="button" aria-label="Close panel">×</button></div><div class="service-card"><span class="service-icon" aria-hidden="true">01</span><div><h2>NIGHT BUS</h2><p>Charlie’s first fictional music project: an EP / DJ set developed so the social-network DJ character has original material to prepare and perform inside this design prototype.</p></div><span class="tag">LOCAL DATA</span></div><div class="record-grid"><div><small>TRACKS</small><strong>05</strong></div><div><small>PLAYBACK</small><strong>LOCAL</strong></div><div><small>PUBLISH</small><strong>NOT IMPLEMENTED</strong></div></div><div class="project-list"><div><b>01</b><span>NIGHT BUS</span><small>124 BPM · Am · DEMO</small></div><div><b>02</b><span>SIGNAL LOSS</span><small>118 BPM · Dm · WRITING</small></div><div><b>03</b><span>SUNSHINE CIRCUIT</span><small>128 BPM · F#m · ARRANGING</small></div><div><b>04</b><span>AFTER HOURS</span><small>130 BPM · Gm · DEMO</small></div><div><b>05</b><span>LAST TRAIN HOME</span><small>126 BPM · Cm · OUTLINE</small></div></div><p class="panel-note">Project state is fictional design data. Rights, contributors, masters, publishing and release status remain explicit fields to establish before any real release.</p></article>
+          <article class="panel" id="panel-projects" aria-labelledby="projects-title">
+            <div class="panel-head">
+              <span id="projects-title">PROJECTS // CHARLIE</span>
+              <button class="close-panel" type="button" aria-label="Close panel">×</button>
+            </div>
 
-          <article class="panel" id="panel-system" aria-labelledby="system-title"><div class="panel-head"><span id="system-title">SYSTEM // IMPLEMENTATION STATUS</span><button class="close-panel" type="button" aria-label="Close panel">×</button></div><div class="system-grid"><div><small>CHARACTER</small><strong>CHARLIE / FICTIONAL</strong></div><div><small>OS MODEL</small><strong>BROWSER NATIVE</strong></div><div><small>CRATE</small><strong>WORKING LOCAL</strong></div><div><small>DECK UI</small><strong>WORKING LOCAL</strong></div><div><small>AUDIO ENGINE</small><strong>NOT IMPLEMENTED</strong></div><div><small>MIDI / HID</small><strong>NOT IMPLEMENTED</strong></div><div><small>NETWORK AUTH</small><strong>NOT IMPLEMENTED</strong></div><div><small>LIVE / PUBLISH</small><strong>NOT IMPLEMENTED</strong></div></div><p class="panel-note">This build intentionally exposes only local prototype behavior. AT Protocol, plyr.fm, Mixxx, Streamplace, Germ, microphones, MIDI devices and other external services are not represented as working integrations here.</p></article>
+            <div class="service-card">
+              <span class="service-icon" aria-hidden="true">01</span>
+              <div>
+                <h2>NIGHT BUS</h2>
+                <p>
+                  Charlie’s first fictional music project: an EP / DJ set
+                  developed so the social-network DJ character has original
+                  material to prepare and perform inside this design prototype.
+                </p>
+              </div>
+              <span class="tag">LOCAL DATA</span>
+            </div>
+
+            <div class="record-grid">
+              <div><small>TRACKS</small><strong>05</strong></div>
+              <div><small>PLAYBACK</small><strong>LOCAL</strong></div>
+              <div><small>PUBLISH</small><strong>NOT IMPLEMENTED</strong></div>
+            </div>
+
+            <div class="project-list">
+              <div><b>01</b><span>NIGHT BUS</span><small>124 BPM · Am · DEMO</small></div>
+              <div><b>02</b><span>SIGNAL LOSS</span><small>118 BPM · Dm · WRITING</small></div>
+              <div><b>03</b><span>SUNSHINE CIRCUIT</span><small>128 BPM · F#m · ARRANGING</small></div>
+              <div><b>04</b><span>AFTER HOURS</span><small>130 BPM · Gm · DEMO</small></div>
+              <div><b>05</b><span>LAST TRAIN HOME</span><small>126 BPM · Cm · OUTLINE</small></div>
+            </div>
+
+            <p class="panel-note">
+              Project state is fictional design data. Rights, contributors,
+              masters, publishing and release status remain explicit fields
+              to establish before any real release.
+            </p>
+          </article>
+
+          <article class="panel" id="panel-system" aria-labelledby="system-title">
+            <div class="panel-head">
+              <span id="system-title">SYSTEM // IMPLEMENTATION STATUS</span>
+              <button class="close-panel" type="button" aria-label="Close panel">×</button>
+            </div>
+
+            <div class="system-grid">
+              <div><small>CHARACTER</small><strong>CHARLIE / FICTIONAL</strong></div>
+              <div><small>OS MODEL</small><strong>BROWSER NATIVE</strong></div>
+              <div><small>CRATE</small><strong>WORKING LOCAL</strong></div>
+              <div><small>DECK UI</small><strong>WORKING LOCAL</strong></div>
+              <div><small>AUDIO ENGINE</small><strong>NOT IMPLEMENTED</strong></div>
+              <div><small>MIDI / HID</small><strong>NOT IMPLEMENTED</strong></div>
+              <div><small>NETWORK AUTH</small><strong>NOT IMPLEMENTED</strong></div>
+              <div><small>LIVE / PUBLISH</small><strong>NOT IMPLEMENTED</strong></div>
+            </div>
+
+            <p class="panel-note">
+              This build intentionally exposes only local prototype behavior.
+              AT Protocol, plyr.fm, Mixxx, Streamplace, Germ, microphones,
+              MIDI devices and other external services are not represented as
+              working integrations here.
+            </p>
+          </article>
         </div>
 
-        <footer class="taskbar"><span>PIXIE // CHARLIE / NIGHT BUS</span><span id="notice" role="status" aria-live="polite">LOCAL MODE · SAFE TO EXPLORE</span><span>TAB NAVIGATION · SPACE PLAY · ESC CLOSE</span></footer>
+        <footer class="taskbar">
+          <span>PIXIE // CHARLIE / NIGHT BUS</span>
+          <span id="notice" role="status" aria-live="polite">LOCAL MODE · SAFE TO EXPLORE</span>
+          <span>TAB NAVIGATION · SPACE PLAY · ESC CLOSE</span>
+        </footer>
       </section>
     </section>
   </main>
+
   <script src="app.js"></script>
 </body>
 </html>
