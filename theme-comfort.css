@@ -145,8 +145,8 @@ html, body { font-size: 14px; line-height: 1.6; }
 @media (max-width: 600px) {
   .hero-copy h1 { font-size: 20px; }
   .hero-copy p { font-size: 12px; }
-  .dock-app { font-size: 9px; }
-  .dock-app span { font-size: 8px; }
+  .dock-app { font-size: 10px; }
+  .dock-app span { font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
