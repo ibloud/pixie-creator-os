@@ -3,217 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0d0a">
-  <meta name="description" content="PIXIE Creator OS — pre-alpha browser DJ workstation with real local file playback.">
+  <meta name="theme-color" content="#111214">
+  <meta name="description" content="PIXIE Creator OS — narrative cultural intelligence workstation for DJs and independent creators.">
   <link rel="manifest" href="manifest.webmanifest">
-  <title>PIXIE Creator OS // Pre-Alpha</title>
+  <title>PIXIE Creator OS // Narrative Workbench</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="narrative.css">
+  <link rel="stylesheet" href="accessibility.css">
+  <link rel="stylesheet" href="theme-comfort.css">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Skip to PIXIE workspace</a>
-
   <main class="os" aria-label="PIXIE Creator OS">
-
     <header class="topbar">
-      <div class="brand">
-        <span class="orb" aria-hidden="true"></span>
-        <div>
-          <strong>PIXIE</strong>
-          <small>CREATOR OS</small>
-        </div>
-      </div>
-      <div class="session">
-        <span class="live-dot" aria-hidden="true"></span>
-        LOCAL SESSION
-        <b id="clock" aria-label="Current local time">--:--:--</b>
-      </div>
-      <span class="status status-static">PRE-ALPHA · LOCAL FILES</span>
+      <div class="brand"><span class="orb" aria-hidden="true"></span><div><strong>PIXIE</strong><small>CREATOR OS</small></div></div>
+      <div class="session"><span class="live-dot" aria-hidden="true"></span> LOCAL SESSION <b id="clock" aria-label="Current local time">--:--:--</b></div>
+      <span class="status status-static">NARRATIVE WORKBENCH</span>
     </header>
-
     <section class="workspace" id="workspace" aria-label="PIXIE workspace">
-
       <nav class="dock" aria-label="PIXIE applications">
-        <button class="dock-app active" data-panel="deck" type="button"
-          aria-controls="panel-deck" aria-pressed="true" aria-current="page">
-          DJ<span>DECK</span>
-        </button>
-        <button class="dock-app" data-panel="crate" type="button"
-          aria-controls="panel-crate" aria-pressed="false">
-          CRATE<span>LIBRARY</span>
-        </button>
-        <button class="dock-app" data-panel="projects" type="button"
-          aria-controls="panel-projects" aria-pressed="false">
-          STUDIO<span>PROJECTS</span>
-        </button>
-        <button class="dock-app" data-panel="native" type="button"
-          aria-controls="panel-native" aria-pressed="false">
-          IOS<span>SHELL</span>
-        </button>
-        <button class="dock-app" data-panel="system" type="button"
-          aria-controls="panel-system" aria-pressed="false">
-          SYS<span>STATUS</span>
-        </button>
+        <button class="dock-app active" data-panel="deck" type="button" aria-controls="panel-deck" aria-pressed="true" aria-current="page">DJ<span>DECK</span></button>
+        <button class="dock-app" data-panel="radar" type="button" aria-controls="panel-radar" aria-pressed="false">RADAR<span>STORY</span></button>
+        <button class="dock-app" data-panel="crate" type="button" aria-controls="panel-crate" aria-pressed="false">CRATE<span>LIBRARY</span></button>
+        <button class="dock-app" data-panel="projects" type="button" aria-controls="panel-projects" aria-pressed="false">STUDIO<span>PROJECTS</span></button>
+        <button class="dock-app" data-panel="native" type="button" aria-controls="panel-native" aria-pressed="false">IOS<span>SHELL</span></button>
+        <button class="dock-app" data-panel="system" type="button" aria-controls="panel-system" aria-pressed="false">SYS<span>STATUS</span></button>
       </nav>
-
       <section class="desktop" aria-label="PIXIE desktop">
         <div class="desktop-grid" aria-hidden="true"></div>
-
         <div class="hero-copy">
-          <p class="eyebrow">PIXIE / PRE-ALPHA · LOCAL FILE PLAYBACK</p>
-          <h1>MAKE THE SET.<br><em>LEAVE A SIGNAL.</em></h1>
-          <p>Load audio files from your device onto Deck A and Deck B. Real Web Audio playback — crossfader, EQ, cue, and sync included.</p>
-          <p class="panel-note">PIXIE / LOPTR LAB PRODUCT · CHARLIE J IS NOT THE OWNER OR CREATOR · A PRODUCER PIXIE MAY APPROACH FOR HIRE IS A SEPARATE CREATIVE ENGAGEMENT.</p>
+          <p class="eyebrow">PIXIE / NARRATIVE CULTURAL INTELLIGENCE</p>
+          <h1>THE WORLD IS LOUD.<br><em>FIND SOMETHING WORTH NOTICING.</em></h1>
+          <p>Discover signals, understand their context, connect them to music and culture, find the conversation, then make the post in your own voice.</p>
         </div>
-
-        <div class="meters" aria-label="Live audio meters">
-          <div><span>DECK A</span><i aria-hidden="true"><b id="meterL"></b></i></div>
-          <div><span>DECK B</span><i aria-hidden="true"><b id="meterR"></b></i></div>
-        </div>
-
+        <div class="meters" aria-label="Live audio meters"><div><span>DECK A</span><i aria-hidden="true"><b id="meterL"></b></i></div><div><span>DECK B</span><i aria-hidden="true"><b id="meterR"></b></i></div></div>
         <div class="panels">
-
-          <!-- DECK PANEL -->
-          <article class="panel active" id="panel-deck" aria-labelledby="deck-title">
-            <div class="panel-head">
-              <h2 id="deck-title">DECKS // LOCAL FILE PLAYBACK</h2>
-              <button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button>
-            </div>
-            <div class="decks">
-
-              <!-- DECK A -->
-              <div class="deck" data-deck="a" aria-label="Deck A">
-                <div class="deck-label">A <small>LOCAL</small></div>
-                <div class="platter" aria-hidden="true"><span></span></div>
-                <strong id="trackA">NO TRACK LOADED</strong>
-                <div class="deck-meta" id="posA">POSITION 00:00</div>
-                <div class="deck-meta" id="durA" style="opacity:.6;font-size:9px;"></div>
-                <button class="action" data-action="load-a" type="button">LOAD FILE</button>
-              </div>
-
-              <!-- MIXER -->
-              <div class="mixer" aria-label="Mixer controls">
-                <div>
-                  <label for="eq">EQ <output id="eqValue">55%</output></label>
-                  <input id="eq" type="range" min="0" max="100" value="55" aria-valuetext="55 percent">
-                </div>
-                <div>
-                  <label for="fader">XFADE <output id="faderValue">50%</output></label>
-                  <input id="fader" type="range" min="0" max="100" value="50" aria-valuetext="50 percent">
-                </div>
-                <div>
-                  <label for="master">MASTER <output id="masterValue">78%</output></label>
-                  <input id="master" type="range" min="0" max="100" value="78" aria-valuetext="78 percent">
-                </div>
-              </div>
-
-              <!-- DECK B -->
-              <div class="deck" data-deck="b" aria-label="Deck B">
-                <div class="deck-label">B <small>LOCAL</small></div>
-                <div class="platter second" aria-hidden="true"><span></span></div>
-                <strong id="trackB">NO TRACK LOADED</strong>
-                <div class="deck-meta" id="posB">POSITION 00:00</div>
-                <div class="deck-meta" id="durB" style="opacity:.6;font-size:9px;"></div>
-                <button class="action" data-action="load-b" type="button">LOAD FILE</button>
-              </div>
-
-            </div>
-            <div class="transport" aria-label="Playback controls">
-              <button data-action="cue" type="button">CUE</button>
-              <button data-action="play" type="button" aria-pressed="false">▶ PLAY</button>
-              <button data-action="sync" type="button">SYNC</button>
-              <span>A/B KEYS SELECT DECK · SPACE PLAY · TAP DECK TO FOCUS</span>
-            </div>
-          </article>
-
-          <!-- CRATE PANEL -->
-          <article class="panel" id="panel-crate" aria-labelledby="crate-title" hidden aria-hidden="true">
-            <div class="panel-head">
-              <h2 id="crate-title">CRATE // LOCAL SET MATERIAL</h2>
-              <button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button>
-            </div>
-            <div class="crate-list" id="crateList" aria-live="polite"></div>
-            <p class="panel-note" style="padding:12px 16px;">Demo track list — load real files via the LOAD FILE buttons on each deck.</p>
-          </article>
-
-          <!-- PROJECTS PANEL -->
-          <article class="panel" id="panel-projects" aria-labelledby="projects-title" hidden aria-hidden="true">
-            <div class="panel-head">
-              <h2 id="projects-title">STUDIO PROJECTS // NIGHT BUS</h2>
-              <button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button>
-            </div>
-            <div class="service-card">
-              <span class="service-icon" aria-hidden="true">01</span>
-              <div>
-                <h2>NIGHT BUS</h2>
-                <p>A fictional local project used to demonstrate PIXIE's creator-workstation flow. It is not presented as a real release or as Charlie J's property.</p>
-              </div>
-              <span class="tag">LOCAL DATA</span>
-            </div>
-            <div class="record-grid">
-              <div><small>TRACKS</small><strong>05</strong></div>
-              <div><small>PLAYBACK</small><strong>LOCAL</strong></div>
-              <div><small>PUBLISH</small><strong>PLANNED</strong></div>
-            </div>
-            <div class="project-list">
-              <div><b>01</b><span>NIGHT BUS</span><small>124 BPM · Am · DEMO</small></div>
-              <div><b>02</b><span>SIGNAL LOSS</span><small>118 BPM · Dm · WRITING</small></div>
-              <div><b>03</b><span>SUNSHINE CIRCUIT</span><small>128 BPM · F#m · ARRANGING</small></div>
-              <div><b>04</b><span>AFTER HOURS</span><small>130 BPM · Gm · DEMO</small></div>
-              <div><b>05</b><span>LAST TRAIN HOME</span><small>126 BPM · Cm · OUTLINE</small></div>
-            </div>
-            <p class="panel-note" style="padding:12px 16px;">Rights, contributors, masters, publishing, and release status are not represented as established facts by this demonstration.</p>
-          </article>
-
-          <!-- NATIVE PANEL -->
-          <article class="panel" id="panel-native" aria-labelledby="native-title" hidden aria-hidden="true">
-            <div class="panel-head">
-              <h2 id="native-title">IOS / IPADOS // CAPABILITY GATE</h2>
-              <button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button>
-            </div>
-            <div class="capability-intro">
-              <strong>NATIVE SHELL READY · EXTERNAL SERVICES NOT CONFIGURED</strong>
-              <p>The browser bridge is safe in a normal browser. Native capabilities remain unavailable until their matching API, permission, entitlement, and service configuration are actually connected.</p>
-            </div>
-            <div class="capability-grid" id="capabilityGrid"></div>
-            <p class="panel-note" style="padding:12px 16px;">Development bundle identifier: <code>com.local.pixie</code>. Local Xcode testing only; not an App Store Connect Bundle ID.</p>
-          </article>
-
-          <!-- SYSTEM PANEL -->
-          <article class="panel" id="panel-system" aria-labelledby="system-title" hidden aria-hidden="true">
-            <div class="panel-head">
-              <h2 id="system-title">SYSTEM // IMPLEMENTATION STATUS</h2>
-              <button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button>
-            </div>
-            <div class="system-grid">
-              <div><small>PRODUCT</small><strong>PIXIE / LOPTR LAB</strong></div>
-              <div><small>BUILD</small><strong>PRE-ALPHA</strong></div>
-              <div><small>AUDIO ENGINE</small><strong>WEB AUDIO API</strong></div>
-              <div><small>DECK PLAYBACK</small><strong>WORKING</strong></div>
-              <div><small>LOCAL FILES</small><strong>WORKING</strong></div>
-              <div><small>CROSSFADER</small><strong>WORKING</strong></div>
-              <div><small>EQ</small><strong>WORKING</strong></div>
-              <div><small>NATIVE BRIDGE</small><strong>READY / LOCAL</strong></div>
-              <div><small>AT PROTOCOL</small><strong>PLANNED</strong></div>
-              <div><small>PLYR.FM</small><strong>PLANNED</strong></div>
-              <div><small>MIDI / HID</small><strong>NOT IMPLEMENTED</strong></div>
-              <div><small>LIVE / PUBLISH</small><strong>PLANNED</strong></div>
-            </div>
-            <p class="panel-note" style="padding:12px 16px;">AT Protocol, plyr.fm, Mixxx, Streamplace, Germ, and Apple services are not yet connected.</p>
-          </article>
-
-        </div><!-- /panels -->
-
-        <footer class="taskbar">
-          <span>PIXIE // PRE-ALPHA</span>
-          <span id="notice" role="status" aria-live="polite" aria-atomic="true">LOCAL FILE PLAYBACK · LOAD A TRACK TO BEGIN</span>
-          <span>A/B · SPACE · ESC</span>
-        </footer>
-
+          <article class="panel active" id="panel-deck" aria-labelledby="deck-title"><div class="panel-head"><h2 id="deck-title">DECKS // LOCAL FILE PLAYBACK</h2><button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button></div><div class="decks"><div class="deck" data-deck="a" aria-label="Deck A"><div class="deck-label">A <small>LOCAL</small></div><div class="platter" aria-hidden="true"><span></span></div><strong id="trackA">NO TRACK LOADED</strong><div class="deck-meta" id="posA">POSITION 00:00</div><div class="deck-meta" id="durA"></div><button class="action" data-action="load-a" type="button">LOAD FILE</button></div><div class="mixer" aria-label="Mixer controls"><div><label for="eq">EQ <output id="eqValue">55%</output></label><input id="eq" type="range" min="0" max="100" value="55"></div><div><label for="fader">XFADE <output id="faderValue">50%</output></label><input id="fader" type="range" min="0" max="100" value="50"></div><div><label for="master">MASTER <output id="masterValue">78%</output></label><input id="master" type="range" min="0" max="100" value="78"></div></div><div class="deck" data-deck="b" aria-label="Deck B"><div class="deck-label">B <small>LOCAL</small></div><div class="platter second" aria-hidden="true"><span></span></div><strong id="trackB">NO TRACK LOADED</strong><div class="deck-meta" id="posB">POSITION 00:00</div><div class="deck-meta" id="durB"></div><button class="action" data-action="load-b" type="button">LOAD FILE</button></div></div><div class="transport"><button data-action="cue" type="button">CUE</button><button data-action="play" type="button" aria-pressed="false">▶ PLAY</button><button data-action="sync" type="button">SYNC</button><span>A/B KEYS SELECT DECK · SPACE PLAY · TAP DECK TO FOCUS</span></div></article>
+          <article class="panel" id="panel-crate" aria-labelledby="crate-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="crate-title">CRATE // LOCAL SET MATERIAL</h2><button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button></div><div class="crate-list" id="crateList"></div><p class="panel-note">Demo track list — load real files via the deck.</p></article>
+          <article class="panel" id="panel-projects" aria-labelledby="projects-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="projects-title">STUDIO PROJECTS</h2><button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button></div><div class="service-card"><span class="service-icon">01</span><div><h2>NIGHT BUS</h2><p>Local demonstration project for the creator-workstation flow.</p></div><span class="tag">LOCAL DATA</span></div><div class="record-grid"><div><small>TRACKS</small><strong>05</strong></div><div><small>PLAYBACK</small><strong>LOCAL</strong></div><div><small>PUBLISH</small><strong>PLANNED</strong></div></div></article>
+          <article class="panel" id="panel-native" aria-labelledby="native-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="native-title">IOS / IPADOS // CAPABILITY GATE</h2><button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button></div><div class="capability-intro"><strong>NATIVE SHELL READY · EXTERNAL SERVICES NOT CONFIGURED</strong><p>Native capabilities remain unavailable until their matching API, permission, entitlement, and service configuration are connected.</p></div><div class="capability-grid" id="capabilityGrid"></div></article>
+          <article class="panel" id="panel-system" aria-labelledby="system-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="system-title">SYSTEM // IMPLEMENTATION STATUS</h2><button class="close-panel" type="button" aria-label="Return to DJ Deck">×</button></div><div class="system-grid"><div><small>PRODUCT</small><strong>PIXIE / LOPTR LAB</strong></div><div><small>BUILD</small><strong>PRE-ALPHA</strong></div><div><small>AUDIO ENGINE</small><strong>WEB AUDIO API</strong></div><div><small>DECK PLAYBACK</small><strong>WORKING</strong></div><div><small>NARRATIVE RADAR</small><strong>LOCAL PROTOTYPE</strong></div><div><small>STORY MODEL</small><strong>LOCAL SCHEMA</strong></div><div><small>NETWORK ADAPTERS</small><strong>PLANNED</strong></div><div><small>AT PROTOCOL</small><strong>PLANNED</strong></div><div><small>PLYR.FM</small><strong>PLANNED</strong></div><div><small>MIXXX BRIDGE</small><strong>PLANNED</strong></div></div></article>
+          <article class="panel" id="panel-radar" aria-labelledby="radar-title" hidden aria-hidden="true"></article>
+        </div>
+        <footer class="taskbar"><span>PIXIE // PRE-ALPHA</span><span id="notice" role="status" aria-live="polite" aria-atomic="true">SIGNAL → CONTEXT → STORY → MUSIC → CONVERSATION → PUBLISH</span><span>A/B · SPACE · ESC</span></footer>
       </section>
     </section>
   </main>
-
-  <script src="native-bridge.js"></script>
-  <script src="app.js"></script>
+  <script src="native-bridge.js"></script><script src="story-model.js"></script><script src="app.js"></script><script src="narrative.js"></script>
 </body>
 </html>

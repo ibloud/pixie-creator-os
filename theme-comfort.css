@@ -1,0 +1,154 @@
+/* PIXIE Dark — Comfort Pass
+   Atmospheric dark surfaces, readable hierarchy, restrained accent glow.
+   Loaded after the base and accessibility layers so the default theme stays
+   comfortable while high-contrast and large-text modes can still take over.
+*/
+
+:root {
+  --clr-primary:   #e05252;
+  --clr-secondary: #72b7d8;
+  --clr-emphasis:  #e58b8b;
+  --clr-lavender:  #b89adf;
+  --clr-text:      #eeeeee;
+  --clr-dim:       #b7bcc3;
+  --clr-muted:     #858b94;
+  --clr-base:      #111214;
+  --clr-surface:   #181a1d;
+  --clr-panel:     #1e2125;
+  --clr-raised:    #25282d;
+  --clr-border:    #34383e;
+  --clr-hover:     #2a2e34;
+}
+
+html, body { font-size: 14px; line-height: 1.6; }
+
+.desktop-grid {
+  opacity: .45;
+  background-image: linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
+}
+
+.orb {
+  box-shadow: 0 0 8px rgba(224,82,82,.24);
+}
+
+.hero-copy h1,
+.panel-head h2,
+.deck strong,
+.crate-title,
+.cap-label,
+.system-grid strong,
+.taskbar span:nth-child(2) { color: var(--clr-text); }
+
+.hero-copy h1 em { color: var(--clr-primary); }
+.hero-copy p { font-size: 13px; color: var(--clr-dim); }
+.panel-note { font-size: 11px !important; color: var(--clr-dim) !important; }
+
+.dock-app { color: var(--clr-dim); font-size: 11px; }
+.dock-app span { font-size: 9px; opacity: .85; }
+.dock-app.active {
+  color: var(--clr-text);
+  border-left-color: var(--clr-primary);
+  background: rgba(224,82,82,.08);
+}
+
+.panel {
+  background: var(--clr-panel);
+  border-color: var(--clr-border);
+  box-shadow: 0 12px 32px rgba(0,0,0,.34);
+}
+.panel-head { background: var(--clr-surface); }
+
+.close-panel,
+.action,
+.transport button,
+.narrative-toolbar button,
+.narrative-card button {
+  color: var(--clr-text);
+  background: rgba(255,255,255,.045);
+}
+
+.close-panel:hover,
+.narrative-toolbar button:hover,
+.narrative-card button:hover {
+  background: rgba(224,82,82,.12);
+  border-color: var(--clr-primary);
+}
+
+.action:hover,
+.transport button:hover { background: rgba(255,255,255,.09); border-color: var(--clr-dim); }
+
+.transport button[aria-pressed=true] {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+}
+
+.deck.deck-active {
+  background: rgba(224,82,82,.035);
+  outline-color: rgba(224,82,82,.22);
+}
+
+.platter {
+  background: radial-gradient(circle at 50% 50%, #30343a 0%, #17191c 70%);
+}
+.platter.spinning {
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 12px rgba(224,82,82,.18);
+}
+
+.mixer { background: rgba(0,0,0,.08); }
+
+.crate-item.selected {
+  background: rgba(224,82,82,.08);
+  border-left-color: var(--clr-primary);
+}
+
+.cap-status.blocked { color: #e58b8b; background: rgba(229,139,139,.10); border-color: rgba(229,139,139,.25); }
+.cap-status.ready { color: #8fd3a5; background: rgba(143,211,165,.10); border-color: rgba(143,211,165,.25); }
+.cap-status.planned { color: #b89adf; background: rgba(184,154,223,.10); border-color: rgba(184,154,223,.25); }
+
+.narrative-shell { background: var(--clr-panel); }
+.narrative-main { border-color: var(--clr-border); }
+.narrative-kicker { font-size: 10px; color: var(--clr-muted); }
+.narrative-title { font-size: 24px; }
+.narrative-subtitle { font-size: 12px; color: var(--clr-dim); line-height: 1.6; }
+.narrative-toolbar { margin: 14px 0 16px; }
+.narrative-toolbar button,
+.narrative-card button { padding: 8px 11px; }
+.narrative-input input,
+.narrative-input textarea,
+.publish-box textarea {
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+.narrative-card,
+.publish-box {
+  background: var(--clr-raised);
+  border-color: var(--clr-border);
+}
+.narrative-card.hot { border-color: rgba(224,82,82,.55); }
+.narrative-card h3 { font-size: 13px; }
+.narrative-card p { font-size: 12px; color: var(--clr-dim); line-height: 1.65; }
+.narrative-card small { font-size: 10px; color: var(--clr-muted); }
+.narrative-tag { font-size: 9px; color: var(--clr-dim); }
+.narrative-side h3 { font-size: 11px; color: var(--clr-text); }
+.context-row { font-size: 11px; border-color: rgba(255,255,255,.07); }
+.confidence { font-size: 10px; }
+.status-pill { font-size: 9px; }
+
+.a11y-tools { background: rgba(255,255,255,.035); }
+.a11y-tools strong { font-size: 12px; }
+.a11y-tools button { background: var(--clr-surface); color: var(--clr-text); }
+.a11y-note { font-size: 11px; }
+
+@media (max-width: 600px) {
+  .hero-copy h1 { font-size: 20px; }
+  .hero-copy p { font-size: 12px; }
+  .dock-app { font-size: 10px; }
+  .dock-app span { font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktop-grid { opacity: .2; }
+}
