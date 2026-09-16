@@ -1,0 +1,64 @@
+/* PIXIE accessibility layer — contrast, scale, motion, and focus support. */
+:root {
+  --a11y-focus: #ffffff;
+  --a11y-link: #7dd3fc;
+}
+
+/* Larger default controls/text without changing the visual language. */
+button, input, textarea, select { min-height: 40px; }
+button { font-weight: 600; }
+
+/* Never rely on red/green alone for meaning. */
+.live-dot, .status-pill, .confidence, .cap-status { text-shadow: none; }
+
+:focus-visible {
+  outline: 3px solid var(--a11y-focus) !important;
+  outline-offset: 3px !important;
+}
+
+/* User-controlled readability mode. */
+body.a11y-high-contrast {
+  --clr-text: #ffffff;
+  --clr-dim: #e6e6e6;
+  --clr-base: #000000;
+  --clr-surface: #111111;
+  --clr-panel: #080808;
+  --clr-border: #ffffff;
+  --clr-hover: #242424;
+  --clr-secondary: #7dd3fc;
+  --clr-emphasis: #ff8a8a;
+}
+
+body.a11y-high-contrast .desktop-grid { opacity: .35; }
+body.a11y-high-contrast .narrative-card,
+body.a11y-high-contrast .publish-box { background: #050505; }
+body.a11y-high-contrast .narrative-card p,
+body.a11y-high-contrast .hero-copy p { color: #ffffff; }
+
+body.a11y-large-text { font-size: 16px; }
+body.a11y-large-text .dock-app { font-size: 12px; padding-block: 14px; }
+body.a11y-large-text .dock-app span { font-size: 10px; }
+body.a11y-large-text .narrative-title { font-size: 28px; }
+body.a11y-large-text .narrative-card p,
+body.a11y-large-text .narrative-subtitle { font-size: 14px; }
+body.a11y-large-text .narrative-card small,
+body.a11y-large-text .narrative-tag { font-size: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+.a11y-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+  padding: 10px;
+  border: 1px solid var(--clr-border);
+  background: rgba(255,255,255,.04);
+}
+.a11y-tools strong { font-size: 11px; letter-spacing: .08em; }
+.a11y-tools button { padding: 7px 10px; background: #111; color: #fff; border: 1px solid var(--clr-border); cursor: pointer; font: inherit; }
+.a11y-tools button[aria-pressed="true"] { background: #fff; color: #000; }
+.a11y-note { font-size: 10px; color: var(--clr-dim); max-width: 70ch; }
