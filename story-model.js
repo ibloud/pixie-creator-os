@@ -1,8 +1,8 @@
-/* PIXIE Story model — local state boundary for the next ingestion phase. */
+/* PIXIE Story model — narrative intelligence boundary. */
 'use strict';
 
 window.PIXIE_STORY = window.PIXIE_STORY || {
-  version: 1,
+  version: 2,
   create(input = {}) {
     return {
       id: input.id || `story-${Date.now()}`,
@@ -11,6 +11,9 @@ window.PIXIE_STORY = window.PIXIE_STORY || {
       subject: input.subject || { type: 'SIGNAL', title: '' },
       source: input.source || { url: '', title: '', capturedAt: new Date().toISOString() },
       context: input.context || { facts: [], history: [], entities: [], status: 'unverified' },
+      claims: input.claims || [],
+      narratives: input.narratives || [],
+      culturalMemory: input.culturalMemory || { notes: [], persistence: '' },
       music: input.music || { candidates: [], selected: null, rationale: '' },
       conversation: input.conversation || { candidates: [], replyDraft: '', promoFit: '' },
       voice: input.voice || { draft: '', variants: [] },

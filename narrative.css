@@ -1,10 +1,10 @@
-/* PIXIE Narrative Workbench */
-.narrative-shell{display:grid;grid-template-columns:1.25fr .9fr;gap:0;min-height:0;flex:1;overflow:hidden}
+/* PIXIE Narrative Workbench — story-first information architecture */
+.narrative-shell{display:grid;grid-template-columns:1.2fr .95fr;gap:0;min-height:0;flex:1;overflow:hidden}
 .narrative-main,.narrative-side{min-width:0;overflow:auto;padding:18px}
 .narrative-main{border-right:1px solid var(--clr-border)}
-.narrative-kicker{font-size:10px;letter-spacing:.18em;color:var(--clr-muted);margin-bottom:6px}
+.narrative-kicker{font-size:10px;letter-spacing:.16em;color:var(--clr-muted);margin-bottom:8px}
 .narrative-title{font-size:24px;letter-spacing:.04em;margin-bottom:6px}
-.narrative-subtitle{font-size:12px;color:var(--clr-dim);max-width:720px;line-height:1.6}
+.narrative-subtitle{font-size:12px;color:var(--clr-dim);max-width:760px;line-height:1.7}
 .narrative-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 16px}
 .narrative-toolbar button,.narrative-card button{font:inherit;color:var(--clr-text);background:rgba(255,255,255,.045);border:1px solid var(--clr-border);padding:8px 11px;border-radius:4px;cursor:pointer}
 .narrative-toolbar button:hover,.narrative-card button:hover{background:rgba(224,82,82,.12);border-color:var(--clr-primary)}
@@ -16,15 +16,14 @@
 .narrative-card{background:var(--clr-raised);border:1px solid var(--clr-border);padding:13px;position:relative}
 .narrative-card.hot{border-color:rgba(224,82,82,.55)}
 .narrative-card h3{font-size:13px;letter-spacing:.08em;margin-bottom:7px}
-.narrative-card p{font-size:12px;color:var(--clr-dim);line-height:1.65}
+.narrative-card p{font-size:12px;color:var(--clr-dim);line-height:1.7}
 .narrative-card small{display:block;color:var(--clr-muted);font-size:10px;line-height:1.5;margin-bottom:8px}
 .narrative-tags{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0}
 .narrative-tag{font-size:9px;letter-spacing:.08em;border:1px solid var(--clr-border);padding:3px 5px;color:var(--clr-dim)}
 .narrative-card .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .narrative-side h3{font-size:11px;letter-spacing:.12em;margin-bottom:10px;color:var(--clr-text)}
 .narrative-stack{display:flex;flex-direction:column;gap:10px}
-.context-block{border-top:1px solid var(--clr-border);padding-top:12px;margin-top:12px}
-.context-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.context-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07)}
 .context-row span:first-child{color:var(--clr-dim)}
 .context-row span:last-child{text-align:right}
 .confidence{font-size:10px;color:#f2cf66}
