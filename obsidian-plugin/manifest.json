@@ -1,0 +1,9 @@
+{
+  "id": "pixie-creator-os",
+  "name": "PIXIE Creator OS",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Bridge an Obsidian vault to PIXIE stable IDs and the native filesystem without making filenames the identity.",
+  "author": "PIXIE",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,15 @@
+/* PIXIE storage workspace */
+.storage-wrap { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:18px; overflow:auto; }
+.storage-card { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px; border:1px solid var(--clr-border); background:rgba(255,255,255,.025); min-height:92px; }
+.storage-card small { display:block; color:var(--clr-dim); font-size:9px; letter-spacing:.12em; margin-bottom:5px; }
+.storage-card strong { display:block; color:#fff; font-size:12px; letter-spacing:.08em; }
+.storage-card p { color:var(--clr-dim); font-size:10px; margin-top:6px; max-width:520px; }
+.storage-card code { color:#fff; font-size:10px; word-break:break-all; }
+.storage-primary { border-color:rgba(255,255,255,.22); }
+.storage-primary #storageState { color:#fca5a5; letter-spacing:.08em; }
+.storage-policy { grid-column:1/-1; padding:14px 16px; border-left:2px solid var(--clr-primary); background:rgba(255,0,0,.05); }
+.storage-policy strong { display:block; color:#fff; font-size:10px; letter-spacing:.1em; }
+.storage-policy p { margin-top:7px; color:var(--clr-dim); font-size:10px; }
+.storage-actions { display:flex; gap:8px; grid-column:1/-1; flex-wrap:wrap; }
+.storage-log { grid-column:1/-1; margin:0; min-height:90px; padding:12px; color:var(--clr-dim); background:#0b0b0b; border:1px solid var(--clr-border); white-space:pre-wrap; font:10px/1.5 var(--font-mono); }
+@media (max-width:760px) { .storage-wrap { grid-template-columns:1fr; } .storage-policy,.storage-actions,.storage-log { grid-column:auto; } .storage-card { align-items:flex-start; flex-direction:column; } }
