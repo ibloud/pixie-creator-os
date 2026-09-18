@@ -23,6 +23,8 @@ PIXIE Creator OS is a Loptr Lab / Dominique Devereaux product. Charlie J is not 
 
 The current branch is a stable, browser-safe foundation. It does not claim external integrations that are not actually connected.
 
+**Stable pre-alpha handoff:** see [docs/stable-prealpha-handoff.md](docs/stable-prealpha-handoff.md). This is the continuity contract for future maintainers: it preserves the distinction between code, runtime behavior, external reality, narrative material, and proposed work, and defines the rules for strings, identity, provenance, and time-bound observations.
+
 ### Working now
 
 - Accessible retro desktop shell with keyboard navigation and visible focus.
@@ -82,3 +84,7 @@ This lets a user rename or reorganize a note without breaking references to the 
 A SwiftUI + WKWebView shell and JavaScript/native capability boundary are scaffolded for local Xcode testing. The development bundle identifier is `com.local.pixie`; it is not an App Store Connect identifier. Production entitlements and external service configuration are intentionally not claimed.
 
 See `docs/architecture.md`, `docs/native-ios.md`, and `obsidian-plugin/README.md` for the system model and native boundary.
+
+## ATProto community workspace
+
+For interoperability review and community contribution, see [docs/atproto-community.md](docs/atproto-community.md) and GitHub Issue #15. The companion 50 Ways repository carries the live Pixie v0.1 verification handoff.
