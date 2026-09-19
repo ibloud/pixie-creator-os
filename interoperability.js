@@ -128,8 +128,22 @@
     const targets = targetRecords || [];
     return (sourceRecords || []).map(raw => {
       const source = normalizeRecord(raw, raw?.source || options.source || 'unknown');
+      const provenanceCheck = validateProvenance(source);
       const candidates = match(source, targets);
       const best = candidates[0] || null;
+
+      if (!provenanceCheck.valid) {
+        return {
+          action: 'PROVENANCE_REVIEW',
+          source,
+          target: null,
+          confidence: 0,
+          reasons: provenanceCheck.missing.map(field => 'MISSING_' + field.toUpperCase()),
+          alternatives: candidates.slice(0, 4),
+          provenance: provenanceCheck.provenance
+        };
+      }
+
       return {
         action: best && best.score >= threshold ? 'LINK' : 'REVIEW',
         source,
@@ -137,7 +151,7 @@
         confidence: best ? best.score : 0,
         reasons: best ? best.reasons : [],
         alternatives: candidates.slice(1, 4),
-        provenance
+        provenance: provenanceCheck.provenance
       };
     });
   }
@@ -198,6 +212,8 @@
     VERSION,
     STATUS,
     normalizeRecord,
+    normalizeProvenance,
+    validateProvenance,
     registerAdapter,
     match,
     buildSyncPlan,
