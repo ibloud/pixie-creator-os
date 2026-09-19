@@ -278,6 +278,7 @@ function switchPanel(name) {
   if (name === 'recon') {
     window.PIXIERecon?.init();
   }
+  document.getElementById('recon-float')?.setAttribute('aria-expanded', 'false');
 }
 
 // ── CRATE ─────────────────────────────────────────────────────────────────────
@@ -363,7 +364,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.close-panel').forEach(btn => {
-    btn.addEventListener('click', () => switchPanel('radar'));
+    btn.addEventListener('click', () => {
+      if (btn.closest('#panel-recon')) {
+        switchPanel(reconReturnPanel || 'radar');
+      } else {
+        switchPanel('radar');
+      }
+    });
+  });
+
+  document.getElementById('recon-float')?.addEventListener('click', () => {
+    const recon = document.getElementById('panel-recon');
+    switchPanel(recon?.classList.contains('active') ? (reconReturnPanel || 'radar') : 'recon');
   });
 
   // ── FILE INPUTS (hidden, triggered by LOAD buttons)
