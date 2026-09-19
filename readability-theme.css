@@ -1,0 +1,169 @@
+/* PIXIE Readability Theme
+   Body copy uses a familiar, open sans-serif. Monospace remains an accent for
+   machine/status labels only. This intentionally avoids condensed display text.
+*/
+
+:root {
+  --font-readable: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono-readable: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+html, body,
+button, input, textarea, select, output {
+  font-family: var(--font-readable) !important;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: normal;
+}
+
+body {
+  font-weight: 400;
+}
+
+.brand strong,
+.hero-copy h1,
+.panel-head h2,
+.narrative-title,
+.narrative-card h3,
+.deck strong,
+.service-card h2,
+.system-grid strong,
+.record-grid strong {
+  font-family: var(--font-display) !important;
+}
+
+.brand strong { font-size: 15px; font-weight: 700; letter-spacing: .06em; }
+.brand small,
+.eyebrow,
+.panel-head h2,
+.dock-app,
+.dock-app span,
+.status,
+.session,
+.meters > div,
+.deck-label,
+.deck-meta,
+.action,
+.transport button,
+.transport span,
+.crate-meta,
+.crate-num,
+.cap-label,
+.cap-status,
+.system-grid small,
+.record-grid small,
+.taskbar,
+.narrative-kicker,
+.narrative-tag,
+.context-row,
+.confidence,
+.status-pill,
+.a11y-tools strong {
+  font-family: var(--font-mono-readable) !important;
+}
+
+.hero-copy h1 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -.015em;
+}
+
+.hero-copy p {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  max-width: 72ch;
+}
+
+.panel-note,
+.narrative-subtitle,
+.narrative-card p,
+.publish-box,
+.a11y-note,
+.capability-intro p,
+.service-card p {
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+}
+
+.narrative-title { font-size: 30px; font-weight: 700; }
+.narrative-subtitle { max-width: 70ch; }
+.narrative-card h3 { font-size: 16px; line-height: 1.35; }
+.narrative-card small,
+.publish-box small { font-family: var(--font-mono-readable) !important; font-size: 11px; letter-spacing: .08em; }
+.narrative-tag { font-size: 10px; }
+.context-row { font-size: 12px; line-height: 1.5; }
+
+.dock-app {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.dock-app span { font-size: 9px; }
+
+.action,
+.transport button,
+.narrative-toolbar button,
+.narrative-card button,
+.a11y-tools button {
+  font-family: var(--font-readable) !important;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .02em;
+}
+
+.narrative-input input,
+.narrative-input textarea,
+.publish-box textarea {
+  font-family: var(--font-readable) !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+.narrative-input input::placeholder,
+.narrative-input textarea::placeholder,
+.publish-box textarea::placeholder { opacity: .8; }
+
+.flow-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+}
+.flow-label {
+  font-family: var(--font-mono-readable);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--clr-muted);
+}
+#flowPath { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.flow-node {
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-raised);
+  color: var(--clr-text);
+  font-family: var(--font-readable);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.flow-node.current {
+  border-color: var(--clr-primary);
+  background: rgba(224,82,82,.12);
+}
+.flow-arrow { color: var(--clr-muted); }
+.flow-note { margin-top: 9px; }
+
+@media (max-width: 600px) {
+  html, body { font-size: 15px; }
+  .hero-copy h1 { font-size: 23px; }
+  .hero-copy p { font-size: 14px !important; }
+  .narrative-title { font-size: 25px; }
+  .dock-app { font-size: 10px; }
+}
