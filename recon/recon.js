@@ -455,6 +455,17 @@
   function init() {
     seedDemo();
     render();
+    const launch = document.getElementById('reconLaunchDemo');
+    if (launch && !launch.dataset.bound) {
+      launch.dataset.bound = 'true';
+      launch.addEventListener('click', () => {
+        const target = document.getElementById('reconAddTarget');
+        if (target) target.focus();
+        const notice = document.getElementById('notice');
+        if (notice) notice.textContent = 'SIGNAL CAPTURED · DEMO MODE · LOCAL ONLY';
+      });
+    }
+
     const add = document.getElementById('reconAddTarget');
     if (add && !add.dataset.bound) {
       add.dataset.bound = 'true';
