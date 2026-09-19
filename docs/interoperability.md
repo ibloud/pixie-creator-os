@@ -4,12 +4,13 @@ The interoperability layer is the Soundiiz-inspired portion of PIXIE Creator OS:
 
 ## Flow
 
-CONNECT → NORMALIZE → MATCH → REVIEW → SYNC
+CONNECT → NORMALIZE → MATCH → REVIEW → PROVENANCE → SYNC
 
 - CONNECT — select or implement a source/destination adapter.
 - NORMALIZE — convert source records into a small common record shape.
 - MATCH — compare title, creator metadata, and PIXIE identity.
 - REVIEW — produce an explicit plan rather than silently writing.
+- PROVENANCE — validate source, creator, rights/terms, required attribution, and lineage before a transfer can be approved.
 - SYNC — reserved for adapters with real write capability and user authorization.
 
 ## Safety boundary
