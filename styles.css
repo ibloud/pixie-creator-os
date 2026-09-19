@@ -88,6 +88,14 @@ html, body {
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
+/* PIXIE breathing status: shared control-room continuity cue. */
+@keyframes pixie-breathe {
+  0%, 100% { transform: scale(1); opacity: .72; box-shadow: 0 0 10px rgba(255, 0, 0, 0.35); }
+  50% { transform: scale(1.18); opacity: 1; box-shadow: 0 0 18px rgba(255, 0, 0, 0.62); }
+}
+.orb { animation: pixie-breathe 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+
 .brand strong {
   font-size: 14px;
   font-weight: 600;
