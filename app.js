@@ -269,6 +269,10 @@ function switchPanel(name) {
     const h = document.getElementById('deck-title');
     if (h) h.focus();
   }
+  // ── RECON (IMPLEMENTED local review shell; external actions PLANNED)
+  if (name === 'recon') {
+    window.PIXIERecon?.init();
+  }
 }
 
 // ── CRATE ─────────────────────────────────────────────────────────────────────

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "recon-local-template",
+    "state": "DRAFT",
+    "target": "LOCAL TEMPLATE",
+    "artist": "LOCAL TEMPLATE",
+    "sourceValidity": "UNVERIFIED",
+    "contentAnalysis": null,
+    "legalRisk": null,
+    "note": "Static seed only. Runtime jobs are stored in localStorage.",
+    "status": "IMPLEMENTED"
+  }
+]
