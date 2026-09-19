@@ -366,6 +366,13 @@ function buildCapabilities() {
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 
+window.openPIXIEControlRoom = function openPIXIEControlRoom() {
+  const recon = document.getElementById('panel-recon');
+  if (!recon) return;
+  if (recon.classList.contains('recon-window-open')) switchPanel(reconReturnPanel || 'radar');
+  else switchPanel('recon');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   startClock();
   startMeterLoop();
@@ -382,11 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btn.closest('#panel-recon')) switchPanel(reconReturnPanel || 'radar');
       else switchPanel('radar');
     });
-  });
-  document.getElementById('recon-float')?.addEventListener('click', () => {
-    const recon = document.getElementById('panel-recon');
-    if (recon?.classList.contains('recon-window-open')) switchPanel(reconReturnPanel || 'radar');
-    else switchPanel('recon');
   });
 
   // ── FILE INPUTS (hidden, triggered by LOAD buttons)
