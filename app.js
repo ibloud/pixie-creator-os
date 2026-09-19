@@ -253,6 +253,7 @@ function handleFileLoad(id, file) {
 // ── PANEL NAV ─────────────────────────────────────────────────────────────────
 
 function switchPanel(name) {
+  document.querySelector('.workspace')?.classList.toggle('recon-mode', name === 'recon');
   document.querySelectorAll('.panel').forEach(p => {
     const active = p.id === 'panel-' + name;
     p.classList.toggle('active', active);
