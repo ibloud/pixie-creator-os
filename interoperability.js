@@ -11,7 +11,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '0.1.0';
+  const VERSION = '0.2.0';
   const STATUS = Object.freeze({
     WORKING: 'WORKING',
     LOCAL_ONLY: 'LOCAL ONLY',
@@ -42,6 +42,34 @@
     }));
   }
 
+  function normalizeProvenance(value) {
+    const p = value || {};
+    const attribution = p.attribution || {};
+    return {
+      source: p.source || null,
+      source_id: p.source_id || null,
+      creator: p.creator || null,
+      creator_profile: p.creator_profile || null,
+      source_url: p.source_url || null,
+      rights: p.rights || null,
+      license: p.license || null,
+      attribution_required: Boolean(p.attribution_required),
+      attribution_text: attribution.text || p.attribution_text || null,
+      attribution_url: attribution.url || p.attribution_url || null,
+      transformations: Array.isArray(p.transformations) ? p.transformations : [],
+      lineage: Array.isArray(p.lineage) ? p.lineage : []
+    };
+  }
+
+  function validateProvenance(record) {
+    const p = normalizeProvenance(record?.provenance);
+    const missing = [];
+    if (!p.source) missing.push('source');
+    if (p.attribution_required && !p.creator) missing.push('creator');
+    if (p.attribution_required && !p.attribution_text && !p.attribution_url) missing.push('attribution');
+    return { valid: missing.length === 0, missing, provenance: p };
+  }
+
   function normalizeRecord(record, source) {
     const r = record || {};
     return {
@@ -52,7 +80,8 @@
       title: r.title || r.name || '',
       creators: Array.isArray(r.creators) ? r.creators : (r.creator ? [r.creator] : []),
       url: r.url || null,
-      metadata: { ...(r.metadata || {}) }
+      metadata: { ...(r.metadata || {}) },
+      provenance: normalizeProvenance(r.provenance || { source })
     };
   }
 
@@ -107,7 +136,8 @@
         target: best && best.score >= threshold ? best.target : null,
         confidence: best ? best.score : 0,
         reasons: best ? best.reasons : [],
-        alternatives: candidates.slice(1, 4)
+        alternatives: candidates.slice(1, 4),
+        provenance
       };
     });
   }
@@ -128,7 +158,8 @@
   // Adapters are boundaries, not claims of live service connectivity.
   registerAdapter({ id: 'pixie', label: 'PIXIE', status: STATUS.WORKING, capabilities: ['canonical-records', 'identity'] });
   registerAdapter({ id: 'obsidian', label: 'OBSIDIAN', status: STATUS.ADAPTER_READY, capabilities: ['workspace-records', 'markdown'] });
-  registerAdapter({ id: 'atproto', label: 'AT PROTOCOL', status: STATUS.PLANNED, capabilities: ['portable-records', 'identity'] });
+  registerAdapter({ id: 'atproto', label: 'AT PROTOCOL', status: STATUS.PLANNED, capabilities: ['portable-records', 'identity', 'provenance-aware-publishing'] });
+  registerAdapter({ id: 'unsplash', label: 'UNSPLASH', status: STATUS.ADAPTER_READY, capabilities: ['media-source', 'attribution', 'provenance'] });
   registerAdapter({ id: 'plyr-fm', label: 'PLYR.FM', status: STATUS.PLANNED, capabilities: ['audio-publishing'] });
   registerAdapter({ id: 'youtube', label: 'YOUTUBE', status: STATUS.PLANNED, capabilities: ['media-reference'] });
   registerAdapter({ id: 'spotify', label: 'SPOTIFY', status: STATUS.ADAPTER_READY, capabilities: ['media-reference'] });
@@ -154,7 +185,7 @@
         { threshold: 0.72 }
       )[0];
       if (result) {
-        result.textContent = plan.action === 'LINK'
+        result.textContent = plan.action === 'PROVENANCE_REVIEW'\n          ? 'PROVENANCE REVIEW REQUIRED · attribution/lineage incomplete · NO EXTERNAL WRITE'\n          : plan.action === 'LINK'
           ? 'MATCHED · ' + Math.round(plan.confidence * 100) + '% · ' + plan.reasons.join(' + ') + ' · HUMAN REVIEW REQUIRED BEFORE SYNC'
           : 'REVIEW REQUIRED · no sufficiently confident match · NO EXTERNAL WRITE';
       }
