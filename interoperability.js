@@ -199,7 +199,8 @@
         { threshold: 0.72 }
       )[0];
       if (result) {
-        result.textContent = plan.action === 'PROVENANCE_REVIEW'\n          ? 'PROVENANCE REVIEW REQUIRED · attribution/lineage incomplete · NO EXTERNAL WRITE'\n          : plan.action === 'LINK'
+        result.textContent = plan.action === 'PROVENANCE_REVIEW'
+          ? 'PROVENANCE REVIEW REQUIRED · attribution/lineage incomplete · NO EXTERNAL WRITE'\n          : plan.action === 'LINK'
           ? 'MATCHED · ' + Math.round(plan.confidence * 100) + '% · ' + plan.reasons.join(' + ') + ' · HUMAN REVIEW REQUIRED BEFORE SYNC'
           : 'REVIEW REQUIRED · no sufficiently confident match · NO EXTERNAL WRITE';
       }
