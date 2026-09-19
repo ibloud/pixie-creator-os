@@ -655,3 +655,25 @@ input[type=range]:focus-visible {
 @keyframes pixie-presence-breathe{0%,100%{transform:scale(1);opacity:.82;text-shadow:0 0 5px rgba(190,164,255,.28)}50%{transform:scale(1.18);opacity:1;text-shadow:0 0 13px rgba(190,164,255,.85)}}
 @media(prefers-reduced-motion:reduce){.recon-float .pixie-presence-icon{animation:none}}
 @media(max-width:600px){.recon-float{right:12px;bottom:12px;width:52px;height:52px}}
+
+
+/* Functional streaming controller — Spotify official iFrame API. */
+.stream-controller{margin-top:18px;padding:16px;border:1px solid rgba(29,185,84,.45);background:rgba(10,18,14,.82);display:grid;gap:12px}
+.stream-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.stream-head small{color:#77d89a;font:600 .62rem var(--font-mono);letter-spacing:.12em}
+.stream-head h3{margin:4px 0 0;color:#f2f5f3;font:700 .9rem var(--font-mono);letter-spacing:.1em}
+.stream-state{border:1px solid #456453;color:#9ab6a4;padding:5px 8px;font:600 .58rem var(--font-mono);letter-spacing:.08em;white-space:nowrap}
+.stream-state.ready{border-color:#1db954;color:#6ee99a}.stream-state.error{border-color:#e45b68;color:#ff8791}
+.stream-note{margin:0;color:#a9b3ad;font:14px/1.45 var(--font-sans)}
+.stream-load{display:grid;gap:6px}.stream-load label{color:#8d9b92;font:600 .58rem var(--font-mono);letter-spacing:.12em}
+.stream-load>div{display:grid;grid-template-columns:1fr auto;gap:8px}
+.stream-load input{min-width:0;border:1px solid #3b4b41;background:#090d0b;color:#edf4ef;padding:11px 12px;font:13px var(--font-mono)}
+.stream-load button,.stream-transport button{border:1px solid #1db954;background:#102719;color:#82eca4;padding:10px 12px;font:700 .62rem var(--font-mono);letter-spacing:.06em;cursor:pointer}
+.stream-load button:hover,.stream-transport button:hover:not(:disabled){background:#1db954;color:#061008}
+.stream-transport button:disabled{opacity:.45;cursor:not-allowed}
+.spotify-embed{min-height:80px;border:1px dashed #334139;display:grid;place-items:center;overflow:hidden}
+.spotify-embed:empty:before{content:"STREAM PLAYER WILL APPEAR HERE";color:#56645b;font:600 .58rem var(--font-mono);letter-spacing:.1em}
+.spotify-embed iframe{display:block;width:100%!important;max-width:none}
+.stream-transport{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stream-transport output{margin-left:auto;color:#8fa099;font:600 .58rem var(--font-mono);letter-spacing:.06em}
+@media(max-width:680px){.stream-load>div{grid-template-columns:1fr}.stream-head{display:grid}.stream-transport output{width:100%;margin-left:0}}
