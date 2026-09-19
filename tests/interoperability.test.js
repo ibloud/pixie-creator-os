@@ -17,7 +17,7 @@ const normalized = api.normalizeRecord(
   'demo'
 );
 assert.equal(normalized.title, 'Café Noir');
-assert.deepEqual(normalized.creators, ['Ada']);
+assert.equal(JSON.stringify(normalized.creators), JSON.stringify(['Ada']));
 assert.equal(normalized.source, 'demo');
 
 const match = api.match(
@@ -25,7 +25,7 @@ const match = api.match(
   [{ pixie_id: 'px1', title: 'Cafe Noir', creators: ['Ada'], source: 'spotify' }]
 )[0];
 assert.equal(match.score, 1);
-assert.deepEqual(match.reasons, ['PIXIE_ID', 'TITLE', 'CREATORS']);
+assert.equal(JSON.stringify(match.reasons), JSON.stringify(['PIXIE_ID', 'TITLE', 'CREATORS']));
 
 const blocked = api.buildSyncPlan(
   [{
