@@ -636,3 +636,39 @@ input[type=range]:focus-visible {
   outline: 1px solid rgba(255, 0, 0, 0.3);
   outline-offset: -1px;
 }
+
+
+/* Cross-surface continuity: the Creator OS becomes the control room when Recon is active. */
+.orb { animation: pixie-breathe 2.8s ease-in-out infinite; }
+@keyframes pixie-breathe {
+  0%,100% { transform:scale(.9); opacity:.72; box-shadow:0 0 8px rgba(255,0,0,.28); }
+  50% { transform:scale(1.16); opacity:1; box-shadow:0 0 18px rgba(56,189,248,.58),0 0 28px rgba(192,132,252,.22); }
+}
+.workspace.recon-mode .desktop > .hero-copy,
+.workspace.recon-mode .desktop > .meters { display:none; }
+.workspace.recon-mode .desktop { background:#070a0f; }
+.workspace.recon-mode .panels { margin:0; }
+.workspace.recon-mode #panel-recon {
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  background:#070a0f;
+}
+.workspace.recon-mode #panel-recon .recon-page {
+  min-height:100%;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(80,255,190,.07), transparent 26%),
+    radial-gradient(circle at 82% 12%, rgba(156,124,255,.10), transparent 30%),
+    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+  background-size:auto,auto,28px 28px,28px 28px;
+}
+.workspace.recon-mode .recon-panel-head {
+  background:rgba(7,10,15,.94);
+  border-bottom-color:rgba(56,189,248,.20);
+}
+.workspace.recon-mode .recon-brandline { color:#b2ff32; }
+.workspace.recon-mode .recon-pulse { background:#b2ff32; box-shadow:0 0 12px #b2ff32; }
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation:none; }
+}
