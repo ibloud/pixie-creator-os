@@ -5,6 +5,7 @@
 
 (function () {
   const STORAGE_KEY = 'pixie-recon-jobs-v1';
+  const ESCALATED_STORAGE_KEY = 'pixie_recon_escalated';
   const STATES = Object.freeze({
     DRAFT: 'DRAFT',
     QUEUED: 'QUEUED',
@@ -62,6 +63,26 @@
     }
   }
 
+  function readEscalations() {
+    try {
+      const raw = localStorage.getItem(ESCALATED_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.warn('[PIXIE Recon] escalation store unavailable', error);
+      return [];
+    }
+  }
+
+  function appendEscalation(record) {
+    const records = readEscalations();
+    if (records.some(item => item.id === record.id)) {
+      throw new Error('Escalation records are write-once: ' + record.id);
+    }
+    localStorage.setItem(ESCALATED_STORAGE_KEY, JSON.stringify(records.concat([record]), null, 2));
+    return record;
+  }
+
   function writeJobs(jobs) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs, null, 2));
     render();
@@ -108,6 +129,9 @@
   }
 
   function saveJob(updated) {
+    if (updated.escalationRecordId) {
+      throw new Error('Escalated Recon records are immutable; create a new job for further processing.');
+    }
     const jobs = readJobs().map(job => job.id === updated.id ? updated : job);
     writeJobs(jobs);
     return updated;
@@ -189,6 +213,10 @@
     if (!job) throw new Error('Recon target not found: ' + jobId);
     if (!job.quarantine) throw new Error('No quarantine record exists for this target.');
 
+    if (job.escalationRecordId) {
+      throw new Error('This Recon target has already been escalated; its escalation record is write-once.');
+    }
+
     const decisionMap = {
       DISMISS: { state: job.state, action: ACTIONS.dismiss },
       ESCALATE: { state: job.state, action: ACTIONS.escalate },
@@ -196,6 +224,34 @@
     };
     const selected = decisionMap[decision];
     if (!selected) throw new Error('Unknown quarantine decision.');
+
+    if (decision === 'ESCALATE') {
+      const escalation = {
+        id: 'esc-' + id(),
+        createdAt: now(),
+        jobId: job.id,
+        state: job.state,
+        quarantine: JSON.parse(JSON.stringify(job.quarantine)),
+        reason: reason || 'Human escalation.',
+        actor: 'HUMAN',
+        writeOnce: true
+      };
+      appendEscalation(escalation);
+      job.escalationRecordId = escalation.id;
+      job.quarantine = null;
+      job.review = null;
+      job.audit = job.audit.concat([auditEntry(
+        selected.action,
+        job.state,
+        job.state,
+        'Escalated to immutable record ' + escalation.id + '.',
+        'HUMAN'
+      )]);
+      job.updatedAt = now();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(readJobs().map(item => item.id === job.id ? job : item), null, 2));
+      render();
+      return job;
+    }
 
     job.review = {
       actor: 'HUMAN',
@@ -217,6 +273,8 @@
     const job = getJob(jobId);
     if (!job) throw new Error('Recon target not found: ' + jobId);
 
+    if (job.escalationRecordId) throw new Error('Escalated Recon targets are immutable.');
+
     job.sourceValidity = result.sourceValidity || 'UNVERIFIED';
     job.contentAnalysis = result.contentAnalysis || null;
     job.legalRisk = result.legalRisk || null;
@@ -224,8 +282,7 @@
 
     if (job.sourceValidity === 'UNVERIFIED') {
       job.intelNotes.push('Source validity: UNVERIFIED — blocked from queue.');
-      job.state = STATES.FLAGGED;
-      job.audit.push(auditEntry('SWEEP_FLAG', STATES.SWEEP_PENDING, STATES.FLAGGED, 'Source is unverified.', 'SWEEP'));
+      return transition(jobId, STATES.FLAGGED, { humanApproved: true, action: 'SWEEP_FLAG', reason: 'Source is unverified.', notes: 'Source validity: UNVERIFIED — blocked from queue.' });
       return saveJob(job);
     }
 
@@ -241,10 +298,7 @@
     }
 
     if (job.contentAnalysis === 'FABRICATED') {
-      job.state = STATES.FLAGGED;
-      job.intelNotes.push('Content analysis: FABRICATED — never queues for uplink.');
-      job.audit.push(auditEntry('SWEEP_FLAG', STATES.SWEEP_PENDING, STATES.FLAGGED, 'Fabricated content.', 'SWEEP'));
-      return saveJob(job);
+      return transition(jobId, STATES.FLAGGED, { humanApproved: true, action: 'SWEEP_FLAG', reason: 'Fabricated content.', notes: 'Content analysis: FABRICATED — never queues for uplink.' });
     }
 
     if (job.contentAnalysis === 'EMBELLISHED') {
@@ -260,9 +314,7 @@
       return saveJob(job);
     }
 
-    job.state = STATES.CLEARED;
-    job.audit.push(auditEntry('SWEEP_CLEAR', STATES.SWEEP_PENDING, STATES.CLEARED, 'Source cleared and content marked accurate.', 'SWEEP'));
-    return saveJob(job);
+    return transition(jobId, STATES.CLEARED, { humanApproved: true, action: 'SWEEP_CLEAR', reason: 'Source cleared and content marked accurate.' });
   }
 
   function nextAction(job) {
