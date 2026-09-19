@@ -475,6 +475,7 @@
         createJob({ target, artist: target, summary: 'Manually seeded Recon target.' });
       });
     }
+    focusRecon();
   }
 
   window.PIXIERecon = Object.freeze({
