@@ -31,3 +31,9 @@ This preserves PIXIE's existing rule: names are presentation, IDs are identity, 
 ## Why this belongs in Creator OS
 
 The value is not copying one platform's feature. It is establishing an interoperability control plane that can eventually coordinate creator records across media, publishing, social, workspace, and distribution services without making any one service the canonical home of the creator's identity.
+
+## Governance: provenance and attribution
+
+PIXIE is provenance-first. Attribution is a governance invariant, not a post-processing step. Every externally sourced or collaboratively produced asset must retain source, creator, rights/terms, required attribution, transformations, assembly lineage, and publication lineage where applicable.
+
+The interoperability layer therefore validates provenance before a sync plan can become a LINK. Missing or ambiguous required provenance produces PROVENANCE_REVIEW and never implies an external write. See [Provenance & Attribution Governance](governance/provenance-attribution.md).
