@@ -1,5 +1,9 @@
 /* PIXIE Recon — signal-control-room visual system. External services remain PLANNED. */
-#panel-recon { min-height: 520px; background:#090b12; color:#e9e7ef; }
+#panel-recon { position:fixed; top:68px; left:clamp(72px, 7vw, 108px); right:18px; bottom:52px; z-index:200; min-height:0; background:#090b12; color:#e9e7ef; border:1px solid #3b4055; border-radius:10px; box-shadow:0 22px 70px rgba(0,0,0,.68), 0 0 0 1px rgba(156,124,255,.10); overflow:hidden; }
+#panel-recon[hidden] { display:none !important; }
+#panel-recon.active { display:flex; }
+#panel-recon:before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 18% 10%,rgba(124,98,217,.08),transparent 28%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px); background-size:auto,28px 28px,28px 28px; z-index:0; }
+#panel-recon > * { position:relative; z-index:1; }
 .recon-panel-head { background:#0b0e17; border-bottom:1px solid #303449; }
 .recon-brandline { display:block; color:#9c7cff; font-size:.66rem; letter-spacing:.2em; margin-bottom:2px; }
 .recon-panel-head h2 { color:#f1eff7; letter-spacing:.12em; }
@@ -124,3 +128,11 @@
 .signal-primary{margin-top:auto;width:auto;align-self:flex-start;padding-inline:16px}.recon-process-section .recon-section-title p{max-width:620px}
 @media(max-width:1100px){.dock{width:64px;min-width:64px;padding:18px 8px;gap:18px}.dock-app{width:48px;min-height:48px;padding:8px 4px;font-size:0;display:grid;place-items:center}.dock-app span{display:none}.dock-app::before{font-size:16px;line-height:1;color:#9aa1b5}.dock-app:nth-child(1)::before{content:"◉"}.dock-app:nth-child(2)::before{content:"▣"}.dock-app:nth-child(3)::before{content:"▶"}.dock-app:nth-child(4)::before{content:"◆"}.dock-app:nth-child(5)::before{content:"⌘"}.dock-app:nth-child(6)::before{content:"◌"}.dock-app:nth-child(7)::before{content:"◎"}.dock-app.active::before{color:#f1eff7}.recon-hero{grid-template-columns:minmax(170px,.72fr) minmax(300px,1.28fr) minmax(210px,.82fr);min-height:270px}.signal-copy{padding:22px}.signal-copy blockquote{font-size:21px;line-height:1.2}.recon-target-card{border-left:1px solid #34384d}}
 @media(max-width:900px){.recon-hero{grid-template-columns:1fr}.recon-target-card{border-left:0;border-top:1px solid #34384d;min-height:180px}.recon-signal-narration{align-items:flex-start}}
+
+
+/* The recon surface is a desktop window, not a replacement for the Creator OS desktop. */
+.recon-panel-head { position:relative; z-index:2; }
+.recon-page { min-height:0; }
+@media (max-width: 900px) {
+  #panel-recon { top:58px; left:10px; right:10px; bottom:48px; border-radius:8px; }
+}
