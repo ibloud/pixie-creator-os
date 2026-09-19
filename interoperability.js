@@ -133,6 +133,36 @@
   registerAdapter({ id: 'youtube', label: 'YOUTUBE', status: STATUS.PLANNED, capabilities: ['media-reference'] });
   registerAdapter({ id: 'spotify', label: 'SPOTIFY', status: STATUS.ADAPTER_READY, capabilities: ['media-reference'] });
 
+  function installUI() {
+    const run = document.getElementById('interopRun');
+    const result = document.getElementById('interopResult');
+    const adaptersEl = document.getElementById('interopAdapters');
+    if (adaptersEl) {
+      adaptersEl.innerHTML = status().adapters.map(a =>
+        '<div class="interop-adapter"><strong>' + a.label + '</strong><span>' + a.status + '</span></div>'
+      ).join('');
+    }
+    run?.addEventListener('click', () => {
+      const title = document.getElementById('interopTitle')?.value || '';
+      const creator = document.getElementById('interopCreator')?.value || '';
+      const pixieId = document.getElementById('interopPixieId')?.value || null;
+      const targetId = document.getElementById('interopTarget')?.value || 'spotify';
+      const target = { source: targetId, source_id: 'demo-' + targetId, title, creators: [creator] };
+      const plan = buildSyncPlan(
+        [{ source: 'pixie', pixie_id: pixieId, title, creators: [creator] }],
+        [target],
+        { threshold: 0.72 }
+      )[0];
+      if (result) {
+        result.textContent = plan.action === 'LINK'
+          ? 'MATCHED · ' + Math.round(plan.confidence * 100) + '% · ' + plan.reasons.join(' + ') + ' · HUMAN REVIEW REQUIRED BEFORE SYNC'
+          : 'REVIEW REQUIRED · no sufficiently confident match · NO EXTERNAL WRITE';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', installUI);
+
   window.PIXIEInterop = Object.freeze({
     VERSION,
     STATUS,
