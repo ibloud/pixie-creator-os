@@ -252,31 +252,47 @@ function handleFileLoad(id, file) {
 
 // ── PANEL NAV ─────────────────────────────────────────────────────────────────
 
+let reconReturnPanel = 'radar';
+
 function switchPanel(name) {
+  const recon = document.getElementById('panel-recon');
+
+  // RECON is an AetherOS-style application window: it opens over the desktop
+  // without replacing the underlying PIXIE panel/radar.
+  if (name === 'recon') {
+    const underlying = document.querySelector('.panel.active:not(#panel-recon)');
+    if (underlying?.id) reconReturnPanel = underlying.id.replace('panel-', '');
+    if (recon) {
+      recon.hidden = false;
+      recon.classList.add('recon-window-open');
+      recon.setAttribute('aria-hidden', 'false');
+    }
+    document.getElementById('recon-float')?.setAttribute('aria-expanded', 'true');
+    window.PIXIERecon?.init();
+    document.getElementById('recon-title')?.focus();
+    return;
+  }
+
   document.querySelectorAll('.panel').forEach(p => {
     const active = p.id === 'panel-' + name;
     p.classList.toggle('active', active);
     p.hidden = !active;
     p.setAttribute('aria-hidden', active ? 'false' : 'true');
   });
+  if (recon) {
+    recon.classList.remove('recon-window-open');
+    recon.hidden = true;
+    recon.setAttribute('aria-hidden', 'true');
+  }
+  document.getElementById('recon-float')?.setAttribute('aria-expanded', 'false');
   document.querySelectorAll('.dock-app').forEach(b => {
     const active = b.dataset.panel === name;
     b.classList.toggle('active', active);
     b.setAttribute('aria-pressed', active ? 'true' : 'false');
     b.setAttribute('aria-current', active ? 'page' : 'false');
   });
-  if (name === 'deck') {
-    const h = document.getElementById('deck-title');
-    if (h) h.focus();
-  }
-  if (name === 'radar') {
-    const h = document.getElementById('radar-title');
-    if (h) h.focus();
-  }
-  // ── RECON (IMPLEMENTED local review shell; external actions PLANNED)
-  if (name === 'recon') {
-    window.PIXIERecon?.init();
-  }
+  if (name === 'deck') document.getElementById('deck-title')?.focus();
+  if (name === 'radar') document.getElementById('radar-title')?.focus();
 }
 
 // ── CRATE ─────────────────────────────────────────────────────────────────────
@@ -362,7 +378,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.close-panel').forEach(btn => {
-    btn.addEventListener('click', () => switchPanel('radar'));
+    btn.addEventListener('click', () => {
+      if (btn.closest('#panel-recon')) switchPanel(reconReturnPanel || 'radar');
+      else switchPanel('radar');
+    });
+  });
+  document.getElementById('recon-float')?.addEventListener('click', () => {
+    const recon = document.getElementById('panel-recon');
+    if (recon?.classList.contains('recon-window-open')) switchPanel(reconReturnPanel || 'radar');
+    else switchPanel('recon');
   });
 
   // ── FILE INPUTS (hidden, triggered by LOAD buttons)
