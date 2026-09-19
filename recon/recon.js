@@ -447,6 +447,11 @@
     }
   }
 
+  function focusRecon() {
+    const target = document.getElementById('reconLaunchDemo') || document.getElementById('reconAddTarget');
+    if (target) target.focus();
+  }
+
   function init() {
     seedDemo();
     render();
