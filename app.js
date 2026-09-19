@@ -269,6 +269,10 @@ function switchPanel(name) {
     const h = document.getElementById('deck-title');
     if (h) h.focus();
   }
+  if (name === 'radar') {
+    const h = document.getElementById('radar-title');
+    if (h) h.focus();
+  }
   // ── RECON (IMPLEMENTED local review shell; external actions PLANNED)
   if (name === 'recon') {
     window.PIXIERecon?.init();
@@ -358,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.close-panel').forEach(btn => {
-    btn.addEventListener('click', () => switchPanel('deck'));
+    btn.addEventListener('click', () => switchPanel('radar'));
   });
 
   // ── FILE INPUTS (hidden, triggered by LOAD buttons)
