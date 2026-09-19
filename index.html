@@ -46,36 +46,109 @@
           <article class="panel" id="panel-projects" aria-labelledby="projects-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="projects-title">PROJECTS // CREATOR WORKSPACE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="service-card"><span class="service-icon">01</span><div><h2>NIGHT BUS</h2><p>Workspace-owned project metadata can live in an Obsidian vault while assets retain machine-safe paths.</p></div><span class="tag">OBSIDIAN</span></div><div class="record-grid"><div><small>PROJECTS</small><strong>01</strong></div><div><small>WORKSPACE</small><strong>OBSIDIAN</strong></div><div><small>IDENTITY</small><strong>PIXIE ID</strong></div></div></article>
           <article class="panel" id="panel-native" aria-labelledby="native-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="native-title">DEVICES // NATIVE CAPABILITY GATE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="capability-intro"><strong>NATIVE SHELL READY · STORAGE ROUTER AVAILABLE</strong><p>Native capabilities remain unavailable until their matching API, permission, entitlement, and service configuration are connected.</p></div><div class="capability-grid" id="capabilityGrid"></div></article>
           <article class="panel" id="panel-system" aria-labelledby="system-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="system-title">SYSTEM // IMPLEMENTATION STATUS</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="system-grid"><div><small>PRODUCT</small><strong>PIXIE / LOPTR LAB</strong></div><div><small>BUILD</small><strong>PRE-ALPHA</strong></div><div><small>WORKSTATION</small><strong>CREATOR CONTROL ROOM</strong></div><div><small>AUDIO ENGINE</small><strong>WEB AUDIO API</strong></div><div><small>WORKSPACE</small><strong>OBSIDIAN FIRST</strong></div><div><small>STORAGE IDENTITY</small><strong>PIXIE ID</strong></div><div><small>FILESYSTEM</small><strong>MACHINE SAFE</strong></div><div><small>FALLBACK</small><strong>WRITABLE PDS</strong></div><div><small>AT PROTOCOL</small><strong>PLANNED</strong></div><div><small>PLYR.FM</small><strong>PLANNED</strong></div><div><small>MIXXX BRIDGE</small><strong>PLANNED</strong></div></div></article>
-          <article class="panel" id="panel-recon" aria-labelledby="recon-title" hidden aria-hidden="true">
-  <div class="panel-head">
-    <h2 id="recon-title">RECON // TACTICAL SIGNAL CONTROL</h2>
-    <button class="close-panel" type="button" aria-label="Return to Home">×</button>
+          <article class="panel recon-panel" id="panel-recon" aria-labelledby="recon-title" hidden aria-hidden="true">
+  <div class="panel-head recon-panel-head">
+    <div>
+      <span class="recon-brandline">PIXIE // RECON</span>
+      <h2 id="recon-title">SIGNAL CONTROL ROOM</h2>
+    </div>
+    <div class="recon-head-status"><span class="recon-pulse" aria-hidden="true"></span> DEMO MODE · LOCAL ONLY <button class="close-panel" type="button" aria-label="Return to Home">×</button></div>
   </div>
-  <div class="recon-shell">
-    <section class="recon-column" aria-label="Recon review queue">
-      <p class="recon-kicker">IMPLEMENTED · LOCAL ONLY</p>
-      <div class="recon-title">
-        <h3>ACTIVE SIGNALS <span class="recon-badge" id="reconQueueCount">00</span></h3>
-        <button id="reconAddTarget" type="button">SEED TARGET</button>
+  <div class="recon-page">
+    <section class="recon-hero">
+      <div class="signal-art" aria-hidden="true">
+        <div class="signal-art-noise"></div>
+        <div class="signal-art-head"></div>
+        <div class="signal-art-hair"></div>
+        <div class="signal-art-headphones"></div>
+        <div class="signal-art-mic"></div>
       </div>
-      <div class="recon-meta">
-        <span class="recon-badge">SWEEP · PLANNED</span>
-        <span class="recon-badge">UPLINK · PLANNED</span>
-        <span class="recon-badge">LEGAL · PLANNED</span>
+      <div class="signal-copy">
+        <p class="recon-kicker">SIGNAL // AI RADIO HOST</p>
+        <div class="signal-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <blockquote>“Welcome back, wanderer.<br>The airwaves are still ours.<br>Let me show you what’s moving out there.”</blockquote>
+        <p class="signal-body">I’m SIGNAL. I scan the noise, find the signal, and keep you connected to what matters. External crawling and broadcast remain offline in this demonstration.</p>
       </div>
-      <div class="recon-queue" id="reconQueue"></div>
-      <p class="recon-legend">Every transition is human-gated. Priority quarantine cannot be dismissed without a logged rationale.</p>
+      <aside class="recon-pipeline" aria-label="Recon pipeline">
+        <div class="recon-section-label">THE RECON PIPELINE</div>
+        <ol>
+          <li class="pipeline-muted"><b>DRAFT</b><span>Create or import</span></li>
+          <li class="pipeline-muted"><b>QUEUED</b><span>Added to scan</span></li>
+          <li class="pipeline-sweep"><b>SWEEP</b><span>AI analysis · PLANNED</span></li>
+          <li class="pipeline-flagged"><b>FLAGGED</b><span>Needs review</span></li>
+          <li class="pipeline-quarantine"><b>QUARANTINE</b><span>Hold for counsel</span></li>
+          <li class="pipeline-cleared"><b>CLEARED</b><span>Ready to share</span></li>
+          <li class="pipeline-muted"><b>UPLINK</b><span>ATProto · PLANNED</span></li>
+          <li class="pipeline-muted"><b>BROADCAST</b><span>Human-approved only</span></li>
+        </ol>
+      </aside>
     </section>
-    <section class="recon-column" aria-label="Recon target detail">
-      <div class="recon-detail" id="reconDetail">
-        <p class="recon-kicker">INTEL FEED</p>
-        <h3>SELECT A SIGNAL</h3>
-        <p>Local review state is implemented. External crawling, legal validation, and ATProto actions are explicitly PLANNED.</p>
+
+    <section class="recon-process-section">
+      <div class="recon-section-title">
+        <div><h3>THE RECON PROCESS</h3><p>FROM SIGNAL TO SPOTLIGHT</p></div>
+        <span>REAL-TIME INTELLIGENCE.<br>HUMAN CONTROL.</span>
       </div>
+      <div class="recon-process">
+        <article><b>01</b><strong>DRAFT</strong><p>Add an artist, link, or drop.</p></article>
+        <span class="process-arrow">→</span>
+        <article><b>02</b><strong>QUEUED</strong><p>Ingested and queued for scan.</p></article>
+        <span class="process-arrow">→</span>
+        <article class="process-sweep"><b>03</b><strong>SWEEP</strong><p>Scan collaborators, patterns, momentum.</p></article>
+        <span class="process-arrow">→</span>
+        <article class="process-flagged"><b>04</b><strong>FLAGGED</strong><p>Uncertain or high-risk signal.</p></article>
+        <span class="process-arrow">→</span>
+        <article class="process-cleared"><b>05</b><strong>CLEARED</strong><p>Verified and ready to share.</p></article>
+        <span class="process-arrow">→</span>
+        <article><b>06</b><strong>BROADCAST</strong><p>ATProto uplink preview.</p></article>
+      </div>
+    </section>
+
+    <section class="recon-grid">
+      <article class="recon-card graph-card">
+        <header><div><h3>ARTIST INTELLIGENCE GRAPH</h3><p>THE PEOPLE. THE PROJECTS. THE SIGNALS.</p></div><span>8 NODES · 5 RELATIONSHIPS</span></header>
+        <div class="artist-graph" aria-label="Illustrative artist collaborator graph">
+          <div class="graph-node graph-main"><span class="node-avatar">NR</span><b>NOVA RAE</b><small>ARTIST</small></div>
+          <div class="graph-node graph-c1"><span class="node-avatar">JK</span><b>JUNO KELL</b><small>PRODUCER</small></div>
+          <div class="graph-node graph-c2"><span class="node-avatar">DM</span><b>DAX MORALES</b><small>ENGINEER</small></div>
+          <div class="graph-node graph-c3"><span class="node-avatar">VT</span><b>VELA</b><small>VOCALIST</small></div>
+          <div class="graph-node graph-c4"><span class="node-avatar">ST</span><b>SOLAR TIDE</b><small>LABEL</small></div>
+          <div class="graph-node graph-c5"><span class="node-avatar">RN</span><b>RIVER NOTES</b><small>COLLECTIVE</small></div>
+          <div class="graph-lines" aria-hidden="true"></div>
+        </div>
+        <div class="graph-legend"><span><i class="artist-dot"></i> ARTIST</span><span><i class="collab-dot"></i> COLLABORATOR</span><span><i class="release-dot"></i> RELEASE / SIGNAL</span></div>
+      </article>
+
+      <article class="recon-card feed-card">
+        <header><div><h3>LIVE RECON FEED</h3><p>SIGNAL / SYSTEM TELEMETRY</p></div><span>LOCAL</span></header>
+        <div class="recon-feed" aria-live="polite">
+          <div><time>10:24</time><b>SIGNAL</b><span>Scanning for collaborator patterns…</span></div>
+          <div><time>10:24</time><b>SYSTEM</b><span>Found 3 linked collaborators (confidence: 87%).</span></div>
+          <div><time>10:25</time><b>SIGNAL</b><span>Checking release history…</span></div>
+          <div><time>10:25</time><b>SYSTEM</b><span>No conflicting rights signal detected.</span></div>
+          <div><time>10:26</time><b>SIGNAL</b><span>Sweep complete. 1 potential flag.</span></div>
+          <div><time>10:27</time><b>SYSTEM</b><span>Cleared. Ready for human approval.</span></div>
+        </div>
+        <div class="demo-capture"><b>✓ SIGNAL CAPTURED — DEMO MODE</b><span>No external transmission occurred.</span></div>
+      </article>
+
+      <aside class="recon-card cta-card">
+        <h3>TRY THE DEMO</h3>
+        <p>See how Recon finds and clears collaborators, so you can focus on making great music.</p>
+        <button id="reconLaunchDemo" class="recon-primary" type="button">START RECON DEMO <span>→</span></button>
+        <small>No signup required. No external data sent.</small>
+        <div class="broadcast-preview"><b>◉ BROADCAST / PREVIEW</b><p>ATProto uplink is <strong>PLANNED</strong>, not connected in this build.</p></div>
+        <div class="recon-mini-cta"><b>KEEP THE SIGNAL</b><p>Local review state is implemented. Human approval is required at every transition.</p></div>
+      </aside>
+    </section>
+
+    <section class="recon-lower">
+      <div class="recon-card signal-note"><span class="signal-note-mark">SIGNAL</span><p>“The modern music industry is noisy. Your collaborators shouldn't disappear inside the noise.”</p></div>
+      <div class="recon-card ecosystem-note"><span>THE ECOSYSTEM</span><b>PIXIE OS · RECON · HOLDINGS · ATPROTO</b><small>Discovery → validation → approval → broadcast.</small></div>
     </section>
   </div>
 </article>
-          <article class="panel active" id="panel-radar" aria-labelledby="radar-title"></article>
+<article class="panel active" id="panel-radar" aria-labelledby="radar-title"></article>
         </div>
         <footer class="taskbar"><span>PIXIE // PRE-ALPHA</span><span id="notice" role="status" aria-live="polite" aria-atomic="true">LIBRARY → PLAYER → PROJECT → PUBLISH → BROADCAST</span><span>PIXIE ID · OBSIDIAN · PDS</span></footer>
       </section>
