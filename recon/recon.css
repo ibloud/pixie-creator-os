@@ -1,5 +1,5 @@
 /* PIXIE Recon — signal-control-room visual system. External services remain PLANNED. */
-#panel-recon { min-height: 520px; background:#090b12; color:#e9e7ef; }
+#panel-recon { min-height:520px; background:#090b12; color:#e9e7ef; }\n#panel-recon.recon-window-open { position:fixed; top:72px; left:clamp(76px,8vw,118px); right:22px; bottom:58px; z-index:240; min-height:0; display:flex; border:1px solid #3b4055; border-radius:8px; box-shadow:0 24px 80px rgba(0,0,0,.72),0 0 0 1px rgba(156,124,255,.08); overflow:hidden; }\n#panel-recon.recon-window-open .recon-page { min-height:0; }\n#panel-recon.recon-window-open .recon-panel-head { flex:0 0 auto; }\n#panel-recon.recon-window-open .recon-page { flex:1 1 auto; overflow:auto; }\n@media(max-width:900px){#panel-recon.recon-window-open{top:60px;left:10px;right:10px;bottom:52px}}
 .recon-panel-head { background:#0b0e17; border-bottom:1px solid #303449; }
 .recon-brandline { display:block; color:#9c7cff; font-size:.66rem; letter-spacing:.2em; margin-bottom:2px; }
 .recon-panel-head h2 { color:#f1eff7; letter-spacing:.12em; }
