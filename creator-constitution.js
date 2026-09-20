@@ -32,7 +32,16 @@
     nav.onclick=activate;p.querySelector('.close-panel').onclick=()=>document.querySelector('[data-panel="radar"]')?.click();
     p.querySelector('#constitutionSave').onclick=async()=>{const c=collect(p);let ok=false;try{if(globalThis.PIXIE_STORAGE?.persistObject){const o=globalThis.PIXIE_STORAGE.createObject({type:'creator-constitution',title:'Creator Constitution',human_name:'Creator Constitution',source:'pixie-governance',status:'LOCAL',workspace_path:'PIXIE/Creator/Creator-Constitution.md'});o.constitution=c;await globalThis.PIXIE_STORAGE.persistObject(o);ok=true}}catch(e){p.querySelector('#constitutionResult').textContent='Local save only: '+e.message}p.querySelector('#constitutionState').textContent=ok?'SYNCED TO OBSIDIAN':'LOCAL DRAFT';if(ok)p.querySelector('#constitutionResult').textContent='Creator Constitution saved to PIXIE/Creator/Creator-Constitution.md'};
     p.querySelector('#constitutionCopy').onclick=async()=>{const c=collect(p);try{await navigator.clipboard.writeText(prompt(c));p.querySelector('#constitutionResult').textContent='GOVERNING PROMPT COPIED.'}catch(_){p.querySelector('#constitutionResult').textContent=prompt(c)}};
-    p.querySelector('#constitutionTest').onclick=()=>{const c=collect(p),r=test(p.querySelector('#constitutionTask').value,c);p.querySelector('#constitutionResult').innerHTML='<strong>'+r.status+'</strong><ul>'+r.flags.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'};
+    p.querySelector('#constitutionTest').onclick=()=>{
+      const c=collect(p),task=p.querySelector('#constitutionTask').value;
+      const local=test(task,c);
+      const engine=globalThis.PIXIE_CONSTITUTION_ENGINE;
+      const governed=engine ? engine.checkAction({capability:'agent',action:'SUGGEST',task}) : null;
+      const status=governed?.decision || local.status;
+      const flags=[...local.flags,...(governed?.reasons||[])];
+      const invoked=governed?.invoked_rules?.length ? '<p><small>RULES INVOKED</small> '+esc(governed.invoked_rules.join(' · '))+'</p>' : '';
+      p.querySelector('#constitutionResult').innerHTML='<strong>'+esc(status)+'</strong>'+invoked+(flags.length?'<ul>'+flags.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>No governance conflicts detected.</p>');
+    };
   }
   function collect(p){p.querySelectorAll('[data-constitution-field]').forEach(e=>state.data[e.dataset.constitutionField]=e.value.trim());return save()}
   globalThis.PIXIE_CONSTITUTION=Object.freeze({get:()=>({...state.data}),save,prompt,test,markdown});
