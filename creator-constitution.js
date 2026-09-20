@@ -36,5 +36,14 @@
   }
   function collect(p){p.querySelectorAll('[data-constitution-field]').forEach(e=>state.data[e.dataset.constitutionField]=e.value.trim());return save()}
   globalThis.PIXIE_CONSTITUTION=Object.freeze({get:()=>({...state.data}),save,prompt,test,markdown});
+  function governance(task, action='SUGGEST', capability='agent'){
+    return globalThis.PIXIE_CONSTITUTION_ENGINE?.checkAction?.({task, action, capability}) ||
+      {decision:'ENGINE UNAVAILABLE', task, action, capability};
+  }
+  globalThis.PIXIE_CONSTITUTION_GOVERNANCE = Object.freeze({
+    check: governance,
+    context: (capability='agent') => globalThis.PIXIE_CONSTITUTION_ENGINE?.compileContext?.(capability) || null,
+    trace: (output, request) => globalThis.PIXIE_CONSTITUTION_ENGINE?.trace?.(output, request) || null
+  });
   document.addEventListener('DOMContentLoaded',render);
 })();
