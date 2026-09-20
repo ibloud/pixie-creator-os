@@ -149,6 +149,14 @@
     }
 
     const opts = options || {};
+    const governance = window.PIXIE_CONSTITUTION_ENGINE?.checkAction?.({
+      capability: 'automation',
+      action: nextState === STATES.BROADCAST ? 'PUBLISH' : 'EXECUTE',
+      task: `Recon transition ${job.state} → ${nextState} for ${job.target}`
+    });
+    if (governance?.decision === 'BLOCKED') {
+      throw new Error('Constitution blocked Recon transition: ' + governance.reasons.join(' '));
+    }
     if (nextState !== STATES.FLAGGED && opts.humanApproved !== true) {
       throw new Error('Human approval is required for every state transition.');
     }

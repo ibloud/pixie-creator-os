@@ -125,11 +125,29 @@
 
   function buildSyncPlan(sourceRecords, targetRecords, options = {}) {
     const threshold = Number.isFinite(options.threshold) ? options.threshold : 0.72;
+    const governance = window.PIXIE_CONSTITUTION_ENGINE?.checkAction?.({
+      capability: 'collaboration',
+      action: 'EXECUTE',
+      task: 'Build an external interoperability sync plan'
+    });
+    const governanceBlocked = governance?.decision === 'BLOCKED';
     const targets = targetRecords || [];
     return (sourceRecords || []).map(raw => {
       const source = normalizeRecord(raw, raw?.source || options.source || 'unknown');
       const provenanceCheck = validateProvenance(source);
       const candidates = match(source, targets);
+
+      if (governanceBlocked) {
+        return {
+          action: 'BLOCKED',
+          source,
+          target: null,
+          confidence: 0,
+          reasons: ['CREATOR_CONSTITUTION', ...(governance?.reasons || [])],
+          alternatives: candidates.slice(0, 4),
+          provenance: provenanceCheck.provenance
+        };
+      }
       const best = candidates[0] || null;
 
       if (!provenanceCheck.valid) {

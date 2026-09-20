@@ -261,7 +261,8 @@
     persistObject,
     machinePath,
     assetPath,
-    getWorkspace: () => ({ ...runtime.workspace, handle: undefined })
+    getWorkspace: () => ({ ...runtime.workspace, handle: undefined }),
+    writeTextFile
   });
 
   document.addEventListener('DOMContentLoaded', async () => {
