@@ -114,8 +114,7 @@
     return null;
   }
 
-  function checkAction(request = {}) {
-    const c = constitution();
+  function evaluate(request = {}, c = constitution()) {
     const task = text(request.task || request.description || request.action);
     const action = text(request.action || ACTIONS.SUGGEST).toUpperCase();
     const capability = text(request.capability || 'agent').toLowerCase();
@@ -156,6 +155,8 @@
 
     return result(DECISIONS.ALLOWED, request, { capability, action, task, reasons: ['No constitutional conflict detected.'], invoked });
   }
+
+  function checkAction(request = {}) { return evaluate(request, constitution()); }
 
   function result(decision, request, data) {
     return Object.freeze({
@@ -202,7 +203,6 @@
   }
 
   function selfTest() {
-    const original = globalThis.PIXIE_CONSTITUTION?.get?.();
     const sample = {
       version: 1,
       identity: 'Creator',
@@ -221,12 +221,7 @@
       { name: 'publish review', request: { capability: 'publishing', action: 'PUBLISH', task: 'Publish the post.' }, expected: DECISIONS.REVIEW_REQUIRED },
       { name: 'boundary blocked', request: { capability: 'content', action: 'DRAFT', task: 'Invent a source for this claim.' }, expected: DECISIONS.BLOCKED }
     ];
-    const originalGet = globalThis.PIXIE_CONSTITUTION?.get;
-    if (globalThis.PIXIE_CONSTITUTION) {
-      globalThis.PIXIE_CONSTITUTION.get = () => sample;
-    }
-    const results = cases.map(item => ({ ...item, actual: checkAction(item.request), pass: checkAction(item.request).decision === item.expected }));
-    if (globalThis.PIXIE_CONSTITUTION && originalGet) globalThis.PIXIE_CONSTITUTION.get = originalGet;
+    const results = cases.map(item => { const actual = evaluate(item.request, sample); return { ...item, actual, pass: actual.decision === item.expected }; });
     return { pass: results.every(x => x.pass), results };
   }
 
