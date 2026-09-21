@@ -200,14 +200,6 @@
       </div>`;
     panels.appendChild(panel);
 
-    const switchWorkspace = () => {
-      document.querySelectorAll('.panel').forEach(p => { const active = p === panel; p.classList.toggle('active', active); p.hidden = !active; p.setAttribute('aria-hidden', active ? 'false' : 'true'); });
-      document.querySelectorAll('.dock-app').forEach(b => { const active = b === nav; b.classList.toggle('active', active); b.setAttribute('aria-pressed', active ? 'true' : 'false'); b.setAttribute('aria-current', active ? 'page' : 'false'); });
-      refresh();
-    };
-    nav.addEventListener('click', switchWorkspace);
-    panel.querySelector('.close-panel').addEventListener('click', () => document.querySelector('.dock-app[data-panel="radar"]')?.click());
-
     const refresh = () => {
       const s = runtime.workspace;
       panel.querySelector('#storageState').textContent = `${s.state}${s.vault ? ` · ${s.vault}` : ''}`;
