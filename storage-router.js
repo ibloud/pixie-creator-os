@@ -178,17 +178,7 @@
 
   function renderWorkspacePanel() {
     const panels = document.querySelector('.panels');
-    const dock = document.querySelector('.dock');
-    if (!panels || !dock || document.getElementById('panel-workspace')) return;
-
-    const nav = document.createElement('button');
-    nav.className = 'dock-app';
-    nav.dataset.panel = 'workspace';
-    nav.type = 'button';
-    nav.setAttribute('aria-controls', 'panel-workspace');
-    nav.setAttribute('aria-pressed', 'false');
-    nav.innerHTML = 'WORKSPACE<span>STORAGE</span>';
-    dock.appendChild(nav);
+    if (!panels || document.getElementById('panel-workspace')) return;
 
     const panel = document.createElement('article');
     panel.className = 'panel';
