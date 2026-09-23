@@ -19,5 +19,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "24"
+      - name: Check interoperability syntax
+        run: node --check interoperability.js
       - name: Run interoperability tests
         run: node tests/interoperability.test.js
