@@ -88,3 +88,12 @@ See `docs/architecture.md`, `docs/native-ios.md`, and `obsidian-plugin/README.md
 ## ATProto community workspace
 
 For interoperability review and community contribution, see [docs/atproto-community.md](docs/atproto-community.md) and GitHub Issue #15. The companion 50 Ways repository carries the live Pixie v0.1 verification handoff.
+
+
+## Contributor path
+
+If you are joining at the current demo boundary, start with [CONTRIBUTING.md](CONTRIBUTING.md), [docs/stable-prealpha-handoff.md](docs/stable-prealpha-handoff.md), [docs/architecture.md](docs/architecture.md), [docs/network-intelligence.md](docs/network-intelligence.md), and [docs/demo-to-next-stable.md](docs/demo-to-next-stable.md).
+
+**Current demo boundary:** Network Intelligence is local/demo-only. ADD CARD creates a proposed local record and may use the existing PIXIE storage seam. SEND INVITATION prepares a local pending record; it does not send a message. Made-Sick intake accepts a source URL for provenance; it does not crawl the source.
+
+The next stable version requires explicit source contracts, verification states, durable PIXIE object handling, tests, and separately permissioned external adapters. Do not enable those capabilities by implication or UI copy alone.
