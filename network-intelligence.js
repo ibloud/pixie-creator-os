@@ -63,6 +63,9 @@
     activity: []
   };
 
+  let installObserver = null;
+  let installTimer = null;
+
   function uid(prefix) {
     if (globalThis.crypto?.randomUUID) return prefix + '-' + crypto.randomUUID();
     return prefix + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
@@ -109,7 +112,20 @@
   }
 
   function addCard(signal, overrides = {}) {
+    const existing = state.cards.find(card =>
+      card.signalId === signal.id || (
+        card.person === signal.person &&
+        card.title === (overrides.title || signal.upcoming) &&
+        card.sourceUrl === signal.sourceUrl
+      )
+    );
+    if (existing) {
+      log('CARD', `Card already exists for ${signal.person}`);
+      return existing;
+    }
+
     const card = {
+      signalId: signal.id,
       id: uid('card'),
       type: 'network-signal',
       title: overrides.title || signal.upcoming,
@@ -175,6 +191,18 @@
       `Invitation target for ${signal.person}. Enter an email address for the demo invitation record:`
     );
     if (!email) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setStatus('Invitation not created: enter a valid email address.');
+      return;
+    }
+
+    const existing = state.invitations.find(inv =>
+      inv.person === signal.person && inv.email.toLowerCase() === email.trim().toLowerCase() && inv.status === 'PENDING'
+    );
+    if (existing) {
+      setStatus(`Invitation already pending for ${signal.person}.`);
+      return;
+    }
     const invitation = {
       id: uid('invite'),
       person: signal.person,
@@ -245,7 +273,8 @@
           <p class="pixie-network-relationship">${escapeHtml(signal.relationship)}</p>
           <strong>${escapeHtml(signal.upcoming)}</strong>
           <div class="pixie-network-meta">
-            <span>${escapeHtml(formatDate(signal.date))}</span>
+            <span>${signal.date ? escapeHtml(formatDate(signal.date)) : 'DATE UNVERIFIED'}</span>
+            <span>${escapeHtml(signal.status || 'REVIEW')}</span>
             <span>${escapeHtml(signal.source)}</span>
             <a href="${escapeHtml(signal.sourceUrl)}" target="_blank" rel="noopener">SOURCE ↗</a>
           </div>
@@ -328,7 +357,11 @@
     load();
 
     const reconPage = document.querySelector('#panel-recon .recon-page');
-    if (!reconPage || document.getElementById('pixie-network')) return;
+    if (!reconPage) return;
+    if (document.getElementById('pixie-network')) {
+      render();
+      return;
+    }
 
     const section = document.createElement('section');
     section.id = 'pixie-network';
@@ -338,7 +371,7 @@
         <div>
           <span class="recon-kicker">PIXIE // NETWORK INTELLIGENCE</span>
           <h3>PEOPLE. CONNECTIONS. WHAT'S NEXT.</h3>
-          <p>PIXIE finds a documented connection, surfaces an upcoming signal, and leaves the decision with the human.</p>
+          <p>PIXIE finds a documented connection, surfaces a signal for verification, and leaves the decision with the human.</p>
         </div>
         <span id="pixieNetworkCount" class="pixie-network-count"></span>
       </div>
@@ -381,6 +414,40 @@
     render();
   }
 
+  function waitForRecon() {
+    install();
+    if (document.getElementById('pixie-network')) return;
+
+    if (!installObserver && document.body) {
+      installObserver = new MutationObserver(() => {
+        if (document.querySelector('#panel-recon .recon-page')) {
+          install();
+          if (document.getElementById('pixie-network')) {
+            installObserver.disconnect();
+            installObserver = null;
+          }
+        }
+      });
+      installObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    if (!installTimer) {
+      installTimer = setInterval(() => {
+        install();
+        if (document.getElementById('pixie-network')) {
+          clearInterval(installTimer);
+          installTimer = null;
+        }
+      }, 250);
+      setTimeout(() => {
+        if (installTimer) {
+          clearInterval(installTimer);
+          installTimer = null;
+        }
+      }, 10000);
+    }
+  }
+
   globalThis.PIXIENetwork = Object.freeze({
     VERSION,
     getState: () => ({
@@ -393,6 +460,6 @@
     invite
   });
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install, { once: true });
-  else install();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', waitForRecon, { once: true });
+  else waitForRecon();
 })();
