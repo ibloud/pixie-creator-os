@@ -79,3 +79,14 @@ The mobile layout therefore relaxes the desktop shell's fixed-height/overflow co
 - verify unavailable integrations are clearly labeled
 - verify no external credentials are exposed client-side
 - verify the source-of-truth PIXIE demo remains unchanged
+
+## 11. PIXIE Control Room
+The Control Room is the orchestration surface for the identity-to-world journey:
+
+**SuperMe → PIXIE → Atmosphere → World / Project → ASK IBLoud**
+
+SuperMe may introduce the person represented by the profile. PIXIE provides the spatial/navigation layer. Atmosphere maps the independent worlds. A future SuperMe MCP connection may provide contextual `ASK IBLoud` capability.
+
+The initial SuperMe handoff is a link-out. A URL query such as `?from=superme` may open the Control Room as an introduction state, but it does not imply a native SuperMe embed or an active MCP connection.
+
+The existing PIXIE source-of-truth demo remains independently accessible and unchanged.
