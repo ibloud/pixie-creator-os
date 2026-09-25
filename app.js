@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadStreamplace() {
       if (!streamplaceHandle || !streamplaceEmbed) return;
       const raw = streamplaceHandle.value.trim();
-      const handle = raw.replace(/^https?:\\/\\/stream\\.place\\//, '').replace(/^@/, '').replace(/\\/.*$/, '');
+      const handle = raw.replace(/^https?:\/\/stream\.place\//, '').replace(/^@/, '').replace(/\/.*$/, '');
       if (!handle || !/^[a-z0-9._-]+$/i.test(handle)) {
         if (streamplaceState) streamplaceState.textContent = 'ENTER A STREAMPLACE HANDLE';
         return;
