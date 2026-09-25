@@ -747,3 +747,17 @@ input[type=range]:focus-visible {
 .control-card p{margin:0;color:var(--clr-dim);font-size:10px;line-height:1.5}
 @media(max-width:1000px){.control-flow{grid-template-columns:1fr}.control-flow>i{min-height:28px}.control-grid{grid-template-columns:repeat(2,1fr)}.control-hero{display:grid}.control-actions{justify-content:flex-start}}
 @media(max-width:600px){.control-room-shell{padding:12px}.control-hero,.control-section{padding:13px}.control-grid{grid-template-columns:1fr}.control-actions{display:grid}.control-actions a{width:auto}.control-flow{grid-template-columns:1fr}}
+
+
+/* Streamplace optional live-video adapter */
+.streamplace-tile{min-width:0}
+.streamplace-load{display:grid;gap:6px}
+.streamplace-load label{font:600 .58rem var(--font-mono);letter-spacing:.1em;color:var(--clr-dim)}
+.streamplace-load>div{display:grid;grid-template-columns:1fr auto;gap:6px}
+.streamplace-load input{min-width:0;border:1px solid var(--clr-border);background:rgba(0,0,0,.25);color:#fff;padding:8px;font:11px var(--font-mono)}
+.streamplace-load button{border:1px solid var(--clr-border);background:rgba(255,255,255,.06);color:#fff;padding:8px;font:600 9px var(--font-mono);letter-spacing:.06em;cursor:pointer}
+.streamplace-load button:hover{background:var(--clr-hover);border-color:#fff}
+.streamplace-embed{margin-top:4px;min-height:0;background:#050608;overflow:hidden}
+.streamplace-embed:empty{display:none}
+.streamplace-embed iframe{display:block;width:100%;min-height:180px;border:0}
+@media(max-width:680px){.streamplace-load>div{grid-template-columns:1fr}.streamplace-embed iframe{min-height:220px}}
