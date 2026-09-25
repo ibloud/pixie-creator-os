@@ -367,10 +367,11 @@ function buildCapabilities() {
 // ── INIT ──────────────────────────────────────────────────────────────────────
 
 window.openPIXIEControlRoom = function openPIXIEControlRoom() {
-  const recon = document.getElementById('panel-recon');
-  if (!recon) return;
-  if (recon.classList.contains('recon-window-open')) switchPanel(reconReturnPanel || 'radar');
-  else switchPanel('recon');
+  switchPanel('control');
+};
+
+window.openPIXIERecon = function openPIXIERecon() {
+  switchPanel('recon');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -383,6 +384,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.dock-app').forEach(btn => {
     btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
   });
+
+  document.querySelectorAll('[data-open-panel]').forEach(btn => {
+    btn.addEventListener('click', () => switchPanel(btn.dataset.openPanel));
+  });
+
+  const intro = new URLSearchParams(window.location.search).get('from');
+  if (intro === 'superme') switchPanel('control');
 
   document.querySelectorAll('.close-panel').forEach(btn => {
     btn.addEventListener('click', () => {
