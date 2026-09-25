@@ -12,6 +12,7 @@ PIXIE is the operating environment and navigator for the creator ecosystem. It d
 - **External services** — pluggable adapters and capabilities
 - **Germ** — opt-in, private, consent-controlled communication handoff
 - **Discord** — event/community adapter
+- **Streamplace** — optional AT Protocol-native live video integration
 - **SuperMe** — optional AI-mediated expertise/persona service
 
 ## 2. External services are optional
@@ -47,6 +48,14 @@ If Discord becomes unavailable, event information remains usable.
 Germ is a private/consent-controlled handoff layer. It is not assumed to replace the public project/community layer.
 
 Public project information remains navigable in PIXIE and the project's own source of truth.
+
+## 6. Streamplace
+Streamplace is an optional live-video integration in the PIXIE service layer. Its documentation describes AT Protocol-based identity and supports embeddable livestream pages.
+
+For Creator OS, the integration is intentionally staged as a service route / embed-capable destination rather than a load-bearing runtime dependency. A specific Streamplace account or livestream is **not** claimed as connected until one is explicitly configured and tested.
+
+If Streamplace is unavailable, PIXIE remains fully navigable and other world, project, and communication surfaces remain available.
+
 
 ## 6. Atmosphere
 Atmosphere is the map through which PIXIE connects worlds.
