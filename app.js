@@ -367,10 +367,11 @@ function buildCapabilities() {
 // ── INIT ──────────────────────────────────────────────────────────────────────
 
 window.openPIXIEControlRoom = function openPIXIEControlRoom() {
-  const recon = document.getElementById('panel-recon');
-  if (!recon) return;
-  if (recon.classList.contains('recon-window-open')) switchPanel(reconReturnPanel || 'radar');
-  else switchPanel('recon');
+  switchPanel('control');
+};
+
+window.openPIXIERecon = function openPIXIERecon() {
+  switchPanel('recon');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -382,6 +383,47 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── DOCK NAV
   document.querySelectorAll('.dock-app').forEach(btn => {
     btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+  });
+
+  document.querySelectorAll('[data-open-panel]').forEach(btn => {
+    btn.addEventListener('click', () => switchPanel(btn.dataset.openPanel));
+  });
+
+  const intro = new URLSearchParams(window.location.search).get('from');
+  if (intro === 'superme') switchPanel('control');
+
+  // ── STREAMPLACE OPTIONAL EMBED
+  document.querySelectorAll('.streamplace-tile').forEach(tile => {
+    const streamplaceHandle = tile.querySelector('input[id^="streamplaceHandle"]');
+    const streamplaceLoad = tile.querySelector('button[id^="streamplaceLoad"]');
+    const streamplaceEmbed = tile.querySelector('[id^="streamplaceEmbed"]');
+    const streamplaceState = tile.querySelector('[id^="streamplaceState"]');
+
+    function loadStreamplace() {
+      if (!streamplaceHandle || !streamplaceEmbed) return;
+      const raw = streamplaceHandle.value.trim();
+      const handle = raw.replace(/^https?:\\/\\/stream\\.place\\//, '').replace(/^@/, '').replace(/\\/.*$/, '');
+      if (!handle || !/^[a-z0-9._-]+$/i.test(handle)) {
+        if (streamplaceState) streamplaceState.textContent = 'ENTER A STREAMPLACE HANDLE';
+        return;
+      }
+      const iframe = document.createElement('iframe');
+      iframe.title = 'Streamplace livestream';
+      iframe.src = 'https://stream.place/embed/' + encodeURIComponent(handle);
+      iframe.width = '560';
+      iframe.height = '315';
+      iframe.loading = 'lazy';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      streamplaceEmbed.replaceChildren(iframe);
+      if (streamplaceState) streamplaceState.textContent = 'EMBED LOADED · ' + handle;
+    }
+
+    streamplaceLoad?.addEventListener('click', loadStreamplace);
+    streamplaceHandle?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') loadStreamplace();
+    });
   });
 
   document.querySelectorAll('.close-panel').forEach(btn => {
