@@ -267,7 +267,6 @@ function switchPanel(name) {
       recon.classList.add('recon-window-open');
       recon.setAttribute('aria-hidden', 'false');
     }
-    document.getElementById('recon-float')?.setAttribute('aria-expanded', 'true');
     window.PIXIERecon?.init();
     document.getElementById('recon-title')?.focus();
     return;
@@ -284,7 +283,6 @@ function switchPanel(name) {
     recon.hidden = true;
     recon.setAttribute('aria-hidden', 'true');
   }
-  document.getElementById('recon-float')?.setAttribute('aria-expanded', 'false');
   document.querySelectorAll('.dock-app').forEach(b => {
     const active = b.dataset.panel === name;
     b.classList.toggle('active', active);
