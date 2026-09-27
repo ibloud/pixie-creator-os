@@ -19,9 +19,9 @@ PIXIE Creator OS is a Loptr Lab / Dominique Devereaux product. Charlie J is not 
 - **Streamplace / Germ** — future service adapters for live video and private communication.
 - **Obsidian** — human-facing workspace and durable local control plane. PIXIE IDs remain the machine identity.
 
-## Stable build boundary
+## Current build boundary
 
-The current branch is a stable, browser-safe foundation. It does not claim external integrations that are not actually connected.
+The public build is a pre-alpha demonstration. Release 1 fixes were merged into `main`; automated checks and deployment passed at that merge, but browser and iPad Safari recovery checks remain open. This is not a verified stable release. See [the verification status and next steps](docs/current-verification-status.md). External integrations are not claimed as connected.
 
 **Stable pre-alpha handoff:** see [docs/stable-prealpha-handoff.md](docs/stable-prealpha-handoff.md). This is the continuity contract for future maintainers: it preserves the distinction between code, runtime behavior, external reality, narrative material, and proposed work, and defines the rules for strings, identity, provenance, and time-bound observations.
 
