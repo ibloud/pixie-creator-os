@@ -1,7 +1,7 @@
 # Demo → Next Stable Version
 
 ## Current release boundary
-The public build is a stable demo/pre-alpha. Network Intelligence demonstrates local discovery and human-reviewed actions without claiming live external network integration.
+The public build is a pre-alpha demo, with device verification pending. Network Intelligence demonstrates local discovery and human-reviewed actions without claiming live external network integration. See [current verification status](current-verification-status.md) for evidence and open checks.
 
 Current flow: demo/public-source signal → human review → ADD CARD or SEND INVITATION → local demo record → optional existing PIXIE storage seam.
 
