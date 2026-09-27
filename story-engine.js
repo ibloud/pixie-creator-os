@@ -7,10 +7,62 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
   const KEY = 'pixie-stories';
   const ACTIVE_KEY = 'pixie-active-story';
   const DEMO_ID = 'demo-department-of-truth';
+  const QUARANTINE_PREFIX = 'pixie-stories-quarantine:';
+  let readFailure = null;
+  const pending = [];
+  const storageStatus = { state: 'READY', message: '' };
+  function announce(state, message) {
+    storageStatus.state = state;
+    storageStatus.message = message;
+    window.dispatchEvent?.(new CustomEvent('pixie:storage-status', { detail: { state, message } }));
+  }
   const NODE_TYPES = ['signal','context','claim','narrative','culturalMemory','music','conversation','voice','publish'];
 
-  function read(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e) { return []; } }
-  function write(stories){ localStorage.setItem(KEY, JSON.stringify(stories)); }
+  function read(){
+    if (readFailure) throw readFailure;
+    try {
+      const value = JSON.parse(localStorage.getItem(KEY) || '[]');
+      if (!Array.isArray(value)) throw new Error('Story library has an unexpected format');
+      return value;
+    } catch (error) {
+      readFailure = error;
+      announce('RECOVERY REQUIRED', 'Story library could not be read. The original has not been overwritten. Export new captures before closing this tab.');
+      throw error;
+    }
+  }
+  function write(stories){
+    if (readFailure) throw readFailure;
+    localStorage.setItem(KEY, JSON.stringify(stories));
+  }
+  function queueForRecovery(story) {
+    pending.push(story);
+    let stored = false;
+    try {
+      const key = QUARANTINE_PREFIX + story.id + ':' + Date.now();
+      localStorage.setItem(key, JSON.stringify(story));
+      stored = true;
+    } catch (_) { /* A full or unavailable store cannot hold quarantine data. */ }
+    story.persistence = stored ? 'QUARANTINED' : 'MEMORY ONLY';
+    announce(story.persistence, stored
+      ? 'Story saved separately for recovery; the original library was not changed. Export a backup for safekeeping.'
+      : 'Story was not saved to durable storage. Export it before closing this tab.');
+    return story;
+  }
+  function exportRecovery() {
+    let raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (_) {}
+    const quarantined = [];
+    let quarantineScanError = null;
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith(QUARANTINE_PREFIX)) {
+          quarantined.push({ key, raw: localStorage.getItem(key) });
+        }
+      }
+    } catch (error) { quarantineScanError = String(error); }
+    return JSON.stringify({ originalRaw: raw, quarantined, quarantineScanError, pending, exportedAt: new Date().toISOString() }, null, 2);
+  }
   function normalize(story){
     const s = window.PIXIE_STORY?.create ? window.PIXIE_STORY.create(story) : story;
     s.flow = s.flow || {currentNode:'signal',visited:['signal'],choices:[],variables:{},history:[]};
@@ -29,23 +81,33 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
   }
   function save(story){
     const s = normalize(story); s.updatedAt = new Date().toISOString();
-    const all = read().filter(x => x.id !== s.id); all.unshift(s); write(all);
-    window.PIXIE_STORY?.save?.(s);
+    try {
+      const all = read().filter(x => x.id !== s.id); all.unshift(s); write(all);
+      s.persistence = 'PERSISTED';
+      if (pending.length) announce('RECOVERY REQUIRED', 'Earlier captures still need recovery. Export them before closing this tab.');
+      else announce('READY', 'Story saved.');
+    } catch (_) { return queueForRecovery(s); }
     return s;
   }
-  function load(id){ return read().map(normalize).find(x => x.id === id) || window.PIXIE_STORY?.load?.(id) || null; }
-  function list(){ return read().map(normalize); }
+  function load(id){ try { return read().map(normalize).find(x => x.id === id) || window.PIXIE_STORY?.load?.(id) || null; } catch (_) { return null; } }
+  function list(){ try { return read().map(normalize); } catch (_) { return []; } }
   function setActive(id){
-    if (!id) { localStorage.removeItem(ACTIVE_KEY); return null; }
+    if (!id) {
+      try { localStorage.removeItem(ACTIVE_KEY); } catch (_) {}
+      window.PIXIE_ACTIVE_STORY_ID = null;
+      return null;
+    }
     const story = load(id);
     if (!story) return null;
-    localStorage.setItem(ACTIVE_KEY, story.id);
+    try { localStorage.setItem(ACTIVE_KEY, story.id); }
+    catch (_) { announce('MEMORY ONLY', 'Active story could not be saved. Export your work before closing this tab.'); return null; }
     window.PIXIE_ACTIVE_STORY_ID = story.id;
     window.dispatchEvent?.(new CustomEvent('pixie:story-active', {detail:{storyId:story.id}}));
     return story;
   }
   function active(){
-    const id = window.PIXIE_ACTIVE_STORY_ID || localStorage.getItem(ACTIVE_KEY) || '';
+    let id = window.PIXIE_ACTIVE_STORY_ID || '';
+    if (!id) try { id = localStorage.getItem(ACTIVE_KEY) || ''; } catch (_) { return null; }
     return id ? load(id) : null;
   }
   function capture({title, url='', observation=''}){
@@ -69,7 +131,7 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
       provenance:url ? [{type:'source',url,title,capturedAt:now}] : [],
       status:'signal'
     }));
-    setActive(story.id);
+    if (story.persistence === 'PERSISTED') setActive(story.id);
     return story;
   }
   function seedDemo(){
@@ -96,5 +158,33 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
       status:'signal'
     }));
   }
-  return {KEY,ACTIVE_KEY,NODE_TYPES,read,write,save,load,list,setActive,active,capture,seedDemo};
+  document.addEventListener('DOMContentLoaded', () => {
+    const notice = document.createElement('div');
+    notice.setAttribute('role', 'alert');
+    notice.hidden = true;
+    notice.style.cssText = 'position:fixed;z-index:10000;bottom:3rem;left:1rem;right:1rem;padding:1rem;background:#282033;color:white;border:2px solid #ffcf75';
+    const message = document.createElement('span');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'EXPORT RECOVERY DATA';
+    button.style.marginLeft = '1rem';
+    button.addEventListener('click', () => {
+      const blob = new Blob([exportRecovery()], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'pixie-story-recovery.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    });
+    notice.append(message, button);
+    document.body.appendChild(notice);
+    const render = () => {
+      notice.hidden = storageStatus.state === 'READY';
+      message.textContent = storageStatus.message + ' ';
+    };
+    window.addEventListener('pixie:storage-status', render);
+    render();
+  });
+  return {KEY,ACTIVE_KEY,NODE_TYPES,read,write,save,load,list,setActive,active,capture,seedDemo,storageStatus,exportRecovery};
 })();

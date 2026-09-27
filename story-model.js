@@ -26,7 +26,7 @@ window.PIXIE_STORY = window.PIXIE_STORY || {
       status: input.status || 'signal',
       flow: input.flow || {
         currentNode: 'signal',
-        visited: [],
+        visited: ['signal'],
         choices: [],
         variables: {},
         history: []

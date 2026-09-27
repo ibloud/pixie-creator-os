@@ -27,18 +27,16 @@ const context = vm.createContext({
   String,
   RegExp,
   CustomEvent: function CustomEvent(type, init) { this.type = type; this.detail = init?.detail; },
-  window: {
-    localStorage: {
+  localStorage: {
       getItem(key) { return store.has(key) ? store.get(key) : null; },
       setItem(key, value) { store.set(key, String(value)); },
       removeItem(key) { store.delete(key); }
     },
-    addEventListener() {},
-    dispatchEvent() {}
-  },
+  addEventListener() {},
+  dispatchEvent() {},
   document: documentStub
 });
-context.window.window = context.window;
+context.window = context;
 
 function load(file) {
   const source = fs.readFileSync(path.join(root, file), 'utf8');

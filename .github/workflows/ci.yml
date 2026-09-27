@@ -23,3 +23,7 @@ jobs:
         run: node --check interoperability.js
       - name: Run interoperability tests
         run: node tests/interoperability.test.js
+      - name: Run Story Engine smoke tests
+        run: node tests/story-engine-smoke.js
+      - name: Run Story storage recovery tests
+        run: node tests/story-storage.test.js
