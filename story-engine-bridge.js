@@ -8,11 +8,10 @@
   window.PIXIE_STORY.save = function(story){
     if(!story) return;
     story.updatedAt = new Date().toISOString();
-    try {
-      const all = window.PIXIE_STORY_ENGINE.read().filter(x => x.id !== story.id);
-      all.unshift(story);
-      window.PIXIE_STORY_ENGINE.write(all);
-    } catch(e) { /* localStorage may be unavailable */ }
-    return originalSave(story);
+    const result = window.PIXIE_STORY_ENGINE.save(story);
+    if (result.persistence === 'PERSISTED') {
+      try { originalSave(story); } catch (_) { /* Main library was saved. */ }
+    }
+    return result;
   };
 })();
