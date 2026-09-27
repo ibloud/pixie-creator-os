@@ -44,14 +44,24 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
     } catch (_) { /* A full or unavailable store cannot hold quarantine data. */ }
     story.persistence = stored ? 'QUARANTINED' : 'MEMORY ONLY';
     announce(story.persistence, stored
-      ? 'Story saved separately for recovery; the original library was not changed. Export a backup before leaving.'
+      ? 'Story saved separately for recovery; the original library was not changed. Export a backup for safekeeping.'
       : 'Story was not saved to durable storage. Export it before closing this tab.');
     return story;
   }
   function exportRecovery() {
     let raw = null;
     try { raw = localStorage.getItem(KEY); } catch (_) {}
-    return JSON.stringify({ originalRaw: raw, pending, exportedAt: new Date().toISOString() }, null, 2);
+    const quarantined = [];
+    let quarantineScanError = null;
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith(QUARANTINE_PREFIX)) {
+          quarantined.push({ key, raw: localStorage.getItem(key) });
+        }
+      }
+    } catch (error) { quarantineScanError = String(error); }
+    return JSON.stringify({ originalRaw: raw, quarantined, quarantineScanError, pending, exportedAt: new Date().toISOString() }, null, 2);
   }
   function normalize(story){
     const s = window.PIXIE_STORY?.create ? window.PIXIE_STORY.create(story) : story;
@@ -82,16 +92,22 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
   function load(id){ try { return read().map(normalize).find(x => x.id === id) || window.PIXIE_STORY?.load?.(id) || null; } catch (_) { return null; } }
   function list(){ try { return read().map(normalize); } catch (_) { return []; } }
   function setActive(id){
-    if (!id) { localStorage.removeItem(ACTIVE_KEY); return null; }
+    if (!id) {
+      try { localStorage.removeItem(ACTIVE_KEY); } catch (_) {}
+      window.PIXIE_ACTIVE_STORY_ID = null;
+      return null;
+    }
     const story = load(id);
     if (!story) return null;
-    localStorage.setItem(ACTIVE_KEY, story.id);
+    try { localStorage.setItem(ACTIVE_KEY, story.id); }
+    catch (_) { announce('MEMORY ONLY', 'Active story could not be saved. Export your work before closing this tab.'); return null; }
     window.PIXIE_ACTIVE_STORY_ID = story.id;
     window.dispatchEvent?.(new CustomEvent('pixie:story-active', {detail:{storyId:story.id}}));
     return story;
   }
   function active(){
-    const id = window.PIXIE_ACTIVE_STORY_ID || localStorage.getItem(ACTIVE_KEY) || '';
+    let id = window.PIXIE_ACTIVE_STORY_ID || '';
+    if (!id) try { id = localStorage.getItem(ACTIVE_KEY) || ''; } catch (_) { return null; }
     return id ? load(id) : null;
   }
   function capture({title, url='', observation=''}){

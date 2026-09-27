@@ -1,11 +1,13 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
+const path = require('node:path');
 
-function fixture({ raw = null, readFails = false, writeFails = false } = {}) {
-  const values = new Map();
+function fixture({ raw = null, readFails = false, writeFails = false, values = new Map() } = {}) {
   if (raw !== null) values.set('pixie-stories', raw);
   const storage = {
+    get length() { return values.size; },
+    key(index) { return [...values.keys()][index] ?? null; },
     getItem(key) {
       if (readFails) throw new Error('Read denied');
       return values.get(key) ?? null;
@@ -22,7 +24,7 @@ function fixture({ raw = null, readFails = false, writeFails = false } = {}) {
   });
   context.window = context;
   for (const file of ['story-model.js', 'story-engine.js', 'story-engine-bridge.js']) {
-    vm.runInContext(fs.readFileSync(file, 'utf8'), context, { filename: file });
+    vm.runInContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context, { filename: file });
   }
   return { engine: context.PIXIE_STORY_ENGINE, model: context.PIXIE_STORY, values };
 }
@@ -34,12 +36,17 @@ assert.equal(corrupt.values.get('pixie-stories'), '{broken');
 assert.ok([...corrupt.values.keys()].some(key => key.startsWith('pixie-stories-quarantine:')));
 assert.ok(corrupt.engine.exportRecovery().includes('{broken'));
 assert.throws(() => corrupt.engine.write([]));
+const reloaded = fixture({ values: corrupt.values });
+assert.ok(reloaded.engine.exportRecovery().includes('Keep new work'));
+assert.equal(reloaded.values.get('pixie-stories'), '{broken');
 
 const denied = fixture({ raw: '[{"id":"original"}]', readFails: true });
 const b = denied.engine.capture({ title: 'Read failure' });
 assert.equal(b.persistence, 'QUARANTINED');
 assert.equal(denied.values.get('pixie-stories'), '[{"id":"original"}]');
 assert.ok(denied.engine.exportRecovery().includes('Read failure'));
+assert.doesNotThrow(() => denied.engine.active());
+assert.equal(denied.engine.setActive('missing'), null);
 
 const full = fixture({ raw: '[]', writeFails: true });
 const c = full.engine.capture({ title: 'Full storage' });
