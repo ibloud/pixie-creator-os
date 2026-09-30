@@ -19,6 +19,15 @@ Do not label this build stable until a person records the environment, date, ste
 4. Blocked storage and full storage do not claim a capture was saved. The page and readability controls remain usable, and the empty state does not contradict the warning.
 5. On iPad Safari, recovery JSON can actually be saved to Files and the banner leaves taskbar and deck controls reachable in portrait and landscape.
 
+6. Library and Player layout: in iPad Safari portrait and landscape, enable PIXIE's Larger Text. Every control must be reachable by touch and keyboard focus, fully visible when scrolled into view, and usable without clipped labels or overlays covering its target. Scroll each panel to its end; reach the Library rows, both local file pickers, deck transport and crossfade controls, provider player, dock, and readability controls. Repeat with the recovery banner visible. Provider playback and local audio are recorded separately; a selected demo Library row is not proof of playback.
+7. Radar source cards: open each curated card twice and reload; the saved-story count must increase only on the first open. Reopen a story with a written draft and confirm the text is unchanged. Accept a client reference and verify its Unchecked label and self-reported reviewer wording before and after reload. Read source must open the named published post.
+
+## Recording and tagging procedure
+
+These are pass criteria, not completed verification results. Merge code corrections first, then test the Pages deployment built from that exact full `main` commit SHA. Record the deployment URL, SHA, browser/OS/device, orientation, text setting, date, steps, observed result, and evidence. If testing requires a code fix, deploy the new commit and repeat affected checks; identify which results apply to each SHA.
+
+Publish results, known limitations, and recovery instructions in a separate docs-only PR after testing. Tag the **tested code commit**, not the subsequent documentation commit, and name both commits in the completion record. The Story Router remains a local simulation; this procedure does not verify live publishing.
+
 Record failures as failures. A green CI or Pages run is not a substitute for these observations. The completion record in `demo-to-next-stable.md` also needs a version/tag, commit, procedure, verification dates, connected services, limitations, and recovery instructions. No stable tag is asserted here.
 
 ## Next work, in separate reviews
