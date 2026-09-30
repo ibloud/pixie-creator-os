@@ -1,7 +1,25 @@
-.story-router { padding: 1rem; border: 1px solid currentColor; margin: 1rem 0; }
-.story-router label { display: block; margin: .75rem 0; }
-.story-router input:not([type=checkbox]), .story-router select, .story-router textarea { display: block; width: 100%; max-width: 42rem; font: inherit; padding: .6rem; color: #fff; background: #151b22; border: 1px solid #9aa5ad; }
-.story-router button { padding: .7rem; margin: .3rem; font: inherit; }
-.story-router pre { white-space: pre-wrap; overflow-wrap: anywhere; }
-.story-router :focus-visible { outline: 3px solid #9de9ff; outline-offset: 3px; }
-.story-router #router-sources div { margin: .75rem 0; overflow-wrap: anywhere; }
+/* Use the workbench's shared type, surfaces, and spacing. */
+.story-router { padding: var(--ui-pad, 20px); border: 1px solid var(--clr-border); border-radius: 8px; margin: 20px 0; background: var(--clr-raised); font-size: var(--ui-copy, 15px); line-height: 1.55; }
+.story-router h3 { margin: 0 0 12px; font-size: 18px; line-height: 1.35; }
+.story-router p { margin: 12px 0; max-width: 72ch; }
+.story-router label { display: block; margin: 16px 0; font-size: var(--ui-copy, 15px); }
+.story-router input:not([type=checkbox]), .story-router select, .story-router textarea {
+  display: block; width: 100%; min-width: 0; max-width: 48rem; margin-top: 8px;
+  font: inherit; font-size: max(16px, var(--ui-copy, 15px)); padding: 10px 12px;
+  color: var(--clr-text); background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 4px; min-height: 44px;
+}
+.story-router textarea { resize: vertical; }
+.story-router input[type=checkbox] { width: 22px; height: 22px; min-height: 22px; margin: 0 8px 0 0; vertical-align: middle; accent-color: var(--clr-primary); }
+.story-router button {
+  min-height: 44px; max-width: 100%; padding: 10px 14px; margin: 0;
+  font: 650 var(--ui-control, 14px)/1.35 var(--font-readable);
+  color: var(--clr-text); background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 4px; cursor: pointer; white-space: normal;
+}
+.story-router button:hover:not(:disabled) { background: var(--clr-hover); border-color: var(--clr-dim); }
+.story-router button:disabled { color: var(--clr-dim); background: var(--clr-panel); border-style: dashed; cursor: default; }
+.story-router .router-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.story-router pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 24rem; overflow: auto; font-size: var(--ui-control, 14px); }
+.story-router pre:not(:empty) { padding: 12px; background: var(--clr-surface); border: 1px solid var(--clr-border); }
+.story-router #router-sources div { margin: 12px 0; overflow-wrap: anywhere; }
+.story-router #router-status { color: var(--clr-dim); }
+@media (max-width: 600px) { .story-router .router-actions { display: grid; grid-template-columns: 1fr; } .story-router .router-actions button { width: 100%; } }
