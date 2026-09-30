@@ -206,3 +206,18 @@ body.a11y-large-text .hero-copy h1, body.a11y-large-text .narrative-title { font
   .panels { margin: 0 8px 8px; }
   .panel-head { padding: 10px 16px; }
 }
+
+.source-card-section { margin: 20px 0; }
+.source-card-section h2, .method-heading { font-size: 18px; margin: 0 0 12px; }
+.source-card-section > p { margin-bottom: 12px; }
+.source-card-section .actions a, .client-card-intake button, .client-card-intake summary {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px;
+  font-size: var(--ui-control); line-height: 1.35; color: var(--clr-text);
+  background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 4px; cursor: pointer;
+}
+.client-card-intake { margin-top: 16px; }
+.client-card-intake form { padding: 16px; background: var(--clr-raised); border: 1px solid var(--clr-border); }
+.client-card-intake label { display: block; margin-bottom: 12px; }
+.client-card-intake input, .client-card-intake textarea { display: block; width: 100%; min-width: 0; margin-top: 8px; padding: 10px 12px; font-size: max(16px, var(--ui-copy)); background: var(--clr-surface); color: var(--clr-text); border: 1px solid var(--clr-border); }
+.client-card-intake textarea { resize: vertical; }
+.client-card-intake p { margin: 12px 0; }
