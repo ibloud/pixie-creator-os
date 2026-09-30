@@ -28,5 +28,8 @@ jobs:
       - name: Run Story storage recovery tests
         run: node tests/story-storage.test.js
 
+      - name: Run Radar source card regression tests
+        run: node --test tests/source-cards.test.js
+
       - name: Run Story Router and ledger contract tests
         run: node --test tests/story-router.test.js
