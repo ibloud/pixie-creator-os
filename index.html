@@ -198,7 +198,9 @@
 <label><input id="router-consent" type="checkbox"> I have the author’s permission to reshare each selected post (required for someone else’s content in Made Sick).</label>
 <label>Consent evidence for these selected posts<textarea id="router-consent-evidence" rows="2" placeholder="Permission message link or a note describing who granted permission, when, and which posts it covers"></textarea></label>
 <p>Directory enrollment consent does not grant permission to reshare a post. Evidence stays in the local Story record and is excluded from the public representation.</p>
+<div class="router-actions" role="group" aria-label="Story routing actions">
 <button id="router-separate" type="button">Start separate reshare</button><button id="router-review" type="button">Preview public representation</button><button id="router-send" type="button" disabled>Confirm local simulation</button><button id="router-export" type="button" disabled>Export preview for handoff</button><button id="router-recovery" type="button">Export story recovery</button>
+</div>
 <p id="router-status" role="status" aria-live="polite">No ledger loaded. Import stays in this tab until you run a simulation.</p>
 <pre id="router-preview" aria-label="Exact public representation"></pre>
 </section>
