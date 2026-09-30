@@ -1,0 +1,7 @@
+.story-router { padding: 1rem; border: 1px solid currentColor; margin: 1rem 0; }
+.story-router label { display: block; margin: .75rem 0; }
+.story-router input:not([type=checkbox]), .story-router select, .story-router textarea { display: block; width: 100%; max-width: 42rem; font: inherit; padding: .6rem; color: #fff; background: #151b22; border: 1px solid #9aa5ad; }
+.story-router button { padding: .7rem; margin: .3rem; font: inherit; }
+.story-router pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.story-router :focus-visible { outline: 3px solid #9de9ff; outline-offset: 3px; }
+.story-router #router-sources div { margin: .75rem 0; overflow-wrap: anywhere; }

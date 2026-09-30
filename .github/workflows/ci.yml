@@ -27,3 +27,6 @@ jobs:
         run: node tests/story-engine-smoke.js
       - name: Run Story storage recovery tests
         run: node tests/story-storage.test.js
+
+      - name: Run Story Router and ledger contract tests
+        run: node --test tests/story-router.test.js

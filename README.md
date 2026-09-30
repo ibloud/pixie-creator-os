@@ -97,3 +97,10 @@ If you are joining at the current demo boundary, start with [CONTRIBUTING.md](CO
 **Current demo boundary:** Network Intelligence is local/demo-only. ADD CARD creates a proposed local record and may use the existing PIXIE storage seam. SEND INVITATION prepares a local pending record; it does not send a message. Made-Sick intake accepts a source URL for provenance; it does not crawl the source.
 
 The next stable version requires explicit source contracts, verification states, durable PIXIE object handling, tests, and separately permissioned external adapters. Do not enable those capabilities by implication or UI copy alone.
+
+
+## Atmosphere Story Router — local harness
+
+Import Story Finder ledger v2 (or degraded v1) from Files in the Atmosphere panel. Select references, choose a simulation destination, add context, preview, and confirm a local simulation. Intentions and simulated receipts use the existing Story Engine storage/recovery path. Destination changes require a new preview; separate resharing preserves prior receipts.
+
+ATProto authentication and real publishing remain disconnected. The current UI is reference-only; the contract tests exercise identity-aware embed/quote rules, consent, capabilities, and idempotent retry with fake adapters. See [the Story Router contract and pilot order](docs/story-router.md).
