@@ -167,3 +167,57 @@ body {
   .narrative-title { font-size: 25px; }
   .dock-app { font-size: 10px; }
 }
+
+/* Shared spacing and type scale for the workbench and its controls. */
+body { --ui-copy: 15px; --ui-control: 14px; --ui-heading: 24px; --ui-gap: 12px; --ui-pad: 20px; }
+body.a11y-large-text { --ui-copy: 18px; --ui-control: 17px; --ui-heading: 28px; }
+.desktop { min-width: 0; overflow-y: auto; }
+.dock { width: 104px; overflow-y: auto; }
+.dock-app { min-height: 56px; padding: 12px 8px; overflow-wrap: anywhere; letter-spacing: .02em; }
+.hero-copy { max-width: 78ch; padding: 20px 20px 12px; }
+.hero-copy h1 { font-size: var(--ui-heading); line-height: 1.2; margin: 6px 0 10px; }
+.hero-copy p, .narrative-subtitle, .narrative-card p, .publish-box, .a11y-note,
+.capability-intro p, .service-card p, .control-hero p, .control-card p {
+  font-size: var(--ui-copy) !important; line-height: 1.55 !important;
+}
+.narrative-title { font-size: var(--ui-heading); line-height: 1.25; letter-spacing: normal; }
+.panels { min-height: 320px; flex-shrink: 0; margin: 0 16px 16px; }
+.panel-head { gap: 12px; padding: 12px 20px; }
+.panel-head h2 { font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.close-panel { width: 44px; height: 44px; min-width: 44px; flex-shrink: 0; }
+.narrative-main, .narrative-side { padding: var(--ui-pad); }
+.narrative-toolbar, .a11y-tools, .flow-strip { gap: 8px; margin: 12px 0 16px; }
+.a11y-tools .a11y-note { flex-basis: 100%; margin: 0; }
+.action, .transport button, .narrative-toolbar button, .narrative-card button,
+.a11y-tools button, .flow-node, .control-secondary, .control-launch,
+.integration-primary, .streamplace-load button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 14px; font-size: var(--ui-control);
+  line-height: 1.35; letter-spacing: normal; white-space: normal;
+}
+.narrative-input input, .narrative-input textarea, .publish-box textarea {
+  font-size: max(16px, var(--ui-copy)) !important;
+}
+body.a11y-large-text .hero-copy h1, body.a11y-large-text .narrative-title { font-size: var(--ui-heading); }
+@media (max-width: 600px) {
+  body { --ui-pad: 16px; }
+  .dock { width: 88px; }
+  .hero-copy { padding: 16px 16px 12px; }
+  .panels { margin: 0 8px 8px; }
+  .panel-head { padding: 10px 16px; }
+}
+
+.source-card-section { margin: 20px 0; }
+.source-card-section h2, .method-heading { font-size: 18px; margin: 0 0 12px; }
+.source-card-section > p { margin-bottom: 12px; }
+.source-card-section .actions a, .client-card-intake button, .client-card-intake summary {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px;
+  font-size: var(--ui-control); line-height: 1.35; color: var(--clr-text);
+  background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 4px; cursor: pointer;
+}
+.client-card-intake { margin-top: 16px; }
+.client-card-intake form { padding: 16px; background: var(--clr-raised); border: 1px solid var(--clr-border); }
+.client-card-intake label { display: block; margin-bottom: 12px; }
+.client-card-intake input, .client-card-intake textarea { display: block; width: 100%; min-width: 0; margin-top: 8px; padding: 10px 12px; font-size: max(16px, var(--ui-copy)); background: var(--clr-surface); color: var(--clr-text); border: 1px solid var(--clr-border); }
+.client-card-intake textarea { resize: vertical; }
+.client-card-intake p { margin: 12px 0; }
