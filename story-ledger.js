@@ -22,7 +22,7 @@
       const post = { uri: p.uri, url: `https://bsky.app/profile/${encodeURIComponent(author.did)}/post/${encodeURIComponent(author.rkey)}`,
         authorDid: author.did, cid: version === 2 ? p.cid : null, cidSource: version === 2 ? 'selection' : null,
         createdAt: typeof p.createdAt === 'string' ? p.createdAt : null, selectedAt: version === 2 ? p.selectedAt : null,
-        embedding: version === 2 ? p.embedding : 'unknown', reply: p.reply === true, repost: p.repost === true,
+        embedding: version === 2 && p.embedding === 'disabled' ? 'disabled' : 'unknown', reply: p.reply === true, repost: p.repost === true,
         provenance: version === 2 ? 'v2-selection' : 'v1-degraded', availability: 'unchecked' };
       // v1 repost text is discarded even when its author happens to match the session.
       if (own && !(version === 1 && post.repost) && typeof p.text === 'string') post.text = p.text;

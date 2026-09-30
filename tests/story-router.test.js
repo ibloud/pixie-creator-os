@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const path = require('node:path');
 const ledger = require('../story-ledger');
 const api = require('../story-router');
+const consent = () => ({ basis: 'post-author-permission', evidence: 'Author permission message for this selected post', recordedAt: '2026-09-30T00:00:00Z' });
 const own = 'did:plc:own', other = 'did:plc:other';
 function post(did = own) { return { uri: `at://${did}/app.bsky.feed.post/key`, cid: 'bafy-original', authorDid: did, text: 'Selected words', createdAt: '2026-09-01T00:00:00Z', selectedAt: '2026-09-30T00:00:00Z', embedding: 'unknown' }; }
 function file(p = post()) { return { schemaVersion: 2, actor: { did: own, handle: 'ibloud.xyz' }, posts: [p] }; }
@@ -49,7 +50,7 @@ test('format matrix combines source restrictions, ownership and destination capa
   for (const embedding of ['unknown', 'disabled', 'allowed']) {
     const stranger = { ...ledger.importLedger(file(post(other))).posts[0], embedding };
     assert.deepEqual(api.allowedForms(stranger, d, { signedInDid: own }), embedding === 'allowed' ? ['reference', 'embed'] : ['reference']);
-    assert.deepEqual(api.allowedForms(stranger, d, { signedInDid: own, consent: true }), embedding === 'allowed' ? ['reference', 'embed', 'quote'] : ['reference']);
+    assert.deepEqual(api.allowedForms(stranger, d, { signedInDid: own, consent: consent() }), embedding === 'allowed' ? ['reference', 'embed', 'quote'] : ['reference']);
   }
   const s = story(); s.publish.router.sources[0].form = 'embed';
   assert.match(api.preview(s, d, { signedInDid: own }).sources[0].note, /not verified/);
@@ -60,7 +61,7 @@ test('Made Sick requires explicit publication consent even for a stranger refere
   const s = story(ledger.importLedger(file(post(other))).posts[0]);
   const d = api.fakeDestination({ id: 'made-sick.pckt.blog', consentFirst: true });
   assert.throws(() => api.preview(s, d, { signedInDid: own }), /consent/);
-  s.publish.router.sources[0].consent = true; assert.equal(api.preview(s, d, { signedInDid: own }).sources[0].form, 'reference');
+  s.publish.router.sources[0].consent = consent(); assert.equal(api.preview(s, d, { signedInDid: own }).sources[0].form, 'reference');
 });
 test('user destination overrides suggestions and receipt identifies the exact representation', async () => {
   const s = story(); s.suggestedDestination = 'pixie.pckt.blog';
@@ -117,4 +118,24 @@ test('cross-posting is a separate explicit intention and keeps earlier receipts'
   await router().publish(s, second, approval(s, second));
   assert.equal(s.publish.router.receipts.length, 2); assert.equal(s.publish.router.receipts[0].destination, 'first');
   s.publish.router.intent.status = 'unconfirmed'; assert.throws(() => api.startSeparateReshare(s), /Reconcile/);
+});
+
+test('imported allowed permission cannot unlock stranger embedding or quoting', () => {
+  const source = ledger.importLedger(file({ ...post(other), embedding: 'allowed', embeddingVerified: true }), { signedInDid: own }).posts[0];
+  assert.equal(source.embedding, 'unknown');
+  assert.deepEqual(api.allowedForms(source, api.fakeDestination(), { signedInDid: own, consent: consent() }), ['reference']);
+  assert.equal(ledger.importLedger(file({ ...post(other), embedding: 'disabled' })).posts[0].embedding, 'disabled');
+});
+test('consent needs post-specific basis, evidence and timestamp; directory enrollment is insufficient', async () => {
+  const s = story(ledger.importLedger(file(post(other))).posts[0]);
+  const d = api.fakeDestination({ consentFirst: true });
+  for (const invalid of [true, { ...consent(), basis: 'directory' }, { ...consent(), evidence: ' ' }, { ...consent(), recordedAt: 'invalid' }]) {
+    s.publish.router.sources[0].consent = invalid;
+    assert.throws(() => api.preview(s, d, { signedInDid: own }), /consent/);
+  }
+  s.publish.router.sources[0].consent = consent();
+  const payload = api.preview(s, d, { signedInDid: own });
+  assert.ok(!JSON.stringify(payload).includes(consent().evidence), 'Evidence must not enter public payload');
+  const result = await router().publish(s, d, approval(s, d));
+  assert.deepEqual(result.receipt.consentRecords[0], { uri: s.sources[0].uri, consent: consent() });
 });

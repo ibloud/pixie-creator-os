@@ -2,12 +2,17 @@
 (function (root) {
   'use strict';
   const clone = x => JSON.parse(JSON.stringify(x));
-  function allowedForms(source, destination, { signedInDid = '', consent = false } = {}) {
+  function hasPostConsent(consent) {
+    return Boolean(consent && typeof consent === 'object' && consent.basis === 'post-author-permission' &&
+      typeof consent.evidence === 'string' && consent.evidence.trim() &&
+      typeof consent.recordedAt === 'string' && Number.isFinite(Date.parse(consent.recordedAt)));
+  }
+  function allowedForms(source, destination, { signedInDid = '', consent = null } = {}) {
     let allowed = ['reference'];
     if (source.provenance === 'v2-selection' && source.cid && source.availability !== 'unavailable' && source.textStatus !== 'edited-since-selection') {
       const own = Boolean(signedInDid && source.authorDid === signedInDid);
       if (source.embedding !== 'disabled' && (own || source.embedding === 'allowed')) allowed.push('embed');
-      if (source.embedding !== 'disabled' && (own || (consent && source.embedding === 'allowed'))) allowed.push('quote');
+      if (source.embedding !== 'disabled' && (own || (hasPostConsent(consent) && source.embedding === 'allowed'))) allowed.push('quote');
     }
     return allowed.filter(form => destination.supports.includes(form));
   }
@@ -17,8 +22,8 @@
     if (!routing || !routing.sources?.length) throw new Error('Choose at least one source.');
     const sources = routing.sources.map(selection => {
       const source = story.sources.find(x => x.uri === selection.uri);
-      if (!source || !allowedForms(source, destination, { signedInDid, consent: selection.consent === true }).includes(selection.form)) throw new Error('This destination or source does not permit the selected format.');
-      if (destination.consentFirst && source.authorDid !== signedInDid && selection.consent !== true) throw new Error('This destination needs source publication consent.');
+      if (!source || !allowedForms(source, destination, { signedInDid, consent: selection.consent }).includes(selection.form)) throw new Error('This destination or source does not permit the selected format.');
+      if (destination.consentFirst && source.authorDid !== signedInDid && !hasPostConsent(selection.consent)) throw new Error('This destination needs source publication consent.');
       const item = { uri: source.uri, cid: source.cid, url: source.url, form: selection.form, provenance: source.provenance, cidSource: source.cidSource };
       if (selection.form === 'quote') {
         const text = source.authorDid === signedInDid ? source.text : selection.consentedText;
@@ -48,9 +53,10 @@
         if (approvedPreview !== snapshot) throw new Error('Review the current destination and exact public payload before confirming.');
         if (!destination.writable || typeof destination.put !== 'function' || typeof destination.lookup !== 'function') throw new Error('Destination is not writable. Export the preview for handoff.');
         const routing = story.publish.router;
+        const consentRecords = routing.sources.filter(x => hasPostConsent(x.consent)).map(x => ({ uri: x.uri, consent: clone(x.consent) }));
         let intent = routing.intent;
         if (intent && intent.snapshot !== snapshot) throw new Error('Resolve the earlier send before changing its payload or destination.');
-        if (!intent) routing.intent = intent = { key: newKey(), destination: destination.id, snapshot, payload: clone(payload), status: 'pending', startedAt: now() };
+        if (!intent) routing.intent = intent = { key: newKey(), destination: destination.id, snapshot, payload: clone(payload), status: 'pending', startedAt: now(), consentRecords };
         // Persist the intended key/payload before a remote write can happen.
         const saved = save(story);
         if (saved?.persistence !== 'PERSISTED') throw new Error('Story storage needs recovery. Export your work before sending.');
@@ -63,7 +69,7 @@
           intent.status = 'unconfirmed'; save(story);
           throw new Error('Send not confirmed. Retry the same intention to reconcile it. ' + error.message);
         }
-        const record = { destination: destination.id, key: intent.key, uri: receipt.uri, cid: receipt.cid, sentAt: now(), storySnapshot: snapshot, simulated: destination.simulated === true };
+        const record = { destination: destination.id, key: intent.key, uri: receipt.uri, cid: receipt.cid, sentAt: now(), storySnapshot: snapshot, consentRecords: clone(intent.consentRecords || []), simulated: destination.simulated === true };
         routing.receipts = routing.receipts || [];
         if (!routing.receipts.some(x => x.key === intent.key && x.destination === destination.id)) routing.receipts.push(record);
         intent.status = 'confirmed';
@@ -87,7 +93,7 @@
         return receipt;
       } };
   }
-  const api = { allowedForms, preview, startSeparateReshare, createRouter, fakeDestination };
+  const api = { hasPostConsent, allowedForms, preview, startSeparateReshare, createRouter, fakeDestination };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.PIXIE_STORY_ROUTER = api;
 })(globalThis);

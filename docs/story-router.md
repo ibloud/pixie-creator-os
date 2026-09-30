@@ -20,13 +20,19 @@ V2 sources retain `cidSource: selection`. Refresh preserves their original CID a
 
 ## Source representation and consent
 
-Allowed forms are the intersection of destination `supports` and source policy. Unknown/disabled embedding restricts strangers to references. Own sources with unknown permission can embed or quote, with an embedding warning in the preview; an explicit disabled setting blocks embed/quote even for own sources. Quoting someone else's words additionally needs explicit consent and separately supplied `consentedText`; imported stranger text is never reused. Made Sick destinations set `consentFirst` and require explicit source publication consent, including for references.
+Imported `allowed` is downgraded to `unknown`; imported `disabled` is retained as a restriction. Only a trusted Creator OS verification path may establish `allowed` later. Import ignores any purported verification flags from the file.
+
+Allowed forms are the intersection of destination `supports` and source policy. Unknown/disabled embedding restricts strangers to references. Own sources with unknown permission can embed or quote, with an embedding warning in the preview; an explicit disabled setting blocks embed/quote even for own sources. Consent is stored per selected source as `{basis: "post-author-permission", evidence, recordedAt}`. A checkbox alone is insufficient: basis, nonempty evidence, and a valid timestamp are required. Directory enrollment, including an `org.made-sick.participant` record, is not permission to reshare a particular post. Evidence remains in local Story selection, intention and receipt metadata and is excluded from the public payload. This records the human permission assertion; it does not automatically verify the evidence.
+
+Quoting someone else's words additionally needs explicit consent and separately supplied `consentedText`; imported stranger text is never reused. Made Sick destinations set `consentFirst` and require explicit source publication consent, including for references.
 
 The current UI deliberately offers references only because sign-in is absent. `preview` rechecks the selected destination and source restrictions each time. Input/destination changes invalidate UI approval. The representation separates creator context from source references or source-authored text.
 
 ## Publishing contract and recovery
 
-Adapters declare `id`, `supports`, `writable`, optional `consentFirst`, `lookup(key)`, and `put(key, payload)`. A real adapter must validate its destination identity, lexicon, write authority and protocol records; persist one preselected key using an idempotent write; and return `{uri, cid, snapshot}` matching the exact accepted payload. The generic router does not encode pckt record types.
+Adapters declare `id`, `supports`, `writable`, optional `consentFirst`, `lookup(key)`, and `put(key, payload)`. A real adapter must validate its destination identity, lexicon, write authority and protocol records; persist one preselected key using an idempotent write; and return `{uri, cid, snapshot}` matching the exact accepted payload. The generic router does not encode pckt record types. The default UUID is valid generic record-key syntax, not proof of destination compatibility. Before a live adapter, inspect its actual lexicon record-key requirement; inject a TID-generating `newKey` when TIDs are required. Generate once before the first attempt and preserve that key on retries.
+
+`com.atproto.repo.putRecord` returns `uri` and `cid`, not the router's `snapshot`. The live adapter must attach its locally frozen, exact serialized payload as `snapshot` after success. On lookup/recovery it must fetch and compare the accepted record to that intended payload before attaching a matching snapshot; it must not label any arbitrary record with the intended snapshot.
 
 The router stores the intention's key, destination, and frozen representation in existing Story storage **before** attempting a write. It refuses to write when storage is quarantined or memory-only. Lost responses stay `unconfirmed`; retry reconciles the same key through lookup and an idempotent put. It validates receipt shape and representation, prevents simultaneous sends for one Story, and deduplicates receipts. Receipt storage failures retain recovery data and report persistence separately from destination success.
 

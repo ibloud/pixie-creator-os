@@ -28,7 +28,11 @@
     sources.forEach(source => {
       const label = document.createElement('label'), input = document.createElement('input');
       input.type = 'checkbox'; input.value = source.uri; input.checked = selected.includes(source.uri);
-      input.addEventListener('change', invalidate);
+      input.addEventListener('change', () => {
+        $('router-consent').checked = false;
+        $('router-consent-evidence').value = '';
+        invalidate();
+      });
       label.append(input, ` ${source.authorDid} · ${source.createdAt || 'date unknown'} · ${source.provenance} · embedding ${source.embedding}`);
       const link = document.createElement('a'); link.href = source.url; link.textContent = 'Open source'; link.target = '_blank'; link.rel = 'noopener noreferrer';
       const row = document.createElement('div'); row.append(label, ' ', link); $('router-sources').append(row);
@@ -40,7 +44,7 @@
       const file = event.target.files[0]; if (!file) return;
       if (file.size > 5 * 1024 * 1024) throw new Error('Choose a ledger smaller than 5 MB.');
       const ledger = window.PIXIE_LEDGER.importLedger(await file.text());
-      sources = ledger.posts; story = null; renderSources();
+      sources = ledger.posts; story = null; $('router-consent').checked = false; $('router-consent-evidence').value = ''; renderSources();
       status(`${sources.length} sources imported into this tab. Reference-only: Creator OS sign-in is not connected. Selection does not grant publication consent.`);
     } catch (error) { sources = []; story = null; renderSources(); status(error.message); }
   });
@@ -52,17 +56,28 @@
     story.sources = sources;
     $('router-title').value = loaded.subject.title; $('router-context').value = loaded.publish.router.context || '';
     $('router-destination').value = loaded.publish.router.intent?.destination || '';
+    const consent = loaded.publish.router.sources.find(s => api.hasPostConsent(s.consent))?.consent;
+    $('router-consent').checked = Boolean(consent);
+    $('router-consent-evidence').value = consent?.evidence || '';
     renderSources(loaded.publish.router.sources.map(s => s.uri));
     status('Saved routing story loaded. Review again before simulation.');
   });
   function composition() {
-    const chosen = [...$('router-sources').querySelectorAll('input:checked')].map(x => ({ uri: x.value, form: 'reference', consent: $('router-consent').checked }));
+    const evidence = $('router-consent-evidence').value.trim();
+    if ($('router-consent').checked && !evidence) throw new Error('Record evidence of permission for the selected posts before previewing.');
+    const chosen = [...$('router-sources').querySelectorAll('input:checked')].map(x => {
+      const previous = story?.publish?.router?.sources.find(s => s.uri === x.value)?.consent;
+      const consent = $('router-consent').checked
+        ? (api.hasPostConsent(previous) && previous.evidence === evidence ? previous : { basis: 'post-author-permission', evidence, recordedAt: new Date().toISOString() })
+        : null;
+      return { uri: x.value, form: 'reference', consent };
+    });
     if (!story) story = model.create({ id: 'story-' + crypto.randomUUID(), subject: { type: 'PUBLIC_RESHARE', title: $('router-title').value }, sources, publish: { status: 'composing', router: { sources: [], context: '', receipts: [] } } });
     story.subject.title = $('router-title').value; story.sources = sources;
     story.publish.router.sources = chosen; story.publish.router.context = $('router-context').value;
     return story;
   }
-  ['router-title', 'router-context', 'router-destination', 'router-consent'].forEach(id => $(id).addEventListener('input', invalidate));
+  ['router-title', 'router-context', 'router-destination', 'router-consent', 'router-consent-evidence'].forEach(id => $(id).addEventListener('input', invalidate));
   $('router-separate').addEventListener('click', () => {
     invalidate();
     try { if (!story) throw new Error('Choose a routing story first.'); api.startSeparateReshare(story); status('Separate reshare started. Choose a destination and review again. Existing receipts remain.'); }
