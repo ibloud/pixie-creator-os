@@ -1,5 +1,13 @@
 # PIXIE funding strategy
 
+## Mission and capital boundary
+
+Loptr Lab is a pre-seed, people-over-profit, accessibility-first venture working toward a self-sustaining model within a capitalist economy. Money sustains the work; meaningful change for people is its purpose. We accept funding only on terms that keep people and accessibility first. Our long-term vision includes universal basic income. We aim to bring change to life and leave a transparent record of what we tried, what worked, and what failed so others can carry it forward. This mission governs our projects, funding decisions, and partnerships; it is not a temporary marketing position.
+
+Funding targets below are research and planning options, not evidence of commitments or a completed raise. Reject terms that require abandoning accessibility, extracting private participant data, or prioritizing investor returns over the people-first mission. Any capital agreement must be evaluated against this boundary before acceptance.
+
+Current open review and contribution opportunities are voluntary and unpaid. Before work begins, agree in writing on scope, time, what will be public, credit preferences, and an exit path. You can stop at any point. Participation does not promise employment, ownership, revenue share, academic credit, or future pay. Any paid commission or other formal arrangement requires a separate signed agreement before work begins. External assistance or benefits belong to the participant and are not compensation from Loptr Lab.
+
 ## What we are raising for
 
 PIXIE should be funded as a new creator medium / cultural intelligence workstation, not as a generic social scheduler and not as a DJ app with AI attached.
