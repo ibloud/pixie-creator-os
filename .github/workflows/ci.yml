@@ -33,3 +33,13 @@ jobs:
 
       - name: Run Story Router and ledger contract tests
         run: node --test tests/story-router.test.js
+
+
+      - name: Check creator session and optional viewer syntax
+        run: |
+          node --check session-model.js
+          node --check session.js
+          node --check streamplace.js
+          node --check app.js
+      - name: Test session consent and optional viewer lifecycle
+        run: node --test tests/session.test.js tests/streamplace.test.js

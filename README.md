@@ -119,3 +119,12 @@ ATProto authentication and real publishing remain disconnected. The current UI i
 ## Shared PIXIE pathways
 
 The [Device Stewardship example](https://ibloud.github.io/pixie-device-stewardship/) now provides consent-aware scenarios and an editable feedback draft. See [ecosystem responsibilities](https://github.com/ibloud/pixie-device-stewardship/blob/main/docs/ECOSYSTEM-COORDINATION.md) and the [shared hardware reference](https://github.com/ibloud/pixie-device-stewardship/blob/main/docs/HARDWARE-PATHWAYS.md) for iPad/iPhone, Intel/T2 Macs, Apple Silicon, Android, repair and recovery. AetherOS remains interaction inspiration; the existing Streamplace embed is optional viewing, not a configured broadcast service. Hardware support still requires task-specific device evidence.
+
+
+## Local creator-session pilot
+
+[Open the creator-session page](https://ibloud.github.io/pixie-creator-os/session.html). Select local audio or skip it, name the session, write or skip a next-step note, pause/resume, review the exact record, confirm, then download or copy JSON. Import restores the stable session ID as a draft requiring fresh review. Audio and source-file names/paths are excluded. No browser persistence, automatic vault writes, transcription, translation, reminders, publication or hardware input is added by this pilot.
+
+Both workstation Streamplace tiles now use one optional viewer module: strict domain handles, explicit external-contact disclosure, no handle persistence, no-referrer, removal on edit and a Remove player control. Requesting an iframe does not verify a live stream.
+
+See [session contract and device checks](docs/creator-session.md). These features remain pre-alpha; automated checks do not establish iPad Safari, VoiceOver, Files or Cyber-G behavior.
