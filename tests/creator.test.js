@@ -56,3 +56,18 @@ test('public output stays plain text and omits blank optional fields', () => {
   assert.ok(M.sharingText(s).startsWith('<script>'));
   assert.ok(!M.sharingText(s).includes('Accessibility description:'));
 });
+test('accessibility text stays separate from captions and survives draft recovery', () => {
+  const s = M.edit(ready(), { description: 'A guitarist sits beside a window.' });
+  assert.equal(M.accessibilityText(s), s.description);
+  assert.ok(!M.sharingText(s).includes(s.description));
+  assert.equal(M.accessibilityText(M.validate(M.exportDraft(s))), s.description);
+  assert.throws(() => M.edit(s, { description: 'x'.repeat(2001) }));
+  assert.throws(() => M.requireConfirmed(M.edit(M.confirm(M.review(s, false)), { description: 'Revised description' })));
+});
+test('caption starters do not mutate custom work or claim rights', () => {
+  const s = ready();
+  assert.match(M.captionSuggestion(s, 'feedback'), /Original work/);
+  assert.match(M.captionSuggestion(s, 'process'), /\[add/);
+  assert.equal(s.caption, 'Listen with me');
+  assert.equal(M.create('empty').rights, false);
+});
