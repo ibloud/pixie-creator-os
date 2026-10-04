@@ -3,7 +3,7 @@
   "short_name": "PIXIE",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#050605",
-  "theme_color": "#050605",
-  "description": "Accessible local DJ creator workstation prototype."
+  "background_color": "#141619",
+  "theme_color": "#17191d",
+  "description": "Local-first artist workspace for preparing, reviewing and manually sharing creative work."
 }

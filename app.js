@@ -170,9 +170,9 @@ function startMeterLoop() {
     if (aPlaying) setPosition('a', aOff);
     if (bPlaying) setPosition('b', bOff);
 
-    // fake VU: random flicker when playing
-    const lVal = aPlaying ? 30 + Math.random() * 60 : 0;
-    const rVal = bPlaying ? 30 + Math.random() * 60 : 0;
+    // Binary playback activity; these are not signal level meters.
+    const lVal = aPlaying ? 100 : 0;
+    const rVal = bPlaying ? 100 : 0;
     if (mL) mL.style.width = lVal + '%';
     if (mR) mR.style.width = rVal + '%';
 
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const eqVal = parseInt(document.getElementById('eq')?.value ?? 55);
       playDeck('b', eqVal);
     }
-    if (notice) notice.textContent = 'SYNCED · DECK B ALIGNED TO DECK A';
+    if (notice) notice.textContent = 'POSITION ALIGNED · NOT TEMPO SYNC';
   });
 
   // ── MIXER CONTROLS
@@ -496,7 +496,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── KEYBOARD SHORTCUTS
   document.addEventListener('keydown', e => {
-    if (e.target.tagName === 'INPUT') return;
+    if (e.target.closest('input,textarea,select,button,a,[contenteditable]')) return;
+    if (document.getElementById('panel-deck')?.hidden) return;
     if (e.code === 'Space') {
       e.preventDefault();
       document.querySelector('[data-action="play"]')?.click();

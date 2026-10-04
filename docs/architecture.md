@@ -1,6 +1,10 @@
 # PIXIE Creator OS — creator control-room architecture
 
-## Product model
+## Default workflow (v0.2)
+
+`index.html` provides My work, Prepare, Share, and Connections. `tools.html` preserves the pre-alpha research/DJ surface and its storage seams. `creator-model.js` defines a portable local draft with stable `pixie_id`; `creator.js` owns ephemeral selected media and object URLs. No media or credentials are serialized. Manual handoff is an artist action in an external service, not an authenticated adapter write. See [ADR 002](adr-002-artist-workflow.md).
+
+## Preserved workstation model
 
 PIXIE Creator OS is a browser-native creator workstation for a social-network DJ. It treats the browser as the shell, not as a fake replacement for an operating system or DJ controller.
 
