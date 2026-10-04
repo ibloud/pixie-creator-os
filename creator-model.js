@@ -36,7 +36,14 @@
     return { ...next, revision: s.revision + 1 };
   }
   function sharingText(s) {
-    return [s.title.trim(), s.caption.trim(), s.link.trim(), s.credits.trim() ? 'Credits and rights: ' + s.credits.trim() : '', s.description.trim() ? 'Accessibility description: ' + s.description.trim() : ''].filter(Boolean).join('\n\n');
+    return [s.title.trim(), s.caption.trim(), s.link.trim(), s.credits.trim() ? 'Credits and rights: ' + s.credits.trim() : ''].filter(Boolean).join('\n\n');
+  }
+  function accessibilityText(s) { return s.description.trim(); }
+  function captionSuggestion(s, kind) {
+    const subject = s.title.trim() || 'this piece';
+    if (kind === 'feedback') return 'I would love your feedback on ' + subject + '. What stands out to you?';
+    if (kind === 'process') return 'Behind ' + subject + ': [add what you tried, learned, or changed].';
+    return 'Sharing ' + subject + '. [Add what you would like people to know.]';
   }
   function review(s, hasMedia) {
     if (!s.title.trim()) throw new Error('Give your work a title in Prepare');
@@ -66,7 +73,7 @@
     for (const key of Object.keys(limits)) out[key] = s[key];
     return { ...out, rights: s.rights, destination: s.destination, receipts: s.receipts.map(r => ({ ...r })), mediaIncluded: false, publication: 'manual; not independently verified' };
   }
-  const api = { create, validate, edit, review, confirm, requireConfirmed, sharingText, recordPublication, exportDraft, https };
+  const api = { create, validate, edit, review, confirm, requireConfirmed, sharingText, accessibilityText, captionSuggestion, recordPublication, exportDraft, https };
   root.PixieCreator = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window === 'undefined' ? globalThis : window);

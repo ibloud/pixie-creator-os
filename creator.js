@@ -23,6 +23,10 @@
     $('handoff-block').hidden = !confirmed;
     $('confirm').disabled = confirmed;
     $('public-preview').value = reviewed ? M.sharingText(state) : '';
+    $('accessibility-preview').value = reviewed ? M.accessibilityText(state) : '';
+    $('copy-description').disabled = !state.description.trim();
+    $('description-count').textContent = state.description.length + ' / 2000 text units. Keep it as short as the work needs; check the destination’s limit.';
+    $('caption-suggestion').textContent = M.captionSuggestion(state, $('caption-style').value);
     $('publication-link').value = '';
     const repurpose = state.destination === 'repurpose';
     $('destination-help').textContent = repurpose ? 'Upload media to your chosen supported source, such as Dropbox. Then choose its workflow in Repurpose. PIXIE is not connected to that account.' : 'Finish in Bluesky: paste your text, attach your media, set accessibility descriptions, and review before posting. PIXIE is not signed in.';
@@ -62,6 +66,11 @@
     render(); tell('Draft changed. Review again before sharing.');
   });
   $('rights').addEventListener('change', () => { state.rights = $('rights').checked; invalidate('Permission choice changed. Review again.'); });
+  $('caption-style').addEventListener('change', render);
+  $('use-caption').addEventListener('click', () => {
+    state.caption = M.captionSuggestion(state, $('caption-style').value); $('caption').value = state.caption;
+    invalidate('Caption template applied. Edit its placeholders and review again.');
+  });
   $('destination').addEventListener('change', () => run(() => { state.destination = $('destination').value; invalidate('Destination changed. Review again.'); }));
   $('media-file').addEventListener('change', () => {
     const file = $('media-file').files[0]; if (!file) return;
@@ -89,6 +98,11 @@
     catch { $('public-preview').focus(); $('public-preview').select(); tell('Copy unavailable. Select and copy the preview, or download the text.'); }
   });
   $('download-text').addEventListener('click', () => run(() => { M.requireConfirmed(state); download(new Blob([M.sharingText(state)], { type: 'text/plain;charset=utf-8' }), state.pixie_id + '-share.txt'); }));
+  $('copy-description').addEventListener('click', async () => {
+    const revision = state.revision;
+    try { M.requireConfirmed(state); await navigator.clipboard.writeText(M.accessibilityText(state)); if (state.revision === revision) tell('Accessibility description copied. Paste it into the media accessibility field in your destination.'); }
+    catch { $('accessibility-preview').focus(); $('accessibility-preview').select(); tell('Copy unavailable. Select and copy the accessibility preview.'); }
+  });
   $('download-media').addEventListener('click', () => run(() => { M.requireConfirmed(state); if (!media) throw new Error('Select media again'); download(media, media.name); }));
   $('record-publication').addEventListener('click', () => run(() => { state = M.recordPublication(state, $('publication-link').value, new Date().toISOString()); pendingImport++; render(); tell('Publication link recorded by you; not independently verified. Download the draft to keep it.'); }));
   $('download-draft').addEventListener('click', () => run(() => { M.validate(M.exportDraft(state)); download(new Blob([JSON.stringify(M.exportDraft(state), null, 2)], { type: 'application/json' }), state.pixie_id + '-draft.json'); }));
@@ -107,5 +121,6 @@
   $('reset-yes').addEventListener('click', () => { pendingImport++; clearMedia(); state = M.create(makeId()); syncFields(); render(); $('draft-file').value = ''; $('reset-confirm').hidden = true; navigate('work'); tell('Workspace cleared from this tab. Existing files and downloads remain untouched.'); });
   window.addEventListener('pagehide', () => { const player = $('media-preview').querySelector('audio,video'); if (player) player.pause(); });
   window.addEventListener('beforeunload', e => { if (state.title || state.caption || state.credits || state.link || state.description || media || state.receipts.length) { e.preventDefault(); e.returnValue = ''; } });
+  window.PixieStreamplace.mount($('streamplace-creator'));
   syncFields(); render(); navigate(location.hash.slice(1) || 'work');
 })();

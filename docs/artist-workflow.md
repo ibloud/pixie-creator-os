@@ -5,7 +5,7 @@
 1. Open `index.html`. Select an audio/video/image file, or continue to Prepare with a public work link.
 2. Add title, caption, credits and rights, and an accessibility description. Confirm that you own or have permission to share the selected work and public details.
 3. Choose Bluesky or Repurpose in Share. Review the exact plain text and confirm the current handoff.
-4. Copy or download text; optionally download the original selected media. Open the chosen service and finish there.
+4. Copy or download sharing text; copy the separate accessibility description into the destination media field. Optionally download the original selected media. Open the chosen service and finish there.
 5. Optionally record the resulting public HTTPS link. It is user-reported, not fetched or verified.
 6. Download a draft before closing/reloading. Import it later to restore text, identity and reported links; select media again and review again.
 
@@ -54,3 +54,9 @@ node --test tests/source-cards.test.js tests/story-router.test.js tests/session.
 ```
 
 For browser acceptance, perform the steps above; edit the caption after confirmation and ensure the handoff disappears. Select Repurpose without media and ensure review is refused. Export/import a draft and ensure identity survives, media must be reselected, and no confirmation is restored. Submit a malformed import and ensure the current work survives. Repeat on the physical iPad before marking that device verified.
+
+## Caption and viewing support
+
+Caption starters are local editable templates, not AI output. Applying one explicitly replaces the current caption and invalidates review. Accessibility descriptions remain in portable drafts but are excluded from sharing text. The separate reviewed description can be copied after confirmation; 2000 text units is a workspace maximum, not a minimum or a guarantee of destination compatibility. Rights confirmation is the artist’s statement, not sample clearance.
+
+Connections now includes the existing optional Streamplace viewer. No embed loads until Load player; editing the handle or Remove player disconnects it. This does not add broadcasting, authentication or proof that a stream exists.
