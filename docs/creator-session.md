@@ -32,3 +32,12 @@ Do not mark a feature device-verified because CI passes. Record export failures 
 ## Local preview observations
 
 October 4, 2026, cloud Chromium HTTP preview: session named; test note skipped and absent from JSON; confirmation enabled download; editing disabled it; pause disabled editing and resume/clear worked. Initial preview exposed lack of `crypto.randomUUID` on an insecure origin; the ID generator was corrected and the flow retested successfully. This preview result does not verify deployed Pages, actual audio-file import, Files downloads/reimport, VoiceOver or iPad Safari.
+
+
+## Equipment-practice handoff · 2026-10-04
+
+The session page now links to the optional Tarantula/Music-code MIDI exercise in a separate tab, preserving the current in-memory session. The external exercise owns learned MIDI inputs. Creator OS remains free of microphone/MIDI/health permissions: local audio selection and manual next-step notes use the existing reviewed session schema and stable PIXIE identity.
+
+A Tula recording can be selected as audio after the user exports it from their chosen app. Shure/AirPods listening and Apple accessibility controls are configured on the host. No sound route or health settings are read or changed here. Mapping/test JSON is not accepted as a Creator OS session/draft file; users keep it separately and may manually summarize their next step. [Equipment, accessibility and physical validation guide](https://github.com/ibloud/tarantula-clone-hero/blob/main/docs/CONTROLLER-LAB.md).
+
+This adds navigation and guidance only. There is no automatic transfer, device verification, health record, authentication or publication. Codex assisted the change.
