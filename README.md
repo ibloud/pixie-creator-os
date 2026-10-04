@@ -115,3 +115,7 @@ The next stable version requires explicit source contracts, verification states,
 Import Story Finder ledger v2 (or degraded v1) from Files in the Atmosphere panel. Select references, choose a simulation destination, add context, preview, and confirm a local simulation. Intentions and simulated receipts use the existing Story Engine storage/recovery path. Destination changes require a new preview; separate resharing preserves prior receipts.
 
 ATProto authentication and real publishing remain disconnected. The current UI is reference-only; the contract tests exercise identity-aware embed/quote rules, consent, capabilities, and idempotent retry with fake adapters. See [the Story Router contract and pilot order](docs/story-router.md).
+
+## Shared PIXIE pathways
+
+The [Device Stewardship example](https://ibloud.github.io/pixie-device-stewardship/) now provides consent-aware scenarios and an editable feedback draft. See [ecosystem responsibilities](https://github.com/ibloud/pixie-device-stewardship/blob/main/docs/ECOSYSTEM-COORDINATION.md) and the [shared hardware reference](https://github.com/ibloud/pixie-device-stewardship/blob/main/docs/HARDWARE-PATHWAYS.md) for iPad/iPhone, Intel/T2 Macs, Apple Silicon, Android, repair and recovery. AetherOS remains interaction inspiration; the existing Streamplace embed is optional viewing, not a configured broadcast service. Hardware support still requires task-specific device evidence.
