@@ -1,3 +1,5 @@
+> v0.2 artist workflow: the default entry point is now the local preparation/manual-sharing workspace; the workstation checks below apply to `tools.html`. See [the artist workflow and its device validation limits](artist-workflow.md). No verified stable tag or live publishing is asserted.
+
 # Current verification status and story work
 
 Status as of September 27, 2026. This is a status record and proposed work order, not a release completion record or an implementation of live beats.

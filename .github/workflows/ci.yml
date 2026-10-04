@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_call:
   push:
     branches: ["main", "feat/interoperability-layer"]
   pull_request:
@@ -43,3 +44,10 @@ jobs:
           node --check app.js
       - name: Test session consent and optional viewer lifecycle
         run: node --test tests/session.test.js tests/streamplace.test.js
+
+      - name: Check focused artist workspace syntax
+        run: |
+          node --check creator-model.js
+          node --check creator.js
+      - name: Test artist review, handoff and recovery contracts
+        run: node --test tests/creator.test.js

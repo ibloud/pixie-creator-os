@@ -11,11 +11,11 @@ Financial support is optional and sustains infrastructure, maintenance, accessib
 [Full mission and participation terms](https://github.com/ibloud/ibloud.github.io/blob/main/MISSION.md).
 
 
-A browser-native DJ and creator workstation inspired by Aether OS and Ubuntu Studio, with AT Protocol as the social/identity layer.
+A local-first artist workspace for preparing creative work, reviewing public context, and handing it off to the service the artist chooses. Research and DJ demonstrations remain available in [additional tools](tools.html).
 
 ## Direction
 
-PIXIE Creator OS is designed for a social-network DJ: prepare sets, manage a crate, publish audio through plyr.fm, connect social identity through AT Protocol, monitor live/stream state, and keep hardware/audio routing visible.
+The default workflow is **My work → Prepare → Share**, with **Connections** explaining optional external services. It supports local audio/video/image previews, public references, caption/credits/accessibility text, reviewed manual handoffs to Bluesky or Repurpose, and self-reported publication links. It does not replace the artist’s DAW, OBS, or distribution services.
 
 ### Product ownership
 
@@ -32,17 +32,28 @@ PIXIE Creator OS is a Loptr Lab / Dominique Devereaux product. Charlie J is not 
 
 ## Current build boundary
 
-The public build is a pre-alpha demonstration. Release 1 fixes were merged into `main`; automated checks and deployment passed at that merge, but browser and iPad Safari recovery checks remain open. This is not a verified stable release. See [the verification status and next steps](docs/current-verification-status.md). External integrations are not claimed as connected.
+The v0.2 local workflow is the default entry point. The older pre-alpha workstation is preserved at `tools.html`. Direct publishing, account authentication, recording, and automatic distribution remain disconnected. Drafts are kept in memory until explicitly downloaded; re-import preserves `pixie_id` and requires fresh review. Desktop browser observations and device validation limits are recorded in [the artist workflow contract](docs/artist-workflow.md). A passing CI or deployment does not establish iPad Safari, Files, VoiceOver, or live service verification.
 
 **Stable pre-alpha handoff:** see [docs/stable-prealpha-handoff.md](docs/stable-prealpha-handoff.md). This is the continuity contract for future maintainers: it preserves the distinction between code, runtime behavior, external reality, narrative material, and proposed work, and defines the rules for strings, identity, provenance, and time-bound observations.
 
-### Working now
+### Default artist workflow
+
+- Select and preview local audio, video or image media; no upload or remote fetch.
+- Prepare a title, caption, credits/rights, public link and accessibility description.
+- Review and confirm the current text before copying/downloading a manual handoff.
+- Save and re-import a portable draft; media bytes, filenames, local paths and credentials are excluded.
+- Record user-reported publication links without claiming external delivery.
+- Open chosen services explicitly; Repurpose requires media in a supported source, not a PIXIE JSON file.
+
+See [ADR 002](docs/adr-002-artist-workflow.md) and [workflow and verification](docs/artist-workflow.md).
+
+### Additional tools (preserved pre-alpha)
 
 - Accessible retro desktop shell with keyboard navigation and visible focus.
 - Skip navigation and reduced-motion support.
 - Local crate with five demonstration tracks.
 - Local dual-deck Web Audio playback from user-selected audio files.
-- Local EQ, crossfader, and master controls with live value feedback.
+- Local EQ, crossfader, and master controls with value feedback; deck activity indicators are not signal-level meters.
 - Accessible panel switching with focus moved to the active panel heading.
 - Explicit local/native capability status UI.
 - Browser-safe JavaScript bridge boundary for the native iOS/iPadOS shell.

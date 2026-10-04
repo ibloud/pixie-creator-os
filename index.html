@@ -1,221 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111214">
-  <meta name="description" content="PIXIE Creator OS — narrative cultural intelligence workstation for DJs and independent creators.">
-  <meta property="og:title" content="PIXIE Creator OS — Narrative Workbench">
-  <meta property="og:description" content="A narrative cultural-intelligence workstation for DJs and independent creators.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ibloud.github.io/pixie-creator-os/">
-  <meta property="og:image" content="https://ibloud.github.io/pixie-creator-os/assets/social-preview.jpg">
-  <meta property="og:image:width" content="1024">
-  <meta property="og:image:height" content="572">
-  <meta property="og:image:alt" content="PIXIE Creator OS narrative workbench artwork">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://ibloud.github.io/pixie-creator-os/assets/social-preview.jpg">
-  <link rel="manifest" href="manifest.webmanifest">
-  <title>PIXIE Creator OS // Narrative Workbench</title>
-  <link rel="stylesheet" href="styles.css?v=20260925-1">
-  <link rel="stylesheet" href="narrative.css">
-  <link rel="stylesheet" href="accessibility.css">
-  <link rel="stylesheet" href="theme-comfort.css">
-  <link rel="stylesheet" href="readability-theme.css">
-  <link rel="stylesheet" href="interoperability.css">
-  <link rel="stylesheet" href="storage.css">
-  <link rel="stylesheet" href="creator-constitution.css">
-  <link rel="stylesheet" href="recon/recon.css?v=20260919-2">
-  <link rel="stylesheet" href="network-intelligence.css">
-<link rel="stylesheet" href="story-router.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17191d"><meta name="description" content="Prepare your creative work, review its context, and choose where to share it. A local-first PIXIE workspace.">
+<meta property="og:title" content="PIXIE — Your work, ready to share"><meta property="og:description" content="A focused, local-first workspace for artists. Prepare, review, and hand off on your terms."><meta property="og:type" content="website"><meta property="og:url" content="https://ibloud.github.io/pixie-creator-os/"><meta property="og:image" content="https://ibloud.github.io/pixie-creator-os/assets/social-preview.jpg">
+<title>PIXIE — Creator workspace</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="creator.css">
 </head>
 <body>
-  <a class="skip-link" href="#workspace">Skip to PIXIE workspace</a>
-  <main class="os" aria-label="PIXIE Creator OS">
-    <header class="topbar">
-      <div class="brand"><span class="orb" aria-hidden="true"></span><div><strong>PIXIE</strong><small>CREATOR OS</small></div></div>
-      <div class="session"><span class="live-dot" aria-hidden="true"></span> LOCAL SESSION <b id="clock" aria-label="Current local time">--:--:--</b></div>
-      <span class="status status-static">CULTURAL INTELLIGENCE</span>
-    </header>
-    <section class="workspace" id="workspace" aria-label="PIXIE workspace">
-      <nav class="dock" aria-label="PIXIE applications">
-        <button class="dock-app active" data-panel="radar" type="button" aria-controls="panel-radar" aria-pressed="true" aria-current="page">RADAR<span>HOME</span></button>
-        <button class="dock-app" data-panel="crate" type="button" aria-controls="panel-crate" aria-pressed="false">LIBRARY<span>CRATE</span></button>
-        <button class="dock-app" data-panel="deck" type="button" aria-controls="panel-deck" aria-pressed="false">PLAYER<span>MUSIC</span></button>
-        <button class="dock-app" data-panel="projects" type="button" aria-controls="panel-projects" aria-pressed="false">PROJECTS<span>STUDIO</span></button>
-        <button class="dock-app" data-panel="native" type="button" aria-controls="panel-native" aria-pressed="false">DEVICES<span>NATIVE</span></button>
-        <button class="dock-app" data-panel="system" type="button" aria-controls="panel-system" aria-pressed="false">SYSTEM<span>STATUS</span></button>
-        <button class="dock-app" data-panel="interop" type="button" aria-controls="panel-interop" aria-pressed="false">SYNC<span>INTEROP</span></button>
-        <button class="dock-app" data-panel="control" type="button" aria-controls="panel-control" aria-pressed="false">CONTROL<span>ROOM</span></button>
-        <button class="dock-app" data-panel="atmosphere" type="button" aria-controls="panel-atmosphere" aria-pressed="false">WORLDS<span>ATMOSPHERE</span></button>
-        
-      </nav>
-      <section class="desktop" aria-label="PIXIE desktop">
-        <div class="desktop-grid" aria-hidden="true"></div>
-        <div class="hero-copy">
-          <p><a href="session.html">Start a local creator session: listen, leave a next step, review and export →</a></p>
-          <p class="eyebrow">PIXIE / CREATOR CONTROL ROOM</p>
-          <h1>THE WORLD IS LOUD.<br><em>MAKE SOMETHING WORTH NOTICING.</em></h1>
-          <p>One workspace for your library, player, projects and publishing pipeline. Human-readable names live in the workspace; stable PIXIE IDs keep files, services and identities connected.</p>
-        </div>
-        <div class="meters" aria-label="Live audio meters"><div><span>MUSIC A</span><i aria-hidden="true"><b id="meterL"></b></i></div><div><span>MUSIC B</span><i aria-hidden="true"><b id="meterR"></b></i></div></div>
-        <div class="panels">
-          <article class="panel" id="panel-deck" aria-labelledby="deck-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="deck-title">PLAYER // LOCAL FILE PLAYBACK</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="decks"><div class="deck" data-deck="a" aria-label="Music deck A"><div class="deck-label">A <small>LOCAL</small></div><div class="platter" aria-hidden="true"><span></span></div><strong id="trackA">NO TRACK LOADED</strong><div class="deck-meta" id="posA">POSITION 00:00</div><div class="deck-meta" id="durA"></div><button class="action" data-action="load-a" type="button">LOAD FILE</button></div><div class="mixer" aria-label="Mixer controls"><div><label for="eq">EQ <output id="eqValue">55%</output></label><input id="eq" type="range" min="0" max="100" value="55"></div><div><label for="fader">XFADE <output id="faderValue">50%</output></label><input id="fader" type="range" min="0" max="100" value="50"></div><div><label for="master">MASTER <output id="masterValue">78%</output></label><input id="master" type="range" min="0" max="100" value="78"></div></div><div class="deck" data-deck="b" aria-label="Music deck B"><div class="deck-label">B <small>LOCAL</small></div><div class="platter second" aria-hidden="true"><span></span></div><strong id="trackB">NO TRACK LOADED</strong><div class="deck-meta" id="posB">POSITION 00:00</div><div class="deck-meta" id="durB"></div><button class="action" data-action="load-b" type="button">LOAD FILE</button></div></div><div class="transport"><button data-action="cue" type="button">CUE</button><button data-action="play" type="button" aria-pressed="false">▶ PLAY</button><button data-action="sync" type="button">SYNC</button><span>A/B KEYS SELECT SOURCE · SPACE PLAY</span></div><section class="stream-controller" aria-labelledby="stream-title">
-  <div class="stream-head">
-    <div><small>CONNECTED SERVICE // SPOTIFY EMBEDS API</small><h3 id="stream-title">STREAM CONTROLLER</h3></div>
-    <span id="spotifyApiState" class="stream-state">API LOADING</span>
-  </div>
-  <p class="stream-note">Paste a public Spotify track, album, playlist, or episode URL. PIXIE sends the URL to Spotify's official embed player; no Spotify credentials are stored here.</p>
-  <div class="stream-load">
-    <label for="spotifyUrl">SPOTIFY URL OR URI</label>
-    <div><input id="spotifyUrl" type="url" inputmode="url" placeholder="https://open.spotify.com/track/…" autocomplete="off"><button id="spotifyLoad" type="button">LOAD STREAM</button></div>
-  </div>
-  <div id="spotifyEmbed" class="spotify-embed" aria-label="Spotify stream player"></div>
-  <div class="stream-transport" aria-label="Spotify stream controls">
-    <button id="spotifyToggle" type="button" disabled>▶ PLAY / PAUSE</button>
-    <button id="spotifyRestart" type="button" disabled>↺ RESTART</button>
-    <button id="spotifyDemo" type="button">LOAD API DEMO</button>
-    <output id="spotifyPlayback" aria-live="polite">NO STREAM LOADED</output>
-  </div>
-</section></article>
-          <article class="panel" id="panel-crate" aria-labelledby="crate-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="crate-title">LIBRARY // CREATOR MEDIA</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="crate-list" id="crateList"></div><p class="panel-note">Sources can be local or connected. The filename is never the canonical identity.</p></article>
-          <article class="panel" id="panel-projects" aria-labelledby="projects-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="projects-title">PROJECTS // CREATOR WORKSPACE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="service-card"><span class="service-icon">01</span><div><h2>NIGHT BUS</h2><p>Workspace-owned project metadata can live in an Obsidian vault while assets retain machine-safe paths.</p></div><span class="tag">OBSIDIAN</span></div><div class="record-grid"><div><small>PROJECTS</small><strong>01</strong></div><div><small>WORKSPACE</small><strong>OBSIDIAN</strong></div><div><small>IDENTITY</small><strong>PIXIE ID</strong></div></div></article>
-          <article class="panel" id="panel-native" aria-labelledby="native-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="native-title">DEVICES // NATIVE CAPABILITY GATE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="capability-intro"><strong>NATIVE SHELL READY · STORAGE ROUTER AVAILABLE</strong><p>Native capabilities remain unavailable until their matching API, permission, entitlement, and service configuration are connected.</p></div><div class="capability-grid" id="capabilityGrid"></div></article>
-          <article class="panel" id="panel-system" aria-labelledby="system-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="system-title">SYSTEM // IMPLEMENTATION STATUS</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="system-grid"><div><small>PRODUCT</small><strong>PIXIE / LOPTR LAB</strong></div><div><small>BUILD</small><strong>PRE-ALPHA</strong></div><div><small>WORKSTATION</small><strong>CREATOR CONTROL ROOM</strong></div><div><small>AUDIO ENGINE</small><strong>WEB AUDIO API</strong></div><div><small>WORKSPACE</small><strong>OBSIDIAN FIRST</strong></div><div><small>STORAGE IDENTITY</small><strong>PIXIE ID</strong></div><div><small>FILESYSTEM</small><strong>MACHINE SAFE</strong></div><div><small>FALLBACK</small><strong>WRITABLE PDS</strong></div><div><small>STORY MODEL</small><strong>INK-COMPATIBLE FLOW</strong></div><div><small>SOURCE MEMORY</small><strong>LOCAL ADAPTER · ARCHIVEBOX READY</strong></div><div><small>AT PROTOCOL</small><strong>PLANNED</strong></div><div><small>PLYR.FM</small><strong>PLANNED</strong></div><div><small>MIXXX BRIDGE</small><strong>PLANNED</strong></div></div><p class="panel-note">Loptr Lab is a pre-seed, people-over-profit, accessibility-first venture working toward a self-sustaining model within a capitalist economy. Money sustains the work; meaningful change for people is its purpose. We accept funding only on terms that keep people and accessibility first. Our long-term vision includes universal basic income. We aim to bring change to life and leave a transparent record of what we tried, what worked, and what failed so others can carry it forward. This mission governs our projects, funding decisions, and partnerships; it is not a temporary marketing position.</p><p class="panel-note">Current open review and contribution opportunities are voluntary and unpaid. Before work begins, agree in writing on scope, time, what will be public, credit preferences, and an exit path. You can stop at any point. Participation does not promise employment, ownership, revenue share, academic credit, or future pay. Any paid commission or other formal arrangement requires a separate signed agreement before work begins. External assistance or benefits belong to the participant and are not compensation from Loptr Lab.</p><p class="panel-note"><a href="https://github.com/ibloud/ibloud.github.io/blob/main/MISSION.md">Read the full mission and participation terms</a></p></article>
-          <article class="panel recon-panel" id="panel-recon" aria-labelledby="recon-title" hidden aria-hidden="true">
-  <div class="panel-head recon-panel-head">
-    <div>
-      <span class="recon-brandline">PIXIE // RECON</span>
-      <h2 id="recon-title">SIGNAL CONTROL ROOM</h2>
-    </div>
-    <div class="recon-head-status"><span class="recon-pulse" aria-hidden="true"></span> DEMO MODE · LOCAL ONLY <button class="close-panel" type="button" aria-label="Return to Home">×</button></div>
-  </div>
-  <div class="recon-page">
-    <section class="recon-hero">
-      <div class="signal-art" aria-hidden="true">
-        <div class="signal-art-noise"></div><div class="signal-art-head"></div>
-        <div class="signal-art-hair"></div><div class="signal-art-headphones"></div><div class="signal-art-mic"></div>
-      </div>
-      <div class="signal-copy">
-        <p class="recon-kicker">SIGNAL // AI RADIO HOST</p>
-        <div class="signal-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <blockquote>“Welcome back, wanderer.<br>I've identified one item that requires review.”</blockquote>
-        <p class="signal-body">NOVA RAE is ready for your decision. I scan the noise, find the signal, and keep you connected to what matters. External crawling and broadcast remain offline in this demonstration.</p>
-        <button id="reconLaunchDemo" class="recon-primary signal-primary" type="button">START RECON DEMO <span>→</span></button>
-      </div>
-      <aside class="recon-target-card" aria-labelledby="recon-target-title">
-        <div class="recon-target-label">CURRENT TARGET</div><h3 id="recon-target-title">NOVA RAE</h3>
-        <div class="target-confidence">CONFIDENCE <strong>87%</strong></div>
-        <p><b>WHY IT MATTERS</b><br>3 collaborator links detected.</p>
-        <div class="target-risk">RISK · REVIEW</div><div class="target-action">NEXT · HUMAN REVIEW</div>
-      </aside>
-    </section>
-    <div class="recon-signal-narration" role="status" aria-live="polite"><span>SIGNAL</span><p>I've identified one item that requires review. NOVA RAE is ready for your decision.</p></div>
-
-    <section class="recon-process-section">
-      <div class="recon-section-title">
-        <div><h3>THE RECON PROCESS</h3><p>FOLLOW THE TARGET · THE WORKFLOW IS SECONDARY UNTIL A DECISION IS REQUIRED.</p></div>
-        <span>REAL-TIME INTELLIGENCE.<br>HUMAN CONTROL.</span>
-      </div>
-      <div class="recon-process">
-        <article><b>01</b><strong>DRAFT</strong><p>Add an artist, link, or drop.</p></article>
-        <span class="process-arrow">→</span>
-        <article><b>02</b><strong>QUEUED</strong><p>Ingested and queued for scan.</p></article>
-        <span class="process-arrow">→</span>
-        <article class="process-sweep"><b>03</b><strong>SWEEP</strong><p>Scan collaborators, patterns, momentum.</p></article>
-        <span class="process-arrow">→</span>
-        <article class="process-flagged"><b>04</b><strong>FLAGGED</strong><p>Uncertain or high-risk signal.</p></article>
-        <span class="process-arrow">→</span>
-        <article class="process-cleared"><b>05</b><strong>CLEARED</strong><p>Verified and ready to share.</p></article>
-        <span class="process-arrow">→</span>
-        <article><b>06</b><strong>BROADCAST</strong><p>ATProto uplink preview.</p></article>
-      </div>
-    </section>
-
-    <section class="recon-grid">
-      <article class="recon-card graph-card">
-        <header><div><h3>ARTIST INTELLIGENCE GRAPH</h3><p>THE PEOPLE. THE PROJECTS. THE SIGNALS.</p></div><span>8 NODES · 5 RELATIONSHIPS</span></header>
-        <div class="artist-graph" aria-label="Illustrative artist collaborator graph">
-          <div class="graph-node graph-main"><span class="node-avatar">NR</span><b>NOVA RAE</b><small>ARTIST</small></div>
-          <div class="graph-node graph-c1"><span class="node-avatar">JK</span><b>JUNO KELL</b><small>PRODUCER</small></div>
-          <div class="graph-node graph-c2"><span class="node-avatar">DM</span><b>DAX MORALES</b><small>ENGINEER</small></div>
-          <div class="graph-node graph-c3"><span class="node-avatar">VT</span><b>VELA</b><small>VOCALIST</small></div>
-          <div class="graph-node graph-c4"><span class="node-avatar">ST</span><b>SOLAR TIDE</b><small>LABEL</small></div>
-          <div class="graph-node graph-c5"><span class="node-avatar">RN</span><b>RIVER NOTES</b><small>COLLECTIVE</small></div>
-          <div class="graph-lines" aria-hidden="true"></div>
-        </div>
-        <div class="graph-legend"><span><i class="artist-dot"></i> ARTIST</span><span><i class="collab-dot"></i> COLLABORATOR</span><span><i class="release-dot"></i> RELEASE / SIGNAL</span></div>
-      </article>
-
-      <article class="recon-card feed-card">
-        <header><div><h3>LIVE RECON FEED</h3><p>SIGNAL / SYSTEM TELEMETRY</p></div><span>LOCAL</span></header>
-        <div class="recon-feed" aria-live="polite">
-          <div><time>10:24</time><b>SIGNAL</b><span>Scanning for collaborator patterns…</span></div>
-          <div><time>10:24</time><b>SYSTEM</b><span>Found 3 linked collaborators (confidence: 87%).</span></div>
-          <div><time>10:25</time><b>SIGNAL</b><span>Checking release history…</span></div>
-          <div><time>10:25</time><b>SYSTEM</b><span>No conflicting rights signal detected.</span></div>
-          <div><time>10:26</time><b>SIGNAL</b><span>Sweep complete. 1 potential flag.</span></div>
-          <div><time>10:27</time><b>SYSTEM</b><span>Cleared. Ready for human approval.</span></div>
-        </div>
-        <div class="demo-capture"><b>✓ SIGNAL CAPTURED — DEMO MODE</b><span>No external transmission occurred.</span></div>
-      </article>
-
-      <aside class="recon-card cta-card">
-        <h3>TRY THE DEMO</h3>
-        <p>See how Recon finds and clears collaborators, so you can focus on making great music.</p>
-        <small>No signup required. No external data sent.</small>
-        <div class="broadcast-preview"><b>◉ BROADCAST / PREVIEW</b><p>ATProto uplink is <strong>PLANNED</strong>, not connected in this build.</p></div>
-        <div class="recon-mini-cta"><b>KEEP THE SIGNAL</b><p>Local review state is implemented. Human approval is required at every transition.</p></div>
-      </aside>
-    </section>
-
-    <section class="recon-lower">
-      <div class="recon-card signal-note"><span class="signal-note-mark">SIGNAL</span><p>“The modern music industry is noisy. Your collaborators shouldn't disappear inside the noise.”</p></div>
-      <div class="recon-card ecosystem-note"><span>THE ECOSYSTEM</span><b>PIXIE OS · RECON · HOLDINGS · ATPROTO</b><small>Discovery → validation → approval → broadcast.</small></div>
-    </section>
-  </div>
-</article>
-<article class="panel" id="panel-interop" aria-labelledby="interop-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="interop-title">SYNC // CREATOR INTEROPERABILITY</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="interop-shell"><div class="interop-intro"><div><small>PIXIE INTEROPERABILITY LAYER · LOCAL ONLY</small><h3>ONE CREATOR RECORD. MANY DESTINATIONS.</h3><p>Normalize source records, preserve provenance, match them to PIXIE identity, and produce a reviewable sync plan. Attribution and lineage are governance gates; no third-party credentials or external writes occur in this build.</p></div><span id="interopMode" class="interop-badge">LOCAL ONLY</span></div><div class="interop-flow" aria-label="Interoperability flow"><div><b>01</b><strong>CONNECT</strong><span>Source adapter</span></div><i>→</i><div><b>02</b><strong>NORMALIZE</strong><span>Canonical fields</span></div><i>→</i><div><b>03</b><strong>MATCH</strong><span>PIXIE identity</span></div><i>→</i><div><b>04</b><strong>REVIEW</strong><span>Human approval</span></div><i>→</i><div><b>05</b><strong>PROVENANCE</strong><span>Attribution gate</span></div><i>→</i><div><b>06</b><strong>SYNC</strong><span>Adapter write</span></div></div><div class="interop-grid"><section class="interop-card"><header><small>SOURCE</small><strong>DEMO RECORD</strong></header><label>Title<input id="interopTitle" value="Night Bus"></label><label>Creator<input id="interopCreator" value="PIXIE"></label><label>PIXIE ID<input id="interopPixieId" placeholder="optional"></label></section><section class="interop-card"><header><small>DESTINATION</small><strong>SELECT ADAPTER</strong></header><label>Target<select id="interopTarget"><option value="spotify">SPOTIFY</option><option value="obsidian">OBSIDIAN</option><option value="atproto">AT PROTOCOL</option><option value="plyr-fm">PLYR.FM</option></select></label><button id="interopRun" class="interop-primary" type="button">BUILD SYNC PLAN →</button><p id="interopResult" role="status" aria-live="polite">No external operation will run.</p></section></div><div class="interop-adapters" id="interopAdapters" aria-label="Adapter status"></div></div></article>
-          <article class="panel" id="panel-control" aria-labelledby="control-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="control-title">PIXIE // CONTROL ROOM</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="control-room-shell">
-<section class="control-hero"><div><span class="integration-kicker">MEET IBLoud · SUPERME → PIXIE</span><h3>THE PERSON, THEN THE WORLDS.</h3><p>SuperMe is the conversational identity layer. PIXIE is the navigable layer. Control Room is the handoff between them.</p></div><div class="control-actions"><a class="integration-primary" href="https://www.superme.ai/" target="_blank" rel="noopener noreferrer">OPEN SUPERME →</a><a class="control-secondary" href="https://ibloud.github.io/50-ways-to-leave-another/pixie/demo/index.html" target="_blank" rel="noopener noreferrer">OPEN PIXIE SOURCE-OF-TRUTH →</a></div></section>
-<section class="control-section"><header><div><span class="integration-kicker">INTRODUCTION PATH</span><h3>SUPERME → PIXIE → ATMOSPHERE</h3></div><span class="service-unverified">MCP NOT WIRED</span></header><div class="control-flow"><div><b>01</b><strong>MEET IBLoud</strong><small>SuperMe identity / voice-text layer</small></div><i>→</i><div><b>02</b><strong>ENTER PIXIE</strong><small>Spatial introduction / navigation</small></div><i>→</i><div><b>03</b><strong>EXPLORE ATMOSPHERE</strong><small>Worlds / projects / source of truth</small></div><i>→</i><div><b>04</b><strong>ASK IBLoud</strong><small>Future SuperMe MCP capability</small></div></div></section>
-<section class="control-section"><header><div><span class="integration-kicker">COMMAND CENTER</span><h3>GO WHERE THE WORK IS</h3></div><button class="control-launch" type="button" data-open-panel="atmosphere">OPEN ATMOSPHERE →</button></header><div class="control-grid"><button class="control-card" type="button" data-open-panel="atmosphere"><span>WORLD MAP</span><strong>ATMOSPHERE</strong><p>Navigate the ecosystem without copying the worlds into Creator OS.</p></button><a class="control-card" href="https://ibloud.github.io/violets-revenge/" target="_blank" rel="noopener noreferrer"><span>WORLD / EVENT</span><strong>VIOLET'S REVENGE</strong><p>Community event and project world.</p></a><a class="control-card" href="https://ibloud.github.io/ren-rhapsody/" target="_blank" rel="noopener noreferrer"><span>WORLD / GAME</span><strong>REN RHAPSODY</strong><p>Playable project world and release path.</p></a><button class="control-card" type="button" data-open-panel="recon"><span>INTELLIGENCE</span><strong>RECON</strong><p>Existing local signal-control workflow remains independently available.</p></button></div></section>
-<section class="control-section"><header><div><span class="integration-kicker">SERVICE LAYER</span><h3>OPTIONAL CONNECTIONS</h3></div><span class="service-unverified">NO CREDENTIALS CLAIMED</span></header><div class="service-grid"><div class="service-tile"><span class="service-stage">IDENTITY / INTELLIGENCE</span><strong>SUPERME</strong><p>Stage 1 link-out. Stage 2 MCP is planned, not connected.</p><a href="https://www.superme.ai/" target="_blank" rel="noopener noreferrer">OPEN SERVICE →</a></div><div class="service-tile"><span class="service-stage">PRIVATE / CONSENT</span><strong>GERM</strong><p>Opt-in private handoff. Not the public community backbone.</p><a href="https://landing.ger.mx/newUser/web/#did:plc:o6kuv3yieti2vqrb7ckmd5vg+did:plc:b5uem672ci23lqrcz6j6bs2c" target="_blank" rel="noopener noreferrer">OPEN HANDOFF →</a></div><div class="service-tile"><span class="service-stage">EVENT / COMMUNITY</span><strong>DISCORD</strong><p>Optional event adapter. OAuth/bot integration is not configured here.</p><span class="service-unverified">OPTIONAL / NOT CONNECTED</span></div><div class="service-tile streamplace-tile"><span class="service-stage">LIVE VIDEO / AT PROTOCOL</span><strong>STREAMPLACE</strong><p>AT Protocol-native live video. Load a public Streamplace handle when you have one; no stream is assumed or stored. Loading contacts Streamplace and its player services. Viewing only; no broadcasting or recording.</p><div class="streamplace-load"><label for="streamplaceHandle">STREAMPLACE HANDLE</label><div><input id="streamplaceHandle" type="text" inputmode="text" placeholder="example.bsky.social" autocomplete="off"><button id="streamplaceLoad" type="button">LOAD VIEWER →</button></div></div><div id="streamplaceEmbed" class="streamplace-embed" aria-label="Streamplace livestream player"></div><span id="streamplaceState" role="status" class="service-unverified">OPTIONAL / NOT CONNECTED</span><a href="https://stream.place/" target="_blank" rel="noopener noreferrer">OPEN STREAMPLACE →</a></div></div></section>
-<aside class="integration-principle"><strong>PIXIE CONTROL ROOM PRINCIPLE</strong><p>No external service gets to become load-bearing merely because it is useful.</p><small>If a service disappears, the worlds remain navigable.</small></aside></div></article>
-<article class="panel" id="panel-atmosphere" aria-labelledby="atmosphere-title" hidden aria-hidden="true"><div class="panel-head"><h2 id="atmosphere-title">WORLDS // ATMOSPHERE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div><div class="atmosphere-shell">
-<section class="atmosphere-intro"><div><span class="integration-kicker">PIXIE WORLD MAP</span><h3>DON'T START WITH A RÉSUMÉ. START WITH A WORLD.</h3><p>Atmosphere is the map. Each project remains its own source of truth; Creator OS provides navigation and context rather than copies.</p></div><a class="integration-primary" href="https://ibloud.github.io/50-ways-to-leave-another/pixie/demo/index.html" target="_blank" rel="noopener noreferrer">OPEN PIXIE SOURCE-OF-TRUTH →</a></section>
-<section class="world-grid" aria-label="PIXIE worlds"><a class="world-card" href="https://ibloud.github.io/violets-revenge/" target="_blank" rel="noopener noreferrer"><span>WORLD / EVENT</span><strong>VIOLET'S REVENGE</strong><p>Community event and project world.</p><small>ENTER WORLD →</small></a><a class="world-card" href="https://ibloud.github.io/ren-rhapsody/" target="_blank" rel="noopener noreferrer"><span>WORLD / GAME</span><strong>REN RHAPSODY</strong><p>Playable project world and release path.</p><small>ENTER WORLD →</small></a><a class="world-card" href="https://ibloud.github.io/made-sick/" target="_blank" rel="noopener noreferrer"><span>WORLD / PROJECT</span><strong>MADE SICK / GERM</strong><p>Project surface with private handoff capability.</p><small>ENTER WORLD →</small></a><a class="world-card" href="https://ibloud.github.io/50-ways-to-leave-another/pixie/demo/index.html" target="_blank" rel="noopener noreferrer"><span>WORLD / NAVIGATOR</span><strong>PIXIE</strong><p>The working source-of-truth PIXIE experience.</p><small>ENTER PIXIE →</small></a></section>
-
-<section class="story-router" aria-labelledby="router-heading">
-<h3 id="router-heading">STORY ROUTER · LOCAL HARNESS</h3>
-<p>Import a Story Finder ledger from Files, select sources, add context, and choose a destination. Live publishing is not connected. All destinations below are simulations.</p>
-<label>Story Finder ledger (v1 or v2)<input id="router-file" type="file" accept=".json,application/json"></label>
-<label>Saved routing story<select id="router-saved"></select></label><button id="router-load-saved" type="button">Load saved story</button>
-<div id="router-sources" aria-label="Imported sources"></div>
-<label>Story title<input id="router-title" type="text" value="Public story"></label>
-<label>Your context<textarea id="router-context" rows="4"></textarea></label>
-<label>Destination<select id="router-destination"><option value="">Choose destination</option></select></label>
-<p>Sources travel as references here. Embeds and quotes require verified session identity and destination support; sign-in is not connected.</p>
-<label><input id="router-consent" type="checkbox"> I have the author’s permission to reshare each selected post (required for someone else’s content in Made Sick).</label>
-<label>Consent evidence for these selected posts<textarea id="router-consent-evidence" rows="2" placeholder="Permission message link or a note describing who granted permission, when, and which posts it covers"></textarea></label>
-<p>Directory enrollment consent does not grant permission to reshare a post. Evidence stays in the local Story record and is excluded from the public representation.</p>
-<div class="router-actions" role="group" aria-label="Story routing actions">
-<button id="router-separate" type="button">Start separate reshare</button><button id="router-review" type="button">Preview public representation</button><button id="router-send" type="button" disabled>Confirm local simulation</button><button id="router-export" type="button" disabled>Export preview for handoff</button><button id="router-recovery" type="button">Export story recovery</button>
-</div>
-<p id="router-status" role="status" aria-live="polite">No ledger loaded. Import stays in this tab until you run a simulation.</p>
-<pre id="router-preview" aria-label="Exact public representation"></pre>
+<a class="skip" href="#main">Skip to workspace</a>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span>PIXIE <span>Creator workspace</span></a><span class="local-badge">Local · manual sharing</span></header>
+<div class="shell">
+<aside class="sidebar"><nav aria-label="Workspace"><button type="button" data-view="work" aria-controls="view-work" aria-current="page"><span aria-hidden="true">01</span> My work</button><button type="button" data-view="prepare" aria-controls="view-prepare"><span aria-hidden="true">02</span> Prepare</button><button type="button" data-view="share" aria-controls="view-share"><span aria-hidden="true">03</span> Share</button><button type="button" data-view="connections" aria-controls="view-connections"><span aria-hidden="true">04</span> Connections</button></nav><div class="sidebar-bottom"><a href="tools.html">More tools ↗</a><a href="session.html">Practice session ↗</a><a href="https://ibloud.github.io/pixie-device-stewardship/">Device stewardship ↗</a><p>Your tools. Your choices.<br>One next step.</p></div></aside>
+<main id="main" tabindex="-1">
+<div class="workspace-meta"><span>YOUR CREATIVE WORKSPACE</span><span>v0.2 · local workflow</span></div>
+<p id="workspace-status" class="feedback" tabindex="-1" role="status" aria-live="polite"></p>
+<section id="view-work" aria-labelledby="work-heading">
+<h1 id="work-heading" tabindex="-1">Your work, ready to share.</h1><p class="lede">Bring something you made. Keep its context. Choose where it goes.</p>
+<div class="work-layout"><section class="card import-card" aria-labelledby="import-heading"><div class="step-label">START WITH ONE PIECE</div><h2 id="import-heading">What are you working on?</h2><p>Choose an audio file, video, or image from Files. You can also start with a link.</p><label class="file-label" for="media-file">Choose media</label><input id="media-file" type="file" accept="audio/*,video/*,image/*"><p class="hint">Preview stays in this tab. No upload or account needed.</p><div class="divider">or bring back a draft</div><label for="draft-file">Import PIXIE draft (.json)</label><input id="draft-file" type="file" accept=".json,application/json"><p class="hint">Drafts restore text and your PIXIE ID. Select media again.</p></section>
+<section class="card active-card" aria-labelledby="active-heading"><div class="step-label">CURRENT PIECE</div><h2 id="active-heading">Untitled work</h2><div id="media-preview" class="media-preview"><div class="empty-preview"><span aria-hidden="true">＋</span><p>Your media preview appears here.</p></div></div><p id="media-status">No media selected.</p><button type="button" id="remove-media" class="quiet" hidden>Remove media</button><button type="button" data-go="prepare" class="primary">Prepare this work <span aria-hidden="true">→</span></button></section></div>
+<p class="storage-note">Keep your place: download a draft before closing or reloading this tab. PIXIE does not automatically save this workspace.</p>
 </section>
-<section class="event-adapter"><div class="adapter-head"><div><span class="integration-kicker">VIOLET'S REVENGE</span><h3>EVENT ADAPTER</h3></div><span class="adapter-status">OPTIONAL / NOT CONNECTED</span></div><div class="event-grid"><div><strong>EVENT INFO</strong><p>Project information remains available without Discord.</p><a href="https://ibloud.github.io/violets-revenge/" target="_blank" rel="noopener noreferrer">OPEN PROJECT →</a></div><div><strong>DISCORD</strong><p>Community/event adapter. No OAuth or bot credential is claimed here.</p><span class="service-unverified">NOT CONNECTED</span></div><div><strong>PRIVATE HANDOFF</strong><p>Use Germ only when private, consent-controlled communication is appropriate.</p><a href="https://landing.ger.mx/newUser/web/#did:plc:o6kuv3yieti2vqrb7ckmd5vg+did:plc:b5uem672ci23lqrcz6j6bs2c" target="_blank" rel="noopener noreferrer">OPEN GERM →</a></div></div><p class="adapter-note">Discord is an event adapter, not PIXIE's communications backbone.</p></section>
-<section class="service-layer"><div class="adapter-head"><div><span class="integration-kicker">SERVICE REGISTRY / STAGED</span><h3>PLUGGABLE CAPABILITIES</h3></div><span class="service-unverified">PLANNED</span></div><div class="service-grid"><div class="service-tile"><span class="service-stage">STAGE 1</span><strong>SUPERME LINK-OUT</strong><p>Available as an external service route.</p><a href="https://www.superme.ai/" target="_blank" rel="noopener noreferrer">OPEN SUPERME →</a></div><div class="service-tile"><span class="service-stage">STAGE 2</span><strong>ASK IBLoud / MCP</strong><p>Not wired. Do not present as connected until a real MCP connection exists.</p><span class="service-unverified">NOT WIRED</span></div><div class="service-tile streamplace-tile"><span class="service-stage">LIVE VIDEO / AT PROTOCOL</span><strong>STREAMPLACE</strong><p>Integration route for AT Protocol-native live video. Load a public Streamplace handle when you have one; no stream is assumed or stored. Loading contacts Streamplace and its player services. Viewing only; no broadcasting or recording.</p><div class="streamplace-load"><label for="streamplaceHandleAtmosphere">STREAMPLACE HANDLE</label><div><input id="streamplaceHandleAtmosphere" type="text" inputmode="text" placeholder="example.bsky.social" autocomplete="off"><button id="streamplaceLoadAtmosphere" type="button">LOAD VIEWER →</button></div></div><div id="streamplaceEmbedAtmosphere" class="streamplace-embed" aria-label="Streamplace livestream player"></div><span id="streamplaceStateAtmosphere" role="status" class="service-unverified">OPTIONAL / NOT CONNECTED</span><a href="https://stream.place/" target="_blank" rel="noopener noreferrer">OPEN STREAMPLACE →</a></div><div class="service-tile"><span class="service-stage">STAGE 3</span><strong>SERVICE REGISTRY</strong><p>Future discovery and management of optional services.</p><span class="service-unverified">PLANNED</span></div></div></section><aside class="integration-principle"><strong>ARCHITECTURE RULE</strong><p>No external service gets to become load-bearing merely because it is useful.</p></aside></div></article>
-          <article class="panel active" id="panel-radar" aria-labelledby="radar-title"></article>
-        </div>
-        <footer class="taskbar"><span>PIXIE // PRE-ALPHA</span><span id="notice" role="status" aria-live="polite" aria-atomic="true">LIBRARY → PLAYER → PROJECT → PUBLISH → BROADCAST</span><span>PIXIE ID · OBSIDIAN · PDS</span></footer>
-      </section>
-    </section>
-  </main>
-  <script src="spotify-controller.js?v=20260919-1"></script><script src="https://open.spotify.com/embed/iframe-api/v1" async></script><script src="native-bridge.js"></script><script src="storage-router.js"></script><script src="creator-constitution.js"></script><script src="constitution-engine.js"></script><script src="story-model.js"></script><script src="recon/jobs/sweep.js"></script><script src="recon/atproto/broadcast.js"></script><script src="recon/atproto/terminate.js"></script><script src="recon/atproto/ghost.js"></script><script src="recon/atproto/tombstone.js"></script><script src="recon/recon.js"></script><script src="story-engine.js"></script><script src="story-engine-bridge.js"></script><script src="source-memory.js"></script><script src="interoperability.js"></script><script src="network-intelligence.js"></script><script src="streamplace.js"></script><script src="app.js?v=20261004-1"></script><script src="narrative.js"></script><script src="ink-flow.js"></script>
-<script src="story-ledger.js"></script><script src="story-router.js"></script><script src="story-router-ui.js"></script>
-</body>
-</html>
-
-
+<section id="view-prepare" aria-labelledby="prepare-heading" hidden><h1 id="prepare-heading" tabindex="-1">Give your work its context.</h1><p class="lede">Only the public details below go into your sharing text.</p><form id="prepare-form" class="card form-card">
+<label for="work-title">Work title</label><input id="work-title" maxlength="160" placeholder="Give this piece a name" required>
+<label for="work-link">Public work link (optional)</label><input id="work-link" type="url" inputmode="url" maxlength="2000" placeholder="https://…"><p class="hint">A reference to your work. PIXIE does not fetch or preview this link.</p>
+<label for="caption">Caption</label><textarea id="caption" rows="5" maxlength="5000" placeholder="What would you like people to know?"></textarea>
+<label for="credits">Credits and rights</label><textarea id="credits" rows="3" maxlength="2000" placeholder="Who made this? What permission or license applies?"></textarea>
+<label for="description">Accessibility description</label><textarea id="description" rows="3" maxlength="2000" placeholder="Describe the image or video, or link to a transcript."></textarea><p class="hint">Add this in the destination's accessibility fields where available. PIXIE does not generate transcripts or video captions.</p>
+<label class="check"><input id="rights" type="checkbox"> I own this work or have permission to share the selected media and public details.</label>
+<div class="actions"><button type="submit" class="primary">Choose where to share <span aria-hidden="true">→</span></button><button type="button" data-go="work" class="quiet">Back to my work</button></div></form></section>
+<section id="view-share" aria-labelledby="share-heading" hidden><h1 id="share-heading" tabindex="-1">Share on your terms.</h1><p class="lede">Review the text, then finish in the service you choose.</p><div class="card form-card"><label for="destination">Destination</label><select id="destination"><option value="bluesky">Bluesky · manual post</option><option value="repurpose">Repurpose.io · source handoff</option></select><p id="destination-help"></p><p id="destination-check" class="hint"></p><button type="button" id="review" class="primary">Review sharing text</button>
+<div id="review-block" hidden><h2>Public sharing text</h2><label for="public-preview" class="hint">Exact text prepared for handoff</label><textarea id="public-preview" rows="10" readonly></textarea><p id="text-count" class="hint"></p><p class="hint">Media is attached separately. This review does not upload anything.</p><button id="confirm" type="button" class="primary">Confirm this handoff</button></div>
+<div id="handoff-block" hidden><h2>Your next step</h2><p id="handoff-instructions"></p><div class="actions"><button type="button" id="copy-text">Copy sharing text</button><button type="button" id="download-text">Download sharing text</button><button type="button" id="download-media" hidden>Download selected media</button><a id="open-destination" class="button primary" href="https://bsky.app/" target="_blank" rel="noopener noreferrer">Open Bluesky ↗</a></div><p class="hint">Opening a service does not publish or confirm delivery. Finish and review there.</p><label for="publication-link">Resulting publication link (optional)</label><input id="publication-link" type="url" inputmode="url" maxlength="2000" placeholder="https://…"><button type="button" id="record-publication">Record my publication link</button><p class="hint">Recorded by you; PIXIE does not verify the post.</p></div></div><section class="card history"><h2>Your recorded links</h2><ul id="receipt-list"><li>No publication links recorded.</li></ul></section></section>
+<section id="view-connections" aria-labelledby="connections-heading" hidden><h1 id="connections-heading" tabindex="-1">Choose the tools that fit.</h1><p class="lede">Start locally. Open another service when you need it.</p><div class="connection-grid">
+<article class="card"><span class="badge">Manual handoff</span><h2>Bluesky / AT Protocol</h2><p>Prepare a post here, then attach your media and publish in Bluesky. AT Protocol is the infrastructure behind the app.</p><p class="hint">PIXIE account sign-in and direct publishing are not connected.</p><a href="https://bsky.app/" target="_blank" rel="noopener noreferrer">Open Bluesky ↗</a></article>
+<article class="card"><span class="badge">External workflow</span><h2>Repurpose.io</h2><p>Upload your media to a supported source such as Dropbox, then set up distribution in Repurpose.</p><p class="hint">PIXIE has no Repurpose connection. Bluesky is a video destination there, not a source.</p><a href="https://repurpose.io/" target="_blank" rel="noopener noreferrer">Open Repurpose ↗</a> · <a href="https://support.repurpose.io/en/article/supported-platforms-roles-and-media-types-j22278/" target="_blank" rel="noopener noreferrer">Supported routes ↗</a></article>
+<article class="card"><span class="badge">Optional production</span><h2>OBS / Restream</h2><p>Record or produce a live performance in your chosen production tools. Bring the resulting media back to PIXIE.</p><p class="hint">No recording, broadcasting, or controller connection is provided here.</p><a href="https://obsproject.com/" target="_blank" rel="noopener noreferrer">OBS Studio ↗</a> · <a href="https://restream.io/learn/what-is/obs/" target="_blank" rel="noopener noreferrer">OBS and Restream guide ↗</a></article>
+<article class="card"><span class="badge">Your workspace</span><h2>Obsidian and PIXIE tools</h2><p>Keep source notes and permissions in your own workspace. Research, DJ playback, and ecosystem routes remain available separately.</p><a href="tools.html">Open additional tools ↗</a> · <a href="https://github.com/ibloud/narrative-provenance">Narrative provenance ↗</a></article></div></section>
+<footer class="workspace-footer"><div class="actions"><button type="button" id="download-draft">Download draft</button><button type="button" id="reset" class="quiet">Clear this workspace</button></div><div id="reset-confirm" hidden><p>Clear this tab's work and recorded links? Your files and existing downloads remain untouched.</p><button type="button" id="reset-yes">Yes, clear this tab</button><button type="button" id="reset-no">Keep working</button></div><p class="hint">Local workflow release. iPad Safari, Files, and VoiceOver need device validation. <a href="https://github.com/ibloud/pixie-creator-os/blob/main/docs/artist-workflow.md">Build boundaries</a> · <a href="https://github.com/ibloud/ibloud.github.io/blob/main/MISSION.md">Mission and participation</a></p></footer>
+</main></div><noscript><p class="noscript">Enable JavaScript for local previews and draft preparation. <a href="tools.html">Additional tools</a> and external links remain available.</p></noscript><script src="creator-model.js"></script><script src="creator.js"></script>
+</body></html>
