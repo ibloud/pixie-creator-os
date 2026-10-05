@@ -72,7 +72,8 @@
         : null;
       return { uri: x.value, form: 'reference', consent };
     });
-    if (!story) story = model.create({ id: 'story-' + crypto.randomUUID(), subject: { type: 'PUBLIC_RESHARE', title: $('router-title').value }, sources, publish: { status: 'composing', router: { sources: [], context: '', receipts: [] } } });
+    if (!chosen.length) throw new Error('Import a ledger and choose at least one source.');
+    if (!story) story = model.create({ id: 'story-' + api.createKey(), subject: { type: 'PUBLIC_RESHARE', title: $('router-title').value }, sources, publish: { status: 'composing', router: { sources: [], context: '', receipts: [] } } });
     story.subject.title = $('router-title').value; story.sources = sources;
     story.publish.router.sources = chosen; story.publish.router.context = $('router-context').value;
     return story;
@@ -101,7 +102,10 @@
       status(`Simulated receipt: ${result.receipt.uri} · ${result.receipt.cid}. Storage: ${result.persistence}. No public write occurred.`);
       populateSaved();
     } catch (error) { status(error.message); }
-    finally { $('router-send').disabled = !reviewed; }
+    finally {
+      const destination = destinations.find(d => d.id === $('router-destination').value);
+      $('router-send').disabled = !reviewed || !destination?.writable;
+    }
   });
   function download(value, filename) {
     const url = URL.createObjectURL(new Blob([value], { type: 'application/json' }));

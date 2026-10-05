@@ -6,6 +6,26 @@
   let iframeApi = null;
   let controller = null;
   let pendingEntity = null;
+  let apiLoading = false;
+  let apiTimeout = null;
+
+  function requestApi() {
+    if (iframeApi || apiLoading) return;
+    apiLoading = true;
+    const script = document.createElement('script');
+    script.src = 'https://open.spotify.com/embed/iframe-api/v1';
+    script.async = true;
+    const fail = () => {
+      apiLoading = false;
+      clearTimeout(apiTimeout);
+      script.remove();
+      setState('SERVICE UNAVAILABLE', 'error');
+      setPlayback('SPOTIFY DID NOT CONNECT · TRY LOAD AGAIN OR USE LOCAL AUDIO');
+    };
+    script.onerror = fail;
+    apiTimeout = setTimeout(fail, 15000);
+    document.head.appendChild(script);
+  }
 
   const nodes = () => ({
     mount: document.getElementById('spotifyEmbed'),
@@ -41,6 +61,7 @@
     if (!iframeApi || !n.mount) {
       pendingEntity = entity;
       setState('API LOADING');
+      requestApi();
       return;
     }
     if (controller) {
@@ -85,6 +106,8 @@
   }
 
   window.onSpotifyIframeApiReady = api => {
+    clearTimeout(apiTimeout);
+    apiLoading = false;
     iframeApi = api;
     setState('API READY', 'ready');
     if (pendingEntity) {

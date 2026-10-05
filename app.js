@@ -30,7 +30,7 @@ function initMaster() {
   const c = getCtx();
   if (masterGain) return;
   masterGain = c.createGain();
-  masterGain.gain.value = 0.78;
+  masterGain.gain.value = Number(document.getElementById('master')?.value ?? 78) / 100;
   masterGain.connect(c.destination);
 }
 
@@ -78,6 +78,7 @@ function loadBuffer(file, cb) {
   reader.onload = e => {
     getCtx().decodeAudioData(e.target.result.slice(0), buf => cb(null, buf), err => cb(err));
   };
+  reader.onerror = () => cb(reader.error || new Error('File could not be read'));
   reader.readAsArrayBuffer(file);
 }
 
@@ -254,7 +255,20 @@ function handleFileLoad(id, file) {
 
 let reconReturnPanel = 'radar';
 
+function toolsHome() { return document.getElementById('panel-workshop') ? 'workshop' : 'radar'; }
+
+function focusPanel(panel) {
+  const heading = panel?.querySelector('h2');
+  if (heading) { heading.tabIndex = -1; heading.focus(); }
+}
+
 function switchPanel(name) {
+  const target = document.getElementById('panel-' + name);
+  if (!target) {
+    const notice = document.getElementById('notice');
+    if (notice) notice.textContent = 'TOOL NOT READY · TRY AGAIN';
+    return;
+  }
   const recon = document.getElementById('panel-recon');
 
   // RECON is an AetherOS-style application window: it opens over the desktop
@@ -268,7 +282,7 @@ function switchPanel(name) {
       recon.setAttribute('aria-hidden', 'false');
     }
     window.PIXIERecon?.init();
-    document.getElementById('recon-title')?.focus();
+    focusPanel(recon);
     return;
   }
 
@@ -289,8 +303,10 @@ function switchPanel(name) {
     b.setAttribute('aria-pressed', active ? 'true' : 'false');
     b.setAttribute('aria-current', active ? 'page' : 'false');
   });
-  if (name === 'deck') document.getElementById('deck-title')?.focus();
-  if (name === 'radar') document.getElementById('radar-title')?.focus();
+  focusPanel(target);
+  const meters = document.querySelector('.meters');
+  if (meters) meters.hidden = name !== 'deck';
+  document.dispatchEvent(new CustomEvent('pixie-panel-change', { detail: { name } }));
 }
 
 // ── CRATE ─────────────────────────────────────────────────────────────────────
@@ -395,8 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.close-panel').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (btn.closest('#panel-recon')) switchPanel(reconReturnPanel || 'radar');
-      else switchPanel('radar');
+      if (btn.closest('#panel-recon')) switchPanel(reconReturnPanel || toolsHome());
+      else switchPanel(toolsHome());
     });
   });
 
@@ -461,11 +477,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Simple sync: set B offset to match A's proportional position
     const aProgress = decks.a.buffer ? currentOffset('a') / decks.a.buffer.duration : 0;
-    decks.b.offset = aProgress * (decks.b.buffer?.duration ?? 0);
-    if (decks.b.playing) {
+    const wasPlaying = decks.b.playing;
+    stopDeck('b', true);
+    decks.b.offset = aProgress * decks.b.buffer.duration;
+    if (wasPlaying) {
       const eqVal = parseInt(document.getElementById('eq')?.value ?? 55);
       playDeck('b', eqVal);
     }
+    setPosition('b', decks.b.offset);
     if (notice) notice.textContent = 'POSITION ALIGNED · NOT TEMPO SYNC';
   });
 
@@ -502,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       document.querySelector('[data-action="play"]')?.click();
     }
-    if (e.code === 'Escape') switchPanel('deck');
+    if (e.code === 'Escape') switchPanel(toolsHome());
     if (e.code === 'KeyA') setActiveDeck('a');
     if (e.code === 'KeyB') setActiveDeck('b');
   });

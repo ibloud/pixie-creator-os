@@ -186,23 +186,29 @@
     panel.hidden = true;
     panel.setAttribute('aria-hidden', 'true');
     panel.innerHTML = `
-      <div class="panel-head"><h2>WORKSPACE // STORAGE CONTROL PLANE</h2><button class="close-panel" type="button" aria-label="Return to Home">×</button></div>
+      <div class="panel-head"><h2>WORKSPACE // STORAGE CONTROL PLANE</h2><button class="close-panel" type="button" aria-label="Return to tools">×</button></div>
       <div class="storage-wrap">
         <section class="storage-card storage-primary">
           <div><small>WORKSPACE PERSISTENCE</small><strong>OBSIDIAN</strong><p id="storageState">NOT CONFIGURED</p></div>
           <button class="action" id="connectObsidian" type="button">CONNECT VAULT</button>
         </section>
         <section class="storage-card"><div><small>IDENTITY</small><strong>PIXIE ID</strong><p>Stable identity survives human filename and folder changes.</p></div><code id="storageExample">PIXIE/Objects/&lt;pixie_id&gt;.json</code></section>
-        <section class="storage-card"><div><small>FALLBACK</small><strong>WRITABLE PDS</strong><p>Use when a connected source cannot accept the user's durable edit.</p></div><span class="tag">STAGED</span></section>
+        <section class="storage-card"><div><small>FALLBACK</small><strong>PDS NOT CONNECTED</strong><p>Planned fallback for portable records. No PDS writes are available here.</p></div><span class="tag">STAGED</span></section>
         <section class="storage-policy"><strong>NAMES ARE PRESENTATION. IDs ARE IDENTITY. PATHS ARE IMPLEMENTATION DETAILS.</strong><p>Source-owned data stays authoritative at its source when writable. Workspace-owned sessions, notes, setlists and project metadata belong in Obsidian. Browser state is runtime-only and never canonical.</p></section>
         <div class="storage-actions"><button class="action" id="createWorkspaceObject" type="button">CREATE + SAVE OBJECT</button><button class="action" id="openWorkspaceObject" type="button">OPEN IN OBSIDIAN</button></div>
         <pre id="storageLog" class="storage-log" aria-live="polite"></pre>
       </div>`;
     panels.appendChild(panel);
+    panel.querySelector('.close-panel').addEventListener('click', () => globalThis.switchPanel?.(globalThis.toolsHome?.() || 'radar'));
 
     const refresh = () => {
       const s = runtime.workspace;
       panel.querySelector('#storageState').textContent = `${s.state}${s.vault ? ` · ${s.vault}` : ''}`;
+      panel.querySelector('#connectObsidian').disabled = !globalThis.showDirectoryPicker;
+      panel.querySelector('#createWorkspaceObject').disabled = s.state !== 'CONNECTED';
+      panel.querySelector('#openWorkspaceObject').disabled = runtime.lastObject?.status !== 'SYNCED';
+      if (!globalThis.showDirectoryPicker) panel.querySelector('#storageState').textContent = 'Vault selection unavailable in this browser. Use Files downloads for handoff.';
+      document.dispatchEvent(new CustomEvent('pixie-storage-change'));
       panel.querySelector('#storageExample').textContent = runtime.lastObject?.machine_path || 'PIXIE/Objects/<pixie_id>.json';
       panel.querySelector('#storageLog').textContent = runtime.lastObject ? JSON.stringify(runtime.lastObject, null, 2) : 'No workspace object created in this session.';
     };
