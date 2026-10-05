@@ -51,3 +51,6 @@ jobs:
           node --check creator.js
       - name: Test artist review, handoff and recovery contracts
         run: node --test tests/creator.test.js
+
+      - name: Test local Morgue Ink outcomes and operator boundaries
+        run: node --test tests/morgue.test.js
