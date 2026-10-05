@@ -75,3 +75,7 @@ The workstation is organized around production tasks rather than generic product
 - **External Mixxx**: actual DJ engine and hardware workflow.
 
 No credentials are hard-coded in the prototype.
+
+## Morgue local rehearsal
+
+`morgue/` is a separate optional workspace linked from the artist entry page. A bundled Ink runtime executes its original demo story; the ephemeral session model controls pause, end, choice and cue release. Operator and participant views share one session on one device. No existing PIXIE identity/storage contracts are changed. Germ, Roomy, remote transport and migrated bot logic are not connected. See [ADR 003](adr-003-morgue-demo.md).

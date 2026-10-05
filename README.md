@@ -139,3 +139,7 @@ The [Device Stewardship example](https://ibloud.github.io/pixie-device-stewardsh
 Both workstation Streamplace tiles now use one optional viewer module: strict domain handles, explicit external-contact disclosure, no handle persistence, no-referrer, removal on edit and a Remove player control. Requesting an iframe does not verify a live stream.
 
 See [session contract and device checks](docs/creator-session.md). These features remain pre-alpha; automated checks do not establish iPad Safari, VoiceOver, Files or Cyber-G behavior.
+
+## Morgue experience desk — local demo
+
+Open [the Morgue workspace](morgue/) to rehearse an Ink-driven experience with operator controls, a same-device simulated participant preview, preview-before-release cues for Violet, Mortis and the Pennywise reference label, and a local event feed. Start, pause, resume, end, leave and reset are implemented. No remote participants or Germ/Roomy messaging are connected. A simulated win shows a reward preview linking to the real Violet’s Revenge game; it does not distribute an invitation. See [demo contract](docs/morgue-demo.md).
