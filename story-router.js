@@ -42,7 +42,12 @@
     delete routing.intent;
     story.publish.status = 'composing';
   }
-  function createRouter({ save, now = () => new Date().toISOString(), newKey = () => root.crypto.randomUUID() }) {
+  function createKey() {
+    if (root.crypto?.randomUUID) return root.crypto.randomUUID();
+    if (!root.crypto?.getRandomValues) throw new Error('Secure random IDs are unavailable in this browser. Keep your draft open.');
+    return Array.from(root.crypto.getRandomValues(new Uint8Array(16)), value => value.toString(16).padStart(2, '0')).join('');
+  }
+  function createRouter({ save, now = () => new Date().toISOString(), newKey = createKey }) {
     const busy = new Set();
     async function publish(story, destination, { signedInDid = '', approvedPreview } = {}) {
       if (busy.has(story.id)) throw new Error('This story already has a send in progress.');
@@ -93,7 +98,7 @@
         return receipt;
       } };
   }
-  const api = { hasPostConsent, allowedForms, preview, startSeparateReshare, createRouter, fakeDestination };
+  const api = { createKey, hasPostConsent, allowedForms, preview, startSeparateReshare, createRouter, fakeDestination };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.PIXIE_STORY_ROUTER = api;
 })(globalThis);

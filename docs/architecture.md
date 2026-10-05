@@ -2,7 +2,7 @@
 
 ## Default workflow (v0.2)
 
-`index.html` provides My work, Prepare, Share, and Connections. `tools.html` preserves the pre-alpha research/DJ surface and its storage seams. `creator-model.js` defines a portable local draft with stable `pixie_id`; `creator.js` owns ephemeral selected media and object URLs. No media or credentials are serialized. Manual handoff is an artist action in an external service, not an authenticated adapter write. See [ADR 002](adr-002-artist-workflow.md).
+`index.html` provides My work, Prepare, Share, and Connections. `tools.html` is the local tools control panel: task overview, display controls, direct Story Handoff, storage status and expandable contributor tools. The research/DJ surfaces and storage seams remain inside it. See [the control panel contract](tools-control-panel.md). `creator-model.js` defines a portable local draft with stable `pixie_id`; `creator.js` owns ephemeral selected media and object URLs. No media or credentials are serialized. Manual handoff is an artist action in an external service, not an authenticated adapter write. See [ADR 002](adr-002-artist-workflow.md).
 
 ## Preserved workstation model
 

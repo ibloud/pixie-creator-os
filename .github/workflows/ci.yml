@@ -54,3 +54,10 @@ jobs:
 
       - name: Test local Morgue Ink outcomes and operator boundaries
         run: node --test tests/morgue.test.js
+
+      - name: Test tools navigation and audio regressions
+        run: |
+          node --check tools-control.js
+          node --check spotify-controller.js
+          node --check storage-router.js
+          node --test tests/tools.test.js

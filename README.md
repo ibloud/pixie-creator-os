@@ -32,7 +32,7 @@ PIXIE Creator OS is a Loptr Lab / Dominique Devereaux product. Charlie J is not 
 
 ## Current build boundary
 
-The v0.2 local workflow is the default entry point. The older pre-alpha workstation is preserved at `tools.html`. Direct publishing, account authentication, recording, and automatic distribution remain disconnected. Drafts are kept in memory until explicitly downloaded; re-import preserves `pixie_id` and requires fresh review. Desktop browser observations and device validation limits are recorded in [the artist workflow contract](docs/artist-workflow.md). A passing CI or deployment does not establish iPad Safari, Files, VoiceOver, or live service verification.
+The v0.2 local workflow is the default entry point. The tools control panel at `tools.html` provides task launchers, shared readability controls, explicit storage status, recovery export and contributor testing tools. The pre-alpha story/audio workflows remain available inside it. See [control panel behavior and checks](docs/tools-control-panel.md). Direct publishing, account authentication, recording, and automatic distribution remain disconnected. Drafts are kept in memory until explicitly downloaded; re-import preserves `pixie_id` and requires fresh review. Desktop browser observations and device validation limits are recorded in [the artist workflow contract](docs/artist-workflow.md). A passing CI or deployment does not establish iPad Safari, Files, VoiceOver, or live service verification.
 
 **Stable pre-alpha handoff:** see [docs/stable-prealpha-handoff.md](docs/stable-prealpha-handoff.md). This is the continuity contract for future maintainers: it preserves the distinction between code, runtime behavior, external reality, narrative material, and proposed work, and defines the rules for strings, identity, provenance, and time-bound observations.
 
@@ -47,7 +47,7 @@ The v0.2 local workflow is the default entry point. The older pre-alpha workstat
 
 See [ADR 002](docs/adr-002-artist-workflow.md) and [workflow and verification](docs/artist-workflow.md).
 
-### Additional tools (preserved pre-alpha)
+### Tools control panel (local pre-alpha)
 
 - Accessible retro desktop shell with keyboard navigation and visible focus.
 - Skip navigation and reduced-motion support.
