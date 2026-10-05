@@ -203,12 +203,24 @@ function setActiveDeck(id) {
   const el = document.querySelector(`.deck[data-deck="${id}"]`);
   if (el) el.classList.add('deck-active');
   updatePlayButton();
+  const sourceLabel = document.getElementById('selectedAudioSource');
+  if (sourceLabel) sourceLabel.textContent = 'Selected source: ' + id.toUpperCase();
 }
 
 function updatePlayButton() {
   const btn = document.querySelector('[data-action="play"]');
+  document.querySelectorAll('[data-deck-play]').forEach(button => {
+    const deck = decks[button.dataset.deckPlay];
+    button.disabled = !deck.buffer;
+    button.textContent = (deck.playing ? 'Pause ' : 'Play ') + button.dataset.deckPlay.toUpperCase();
+    button.setAttribute('aria-pressed', String(deck.playing));
+  });
+  document.querySelectorAll('[data-deck-cue]').forEach(button => { button.disabled = !decks[button.dataset.deckCue].buffer; });
   if (!btn) return;
   const playing = decks[activeDeck].playing;
+  btn.disabled = !decks[activeDeck].buffer;
+  const align = document.querySelector('[data-action="sync"]');
+  if (align) align.disabled = !decks.a.buffer || !decks.b.buffer;
   btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
   btn.textContent = playing ? '⏸ PAUSE' : '▶ PLAY';
 }
@@ -446,6 +458,14 @@ document.addEventListener('DOMContentLoaded', () => {
     e.stopPropagation();
     document.getElementById('fileInputB').click();
   });
+
+  document.querySelectorAll('[data-deck-play]').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation(); setActiveDeck(button.dataset.deckPlay);
+    document.querySelector('[data-action="play"]')?.click();
+  }));
+  document.querySelectorAll('[data-deck-cue]').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation(); setActiveDeck(button.dataset.deckCue); cueDeck(activeDeck);
+  }));
 
   // ── TRANSPORT
   document.querySelector('[data-action="play"]')?.addEventListener('click', () => {
