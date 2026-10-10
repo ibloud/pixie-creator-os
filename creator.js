@@ -2,7 +2,7 @@
   'use strict';
   const M = window.PixieCreator, $ = id => document.getElementById(id);
   const makeId = () => crypto.randomUUID?.() || 'work-' + Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
-  let state = M.create(makeId()), media = null, mediaURL = null, pendingImport = 0, pendingRestore = null, downloadedPrint = null;
+  let state = M.create(makeId()), media = null, mediaURL = null, pendingImport = 0, pendingRestore = null, downloadedPrint = null, importedPrint = null;
   const fields = { 'work-title': 'title', 'work-link': 'link', caption: 'caption', credits: 'credits', description: 'description' };
   const tell = message => { $('workspace-status').textContent = message; };
   function closeImportConfirm() {
@@ -13,7 +13,7 @@
     return !media && M.fingerprint(state) === M.fingerprint(M.create(state.pixie_id));
   }
   function commitImport(restored) {
-    clearMedia(); state = restored; syncFields(); render(); navigate('prepare'); tell('Draft restored. Select media separately and review again.');
+    clearMedia(); state = restored; importedPrint = M.fingerprint(restored); syncFields(); render(); navigate('prepare'); tell('Draft restored. Select media separately and review again.');
   }
   const run = fn => { try { fn(); } catch (e) { tell(e.message + '.'); $('workspace-status').focus(); } };
   function navigate(view) {
@@ -115,7 +115,7 @@
   });
   $('download-media').addEventListener('click', () => run(() => { M.requireConfirmed(state); if (!media) throw new Error('Select media again'); download(media, media.name); }));
   $('record-publication').addEventListener('click', () => run(() => { closeImportConfirm(); state = M.recordPublication(state, $('publication-link').value, new Date().toISOString()); pendingImport++; render(); tell('Publication link recorded by you; not independently verified. Download the draft to keep it.'); }));
-  $('download-draft').addEventListener('click', () => run(() => { M.validate(M.exportDraft(state)); downloadedPrint = M.fingerprint(state); download(new Blob([JSON.stringify(M.exportDraft(state), null, 2)], { type: 'application/json' }), state.pixie_id + '-draft.json'); }));
+  $('download-draft').addEventListener('click', () => run(() => { M.validate(M.exportDraft(state)); const fingerprint = M.fingerprint(state); download(new Blob([JSON.stringify(M.exportDraft(state), null, 2)], { type: 'application/json' }), state.pixie_id + '-draft.json'); downloadedPrint = fingerprint; }));
   $('draft-file').addEventListener('change', async () => {
     const file = $('draft-file').files[0]; if (!file) return;
     closeImportConfirm();
@@ -129,9 +129,16 @@
       if (token !== pendingImport) return;
       if (!isBlank()) {
         pendingRestore = { restored, token };
-        $('import-confirm-text').textContent = M.fingerprint(state) === downloadedPrint && !media
-          ? 'This replaces your current work. It matches your last download request; check Files if unsure.'
-          : 'This replaces your current work. Changes since your last download request, and selected media, will be lost.';
+        const currentPrint = M.fingerprint(state);
+        $('import-confirm-text').textContent = media
+          ? 'This replaces your current draft and selected media. Media is not included in PIXIE drafts; reselect it if needed.'
+          : downloadedPrint && currentPrint === downloadedPrint
+            ? 'This replaces your current work. It matches your last download request; check Files if unsure.'
+            : importedPrint && currentPrint === importedPrint
+              ? 'This replaces the draft you imported. No text changes are detected; PIXIE cannot tell whether either draft is saved in Files.'
+              : downloadedPrint
+                ? 'This replaces your current draft. Changes since your last download request will be lost; check Files if unsure.'
+                : 'This replaces your current draft. PIXIE has no download record for this work, so check Files if you may need a copy.';
         $('import-confirm').hidden = false;
         $('import-no').focus();
         return;
