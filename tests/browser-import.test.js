@@ -14,7 +14,7 @@ let browser;
 let fixtureDir;
 
 const importedDraft = {
-  schema: 'pixie-draft-v1',
+  schema: 'pixie-artist-draft/v1',
   pixie_id: 'test-import-001',
   title: 'Imported test title',
   link: 'https://example.org/imported',
@@ -23,9 +23,6 @@ const importedDraft = {
   description: 'Imported test description',
   rights: true,
   destination: 'bluesky',
-  revision: 0,
-  reviewedRevision: null,
-  confirmedRevision: null,
   receipts: [],
   mediaIncluded: false,
   publication: 'manual; not independently verified'
@@ -78,7 +75,7 @@ test('Keep current work cancels import without changing title or caption', async
   const page = await freshPage();
   await seedCurrentWork(page);
   await chooseImport(page);
-  await assert.doesNotReject(() => page.locator('#import-confirm').waitFor({ state: 'visible' }));
+  await page.locator('#import-confirm').waitFor({ state: 'visible' });
   await page.locator('#import-no').click();
   await page.getByRole('button', { name: /Prepare this work/ }).click();
   assert.equal(await page.locator('#work-title').inputValue(), 'My current title');
