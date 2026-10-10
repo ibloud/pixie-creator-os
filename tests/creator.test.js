@@ -71,3 +71,14 @@ test('caption starters do not mutate custom work or claim rights', () => {
   assert.equal(s.caption, 'Listen with me');
   assert.equal(M.create('empty').rights, false);
 });
+
+test('draft fingerprint tracks exported content, including publication receipts, independently of revision', () => {
+  const confirmed = M.confirm(M.review(ready(), false));
+  const before = M.fingerprint(confirmed);
+  const recorded = M.recordPublication(confirmed, 'https://bsky.app/profile/example.test/post/456', '2026-10-10T12:00:00Z');
+  assert.equal(recorded.revision, confirmed.revision);
+  assert.notEqual(M.fingerprint(recorded), before);
+  assert.equal(M.fingerprint(M.validate(M.exportDraft(recorded))), M.fingerprint(recorded));
+  const runtimeOnly = { ...recorded, reviewedRevision: null, confirmedRevision: null };
+  assert.equal(M.fingerprint(runtimeOnly), M.fingerprint(recorded));
+});
