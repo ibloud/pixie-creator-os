@@ -89,7 +89,7 @@ test('Replace restores imported text and leaves media/review to be selected agai
   await seedCurrentWork(page);
   await chooseImport(page);
   await page.locator('#import-yes').click();
-  await page.getByRole('button', { name: /Prepare this work/ }).click();
+  // Replace navigates directly to Prepare, so the imported fields are visible now.
   assert.equal(await page.locator('#work-title').inputValue(), importedDraft.title);
   assert.equal(await page.locator('#caption').inputValue(), importedDraft.caption);
   assert.equal(await page.locator('#credits').inputValue(), importedDraft.credits);
