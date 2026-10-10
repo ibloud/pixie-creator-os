@@ -73,7 +73,8 @@
     for (const key of Object.keys(limits)) out[key] = s[key];
     return { ...out, rights: s.rights, destination: s.destination, receipts: s.receipts.map(r => ({ ...r })), mediaIncluded: false, publication: 'manual; not independently verified' };
   }
-  const api = { create, validate, edit, review, confirm, requireConfirmed, sharingText, accessibilityText, captionSuggestion, recordPublication, exportDraft, https };
+  function fingerprint(s) { return JSON.stringify(exportDraft(s)); }
+  const api = { create, validate, edit, review, confirm, requireConfirmed, sharingText, accessibilityText, captionSuggestion, recordPublication, exportDraft, fingerprint, https };
   root.PixieCreator = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window === 'undefined' ? globalThis : window);
