@@ -52,6 +52,13 @@ jobs:
       - name: Test artist review, handoff and recovery contracts
         run: node --test tests/creator.test.js
 
+      - name: Install Chromium browser test dependency
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: Test draft import cancellation and timing races in Chromium
+        run: node --test tests/browser-import.test.js
+
       - name: Test local Morgue Ink outcomes and operator boundaries
         run: node --test tests/morgue.test.js
 
