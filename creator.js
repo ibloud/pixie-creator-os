@@ -13,7 +13,7 @@
     return !media && M.fingerprint(state) === M.fingerprint(M.create(state.pixie_id));
   }
   function commitImport(restored) {
-    clearMedia(); state = restored; importedPrint = M.fingerprint(restored); syncFields(); render(); navigate('prepare'); tell('Draft restored. Select media separately and review again.');
+    clearMedia(); state = restored; importedPrint = M.fingerprint(restored); downloadedPrint = null; syncFields(); render(); navigate('prepare'); tell('Draft restored. Select media separately and review again.');
   }
   const run = fn => { try { fn(); } catch (e) { tell(e.message + '.'); $('workspace-status').focus(); } };
   function navigate(view) {
@@ -131,11 +131,11 @@
         pendingRestore = { restored, token };
         const currentPrint = M.fingerprint(state);
         $('import-confirm-text').textContent = media
-          ? 'This replaces your current draft and selected media. Media is not included in PIXIE drafts; reselect it if needed.'
+          ? 'This replaces your current draft and selected media. Media is not included in PIXIE drafts; reselect it if needed.' + (downloadedPrint && currentPrint !== downloadedPrint ? ' Text changes since your last download request may also be lost.' : '')
           : downloadedPrint && currentPrint === downloadedPrint
             ? 'This replaces your current work. It matches your last download request; check Files if unsure.'
             : importedPrint && currentPrint === importedPrint
-              ? 'This replaces the draft you imported. No text changes are detected; PIXIE cannot tell whether either draft is saved in Files.'
+              ? 'This replaces the draft you imported. No changes are detected; PIXIE cannot tell whether either draft is saved in Files.'
               : downloadedPrint
                 ? 'This replaces your current draft. Changes since your last download request will be lost; check Files if unsure.'
                 : 'This replaces your current draft. PIXIE has no download record for this work, so check Files if you may need a copy.';
@@ -165,7 +165,7 @@
   });
   $('reset').addEventListener('click', () => { closeImportConfirm(); $('reset-confirm').hidden = false; $('reset-no').focus(); });
   $('reset-no').addEventListener('click', () => { $('reset-confirm').hidden = true; $('reset').focus(); });
-  $('reset-yes').addEventListener('click', () => { closeImportConfirm(); pendingImport++; clearMedia(); state = M.create(makeId()); syncFields(); render(); $('draft-file').value = ''; $('reset-confirm').hidden = true; navigate('work'); tell('Workspace cleared from this tab. Existing files and downloads remain untouched.'); });
+  $('reset-yes').addEventListener('click', () => { closeImportConfirm(); pendingImport++; downloadedPrint = importedPrint = null; clearMedia(); state = M.create(makeId()); syncFields(); render(); $('draft-file').value = ''; $('reset-confirm').hidden = true; navigate('work'); tell('Workspace cleared from this tab. Existing files and downloads remain untouched.'); });
   window.addEventListener('pagehide', () => { const player = $('media-preview').querySelector('audio,video'); if (player) player.pause(); });
   window.addEventListener('beforeunload', e => { if (state.title || state.caption || state.credits || state.link || state.description || media || state.receipts.length) { e.preventDefault(); e.returnValue = ''; } });
   window.PixieStreamplace.mount($('streamplace-creator'));
