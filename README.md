@@ -13,6 +13,17 @@ Financial support is optional and sustains infrastructure, maintenance, accessib
 
 A local-first artist workspace for preparing creative work, reviewing public context, and handing it off to the service the artist chooses. Research and DJ demonstrations remain available in [additional tools](tools.html).
 
+## Owner-confirmed purpose — 18 October 2026
+
+Creator OS supports Dominique’s mobile activations, promotions and field reporting
+for Loptr Lab’s remote studio. Preserve source context, attribution, permissions,
+commercial relationships and uncertainty through the prepare/review/manual-share
+workflow. The reporting prompt does not authenticate claims, secure permission or
+provide legal clearance. No direct publishing or new service integration is added.
+
+See the [canonical studio direction](https://github.com/ibloud/ibloud.github.io/blob/main/docs/ECOSYSTEM_ARCHITECTURE.md)
+and [consolidation release](https://github.com/ibloud/ibloud.github.io/blob/main/docs/PIXIE_CONSOLIDATION.md).
+
 ## Direction
 
 The default workflow is **My work → Prepare → Share**, with **Connections** explaining optional external services. It supports local audio/video/image previews, public references, caption/credits/accessibility text, reviewed manual handoffs to Bluesky or Repurpose, and self-reported publication links. It does not replace the artist’s DAW, OBS, or distribution services.
