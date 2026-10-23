@@ -31,7 +31,7 @@ To reset the demo, clear pixie-network-intelligence-v1 for the site and reload.
 ADD CARD creates a network-signal card with source reference, person/relationship, source URL, provenance, PROPOSED status, createdBy PIXIE, and timestamp. Duplicate cards are rejected. If PIXIE_STORAGE persistence is available, PIXIE attempts a workspace save; otherwise the record remains local demo state. Failed persistence must not be presented as success.
 
 ## Invitations
-SEND INVITATION validates an email and creates a PENDING local invitation. It does not send email, contact a person, create an account, follow, publish, or infer consent. Duplicate pending invitations are rejected.
+PREPARE ENQUIRY opens the existing PIXIE Project Companion help workspace. Made-Sick remains the resource owner. The shared workspace handles lookup, local enquiry drafts and portable follow-up JSON. No email is requested and no message is sent here. Older local invitation records remain labelled as legacy, unsent records.
 
 ## Made-Sick intake
 RECEIVE CARD validates a made-sick.org hostname and records the supplied URL as provenance. It does not fetch or crawl the page and does not contact Made-Sick. This is a source boundary, not a crawler.
@@ -40,7 +40,7 @@ RECEIVE CARD validates a made-sick.org hostname and records the supplied URL as 
 Preserve source, source URL, provenance lineage, relationship/context, status, and verified date or an explicit unverified state. Do not convert an observation requiring verification into a factual event.
 
 ## Contributor test
-1. Open the public demo and RECON / Network Intelligence. 2. Confirm the panel mounts reliably. 3. Add a card and repeat to test deduplication. 4. Test valid and invalid invitation email. 5. Confirm no message is sent. 6. Test non-Made-Sick and Made-Sick URLs. 7. Reload and confirm local records persist. 8. Clear localStorage and confirm reset. 9. Test keyboard/focus and reduced motion when relevant.
+1. Open the public demo and RECON / Network Intelligence. 2. Confirm the panel mounts reliably. 3. Add a card and repeat to test deduplication. 4. Check the enquiry handoff. 5. Confirm no message is sent. 6. Test non-Made-Sick and Made-Sick URLs. 7. Reload and confirm local records persist. 8. Clear localStorage and confirm reset. 9. Test keyboard/focus and reduced motion when relevant.
 
 ## Demo boundary
 Do not add background crawling, private-data scraping, automatic follows/posts/replies/introductions, automatic email, hidden network calls, embedded credentials, durable public inference records, or engagement optimization as demo polish. These require a release-boundary decision.

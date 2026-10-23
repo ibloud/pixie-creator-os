@@ -187,35 +187,10 @@
   }
 
   function invite(signal) {
-    const email = window.prompt(
-      `Invitation target for ${signal.person}. Enter an email address for the demo invitation record:`
-    );
-    if (!email) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setStatus('Invitation not created: enter a valid email address.');
-      return;
-    }
-
-    const existing = state.invitations.find(inv =>
-      inv.person === signal.person && inv.email.toLowerCase() === email.trim().toLowerCase() && inv.status === 'PENDING'
-    );
-    if (existing) {
-      setStatus(`Invitation already pending for ${signal.person}.`);
-      return;
-    }
-    const invitation = {
-      id: uid('invite'),
-      person: signal.person,
-      email,
-      reason: signal.relationship,
-      sourceUrl: signal.sourceUrl,
-      status: 'PENDING',
-      createdAt: now(),
-      createdBy: 'PIXIE'
-    };
-    state.invitations.push(invitation);
-    log('INVITE', `Invitation prepared for ${signal.person}`);
-    render();
+    // Existing demo action now hands off to the shared, review-first enquiry flow.
+    // No email intake, invitation creation or message transmission.
+    window.open('https://pixie-project-companion.ibloud-ivxx.chatgpt.site/#find-help', '_blank', 'noopener,noreferrer');
+    setStatus('PIXIE enquiry workspace opened. Choose a Made-Sick resource; no invitation or message was sent.');
   }
 
   function importMadeSick() {
@@ -231,7 +206,7 @@
       return;
     }
 
-    if (!/made-sick\.org$/i.test(parsed.hostname) && !/\.made-sick\.org$/i.test(parsed.hostname)) {
+    if (parsed.protocol !== 'https:' || parsed.username || parsed.password || !(parsed.hostname === 'made-sick.org' || parsed.hostname.endsWith('.made-sick.org'))) {
       setStatus('Source check: use a Made-Sick.org URL.');
       return;
     }
@@ -281,7 +256,7 @@
         </div>
         <div class="pixie-network-actions">
           <button type="button" data-network-add="${escapeHtml(signal.id)}">ADD CARD</button>
-          <button type="button" data-network-invite="${escapeHtml(signal.id)}">SEND INVITATION</button>
+          <button type="button" data-network-invite="${escapeHtml(signal.id)}">PREPARE ENQUIRY ↗</button>
         </div>
       </article>
     `).join('');
@@ -376,6 +351,8 @@
         <span id="pixieNetworkCount" class="pixie-network-count"></span>
       </div>
 
+      <p><a href="https://made-sick.org/directory.html#resources" target="_blank" rel="noreferrer">DISCOVER · MADE-SICK ↗</a> · <a href="https://50ways.loptrlab.com/" target="_blank" rel="noreferrer">PREPARE · 50 WAYS ↗</a> · <a href="https://pixie-project-companion.ibloud-ivxx.chatgpt.site/#find-help" target="_blank" rel="noreferrer">ENQUIRY &amp; FOLLOW-UP · PIXIE ↗</a></p>
+      <p>Made-Sick owns the directory. The shared PIXIE workspace reads it, prepares an editable enquiry and exports a private follow-up file. These links do not synchronize records.</p>
       <div class="pixie-network-ingest">
         <label for="pixieMadeSickUrl">MADE-SICK CARD / SOURCE URL</label>
         <div>
@@ -397,7 +374,7 @@
             <div id="pixieNetworkCards"></div>
           </section>
           <section>
-            <header><small>INVITATIONS</small><strong>OUTREACH QUEUE</strong></header>
+            <header><small>LEGACY LOCAL RECORDS</small><strong>NO MESSAGES SENT</strong></header>
             <div id="pixieNetworkInvites"></div>
           </section>
           <section>
