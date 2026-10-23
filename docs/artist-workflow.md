@@ -60,3 +60,11 @@ For browser acceptance, perform the steps above; edit the caption after confirma
 Caption starters are local editable templates, not AI output. Applying one explicitly replaces the current caption and invalidates review. Accessibility descriptions remain in portable drafts but are excluded from sharing text. The separate reviewed description can be copied after confirmation; 2000 text units is a workspace maximum, not a minimum or a guarantee of destination compatibility. Rights confirmation is the artist’s statement, not sample clearance.
 
 Connections now includes the existing optional Streamplace viewer. No embed loads until Load player; editing the handle or Remove player disconnects it. This does not add broadcasting, authentication or proof that a stream exists.
+
+## Shared interface and ecosystem entry — 23 October 2026
+
+The entry page explains Creator OS as the mobile preparation workspace in the existing ecosystem. Made-Sick owns resource discovery, 50 Ways supplies educational context, Companion prepares enquiries and follow-up, and Narrative Provenance supports durable source notes. Links between applications do not synchronize records.
+
+The main workspace, Tools and Practice Session load `pixie-system.css` for shared ink, sea-glass, warm-paper and coral roles, spacing and control sizes. Tools preserves its dark workbench and existing high-contrast/larger-text controls. Research demonstrations stay separately labelled. No service integration, storage behavior or publishing capability is added.
+
+Validation: focused creator/session/tools tests passed (15); source-card/router/viewer/Morgue tests passed (26); interoperability, Story Engine smoke and recovery scripts passed. Browser rendering, import-race browser tests, physical iPad Safari/Files/VoiceOver, and live link verification remain pending for this presentation update. Prior screenshots do not verify this revision.
