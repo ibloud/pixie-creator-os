@@ -11,10 +11,11 @@
 <meta name="twitter:title" content="Creator session — PIXIE">
 <meta name="twitter:description" content="Play a file you select, name your session, and leave yourself a next step. Review before exporting. Your choices stay in this tab until you export; reload closes the session.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Creator session — PIXIE", "url": "https://ibloud.github.io/pixie-creator-os/session.html", "description": "Play a file you select, name your session, and leave yourself a next step. Review before exporting. Your choices stay in this tab until you export; reload closes the session."}</script>
+<link rel="stylesheet" href="pixie-system.css">
 </head>
-<body><a href="#session" class="skip">Skip to session</a><main id="session">
+<body class="session-page"><a href="#session" class="skip">Skip to session</a><main id="session">
 <nav aria-label="Project navigation"><a href="index.html">Creator OS</a> · <a href="https://ibloud.github.io/pixie-device-stewardship/#demo">Stewardship example</a></nav>
-<h1>Keep your place in a creative session</h1>
+<h1>Keep your place in a creative session</h1><p class="purpose-card">A separate local practice space within Creator OS: listen, note your next step, review and export. This session does not synchronize with your sharing draft. <a href="index.html">Return to the creator workspace</a>.</p>
 <p>Play a file you select, name your session, and leave yourself a next step. Review before exporting. Your choices stay in this tab until you export; reload closes the session.</p>
 <section aria-labelledby="audio-heading"><h2 id="audio-heading">1. Listen, or skip</h2><label for="audio-file">Choose a local audio file</label><input id="audio-file" type="file" accept="audio/*"><audio id="audio" controls preload="metadata" aria-label="Selected local audio"></audio><button id="skip-audio" type="button">Skip / clear audio</button><p id="audio-status" role="status">No audio selected. No recording, upload or instrument connection.</p></section>
 <form id="session-form"><section><h2>2. Name and next step</h2><label for="title">Session name</label><input id="title" maxlength="160" required value="My creative session"><label for="note">Next step (optional)</label><textarea id="note" maxlength="2000" rows="4" placeholder="Try the motif slowly next time."></textarea><label class="check"><input id="keep-note" type="checkbox" checked> Include this note in the export</label><p>Unchecking skips the note in the exported record. No reminder is scheduled.</p></section>
