@@ -68,3 +68,9 @@ jobs:
           node --check spotify-controller.js
           node --check storage-router.js
           node --test tests/tools.test.js
+
+      - name: Check Rave Lab alpha contracts
+        run: |
+          node --check rave.js
+          node --check rave-model.js
+          node --test tests/rave.test.js

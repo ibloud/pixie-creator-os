@@ -154,3 +154,7 @@ See [session contract and device checks](docs/creator-session.md). These feature
 ## Morgue experience desk — local demo
 
 Open [the Morgue workspace](morgue/) to rehearse an Ink-driven experience with operator controls, a same-device simulated participant preview, preview-before-release cues for Violet, Mortis and the Pennywise reference label, and a local event feed. Start, pause, resume, end, leave and reset are implemented. No remote participants or Germ/Roomy messaging are connected. A simulated win shows a reward preview linking to the real Violet’s Revenge game; it does not distribute an invitation. See [demo contract](docs/morgue-demo.md).
+
+## Rave Lab event alpha
+
+Open `rave.html` from the existing workspace for a Tarantula/Inpatient-referenced event rehearsal. It implements local downloadable/returnable virtual test passes, an optional shared Streamplace viewer, quiet break/exit, public host configuration export and an explicit Roomy handoff. Real tickets, capacity enforcement, payments, live room moderation and reaction-camera production are not connected. See [onboarding, source research, test evidence and live-pilot requirements](docs/rave-alpha.md). The existing central `creator.css` styles this journey; no replacement app or chat system is created.
