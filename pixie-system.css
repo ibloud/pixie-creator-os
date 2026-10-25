@@ -1,0 +1,38 @@
+/* Shared PIXIE roles; loaded after page styles. User readability overrides remain authoritative. */
+:root{--pixie-ink:#081820;--pixie-sea:#9cddd0;--pixie-paper:#faf7f0;--pixie-coral:#f3a68c;--pixie-space:8px}
+.creator-page{color-scheme:light;--bg:var(--pixie-paper);--panel:#fffdf8;--line:#b7c5c0;--text:var(--pixie-ink);--muted:#465d62;--accent:#24695b;--button:var(--pixie-sea);--ink:var(--pixie-ink)}
+.creator-page a,.session-page a{color:#24695b}
+.creator-page .topbar{background:var(--pixie-ink);color:var(--pixie-paper);padding:24px 32px}
+.creator-page .brand{color:var(--pixie-paper)}
+.creator-page .brand span:last-child{color:#bdd0d1}
+.creator-page .local-badge{color:var(--pixie-sea)}
+.creator-page .brand-dot{background:var(--pixie-coral)}
+.creator-page .sidebar{background:#eaf0e9;padding:32px 16px;gap:40px}
+.creator-page .sidebar nav button[aria-current]{background:#ccebe1;color:var(--pixie-ink);border-color:#668f83}
+.creator-page main{padding:32px clamp(24px,4vw,64px);max-width:1440px}
+.creator-page .workspace-meta{font-size:12px;letter-spacing:.08em;margin-bottom:32px}
+.creator-page h1{font-size:clamp(32px,4vw,56px);max-width:20ch}
+.creator-page .lede{font-size:18px;line-height:1.6}
+.creator-page button,.creator-page .button{background:#e9efe9;color:var(--pixie-ink);border-color:#718e85;min-height:48px;padding:12px 20px}
+.creator-page .primary{background:var(--pixie-sea);color:var(--pixie-ink);border-color:#527d70}
+.creator-page button:hover,.creator-page .button:hover{background:#ccebe1}
+.creator-page .quiet{background:transparent}
+.creator-page input:not([type=file]):not([type=checkbox]),.creator-page textarea,.creator-page select{background:#fffdf8;color:var(--pixie-ink);min-height:48px;border-color:#718e85;padding:12px 16px}
+.creator-page .card{padding:32px;border-radius:16px}
+.creator-page .media-preview{background:#eaf0e9}
+.creator-page .feedback{background:#e3eee5;border-color:#24695b}
+.creator-page .badge{color:#36534a;border-color:#718e85}
+.creator-page input[type=file]::file-selector-button{min-height:48px;background:var(--pixie-sea);color:var(--pixie-ink)}
+.creator-page :focus-visible,.session-page :focus-visible{outline:3px solid #24695b;outline-offset:4px}
+.creator-page .topbar :focus-visible{outline-color:var(--pixie-sea)}
+.purpose-card{border:1px solid #9eb5a9;border-left:4px solid #24695b;border-radius:12px;padding:24px;margin:0 0 32px;background:#eaf0e9;color:var(--pixie-ink);max-width:88ch;line-height:1.6}
+.purpose-card p:last-child{margin-bottom:0}.purpose-card summary{min-height:48px;padding:12px 0;cursor:pointer;font-weight:600}.purpose-card li{margin:12px 0}.purpose-card details+details{border-top:1px solid #9eb5a9}
+.session-page{color-scheme:light;background:var(--pixie-paper);color:var(--pixie-ink);font:18px/1.6 system-ui,sans-serif}
+.session-page main{max-width:840px;padding:32px 24px}
+.session-page section{padding:24px 0;border-color:#9eb5a9}
+.session-page input:not([type=checkbox]),.session-page textarea{background:#fffdf8;color:var(--pixie-ink);border-color:#718e85;padding:12px}
+.session-page button{background:var(--pixie-sea);color:var(--pixie-ink);border-color:#527d70;min-height:48px;padding:12px 20px}
+/* Tools retain a dark workbench. Readability modes override these default tokens. */
+.tools-page:not(.a11y-high-contrast){--clr-primary:#9cddd0;--clr-secondary:#9cddd0;--clr-emphasis:#f3a68c;--clr-lavender:#bdd0d1;--clr-text:#faf7f0;--clr-dim:#bdd0d1;--clr-base:#081820;--clr-surface:#142a31;--clr-panel:#10252d;--clr-border:#647e80;--clr-hover:#25443f}
+.tools-page .hero-copy{padding:32px 24px}.tools-page .hero-copy p{line-height:1.6;margin-bottom:16px}.tools-page .tools-content{padding:24px;gap:24px}.tools-page .tools-card{padding-bottom:24px;gap:16px}.tools-page .tools-actions{gap:16px}.tools-page .tools-content button,.tools-page .tools-content a{min-height:48px;padding:12px 16px}
+@media(max-width:760px){.creator-page main{padding:24px 20px}.creator-page .topbar{padding:16px 20px}.creator-page .sidebar{padding:16px;gap:16px}.creator-page .card{padding:24px}.purpose-card{padding:20px;margin-bottom:24px}.creator-page .sidebar nav{grid-template-columns:repeat(2,minmax(0,1fr))}.creator-page .sidebar nav button{justify-content:flex-start;padding:12px}.session-page main{padding:24px 20px}}
