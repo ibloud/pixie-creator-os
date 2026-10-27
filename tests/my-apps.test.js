@@ -31,3 +31,8 @@ test('every executable page uses only the shared stylesheet and no inline compet
  }
  const css=fs.readFileSync('styles.css','utf8');assert.doesNotMatch(css,/@import/);
 });
+
+test('Creator discovery and app navigation use the canonical Railway Companion',()=>{
+ const url=I.apps().find(a=>a.id==='companion').url;assert.equal(new URL(url).origin,'https://pixie-project-companion-production.up.railway.app');
+ const source=fs.readFileSync('network-intelligence.js','utf8');assert.doesNotMatch(source,/pixie-project-companion\.ibloud-ivxx\.chatgpt\.site/);assert.match(source,/pixie-project-companion-production\.up\.railway\.app\/#find-help/);
+});

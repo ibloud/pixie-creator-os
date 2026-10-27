@@ -232,3 +232,18 @@ not trusted, and that boundary is preserved. Live OAuth/provider revocation,
 service availability, native/PWA installation and physical iPad Safari/VoiceOver
 remain unverified. No merge, Companion branch update, Railway change or production
 publication is authorized by this amendment.
+
+
+### Canonical Companion cutover
+
+Owner direction, 27 October 2026: the one Companion application runtime is the
+existing Railway service at https://pixie-project-companion-production.up.railway.app/.
+The Creator My Apps registry, My PIXIE project route and preserved Network
+Intelligence enquiry card use that destination. ChatGPT is a client integration,
+not another Companion instance. No sessions, data or permissions synchronize
+merely because an app link opens. Existing selected-project consent and fixed
+origin/window checks are unchanged. Coordinate source acceptance with Companion
+PR #5 and its existing deployment/RAILWAY.md cutover gates. The old Site remains
+a migration source pending verified private-data export/transfer, OAuth/client
+and MCP dependency resolution, live acceptance and explicit retirement approval.
+No Site, plugin, domain or production data change is made by this navigation patch.
