@@ -59,9 +59,12 @@ jobs:
       - name: Test current-shaped official ticket fixtures
         run: node tests/tickets-fixture.test.js
       - name: Check creator environment controller
-        run: node --check creator-environment.js
+        run: |
+          node --check creator-environment.js
+          node --check my-apps.js
+          node tests/my-apps.test.js
       - name: Test draft import cancellation and timing races in Chromium
-        run: node --test tests/browser-import.test.js
+        run: node --test tests/browser-import.test.js tests/browser-my-apps.test.js
 
       - name: Test local Morgue Ink outcomes and operator boundaries
         run: node --test tests/morgue.test.js

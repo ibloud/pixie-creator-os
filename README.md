@@ -157,7 +157,7 @@ Open [the Morgue workspace](morgue/) to rehearse an Ink-driven experience with o
 
 ## Rave Lab event alpha
 
-Open `rave.html` from the existing workspace for a Tarantula/Inpatient-referenced event rehearsal. It implements local downloadable/returnable virtual test passes, an optional shared Streamplace viewer, quiet break/exit, public host configuration export and an explicit Roomy handoff. Real tickets, capacity enforcement, payments, live room moderation and reaction-camera production are not connected. See [onboarding, source research, test evidence and live-pilot requirements](docs/rave-alpha.md). The existing central `creator.css` styles this journey; no replacement app or chat system is created.
+Open `rave.html` from the existing workspace for a Tarantula/Inpatient-referenced event rehearsal. It implements local downloadable/returnable virtual test passes, an optional shared Streamplace viewer, quiet break/exit, public host configuration export and an explicit Roomy handoff. Real tickets, capacity enforcement, payments, live room moderation and reaction-camera production are not connected. See [onboarding, source research, test evidence and live-pilot requirements](docs/rave-alpha.md). The existing central `styles.css` styles this journey; no replacement app or chat system is created.
 
 ### Creator environment review slice
 
@@ -167,3 +167,15 @@ updated. See the [existing workflow contract](docs/artist-workflow.md#atmosphere
 for exact ownership, supported adapters, tests and blocked acceptance. Earlier
 “not connected” statements describe the existing public release, not successful
 acceptance of the two unreleased review candidates.
+
+
+### My Apps review amendment
+
+My Apps now supports a selected, ordered collection from the existing adapter
+registry: Add, configure the public viewer, Launch and Remove. Local shortcut
+preferences survive browser reopening; private-project choices travel through the
+existing draft/export and reviewed Companion save. A launch is neither an install
+nor authorization to control an app. All pages reuse the authoritative shared
+`styles.css`; existing surface identities are preserved. See the [working scope,
+states, permissions and checks](docs/artist-workflow.md#my-apps-amendment--27-october-2026)
+and [existing design/token record](design-qa.md).

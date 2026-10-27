@@ -23,7 +23,9 @@
       const uri=text(m.uri||'',2000);if(uri&&!/^at:\/\/did:(plc:[a-z2-7]{24}|web:[A-Za-z0-9._%:-]+)\/fm\.plyr\.track\/[A-Za-z0-9._~:-]+$/.test(uri))throw Error('Unsupported audio source URI');
       music={url:u.href,uri,cid:text(m.cid||'',300),title:text(m.title||'',160),attribution:text(m.attribution||'',1000),rights:text(m.rights||'',2000),verification:'public reference; ownership and playback not verified'};
     }
-    return {event:event?{uri:event.uri,title:event.title,url:eventUrl,mode:event.fixture===true?'fixture; no registration or admission':'creator-supplied reference; not fetched or synchronized',fixture:event.fixture===true}:null,music};
+    const apps = input.apps === undefined ? [] : (root.PIXIEInterop || (typeof require === 'function' ? require('./interoperability.js') : null))?.appSelection(input.apps);
+    if(!apps)throw Error('App registry unavailable');
+    return {apps,event:event?{uri:event.uri,title:event.title,url:eventUrl,mode:event.fixture===true?'fixture; no registration or admission':'creator-supplied reference; not fetched or synchronized',fixture:event.fixture===true}:null,music};
   }
   function validate(input) {
     if (!input || input.schema !== schema || typeof input.pixie_id !== 'string' || !/^[A-Za-z0-9-]{1,80}$/.test(input.pixie_id) || !['bluesky', 'repurpose'].includes(input.destination) || typeof input.rights !== 'boolean') throw new Error('Unsupported PIXIE draft');

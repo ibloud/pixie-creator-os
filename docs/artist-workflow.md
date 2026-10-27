@@ -65,9 +65,9 @@ Connections now includes the existing optional Streamplace viewer. No embed load
 
 The existing shell now groups work as My Studio, My Apps, My Audience, My Events,
 My Money, My Hardware, My Rights and My PIXIE. Prepare and Share remain the same
-media/rights/manual-publishing workflow. The central creator.css and existing
+media/rights/manual-publishing workflow. The central styles.css and existing
 Streamplace module remain in use. Text-size preferences use the existing style
-variables; only that preference is localStorage data, not private project content.
+variables. Public shortcut preferences also use localStorage as documented below; private project content is not stored there.
 
 Companion remains the private administration/identity/persistence owner. From its
 selected project, **Open selected project in Creator OS** asks explicit consent
@@ -148,3 +148,87 @@ resume. Keyboard focus and sampled text contrast pass across all eight panels;
 303/location responses but routes their follow-up locally to avoid accidental live
 requests from the browser harness. Real provider cryptography is not mocked into
 a production success claim.
+
+
+## My Apps amendment — 27 October 2026
+
+`interoperability.js` remains the adapter registry. Its optional `app` metadata
+owns names, fixed destinations, capability boundaries and categories. My Apps
+is a personal selection from that registry, not a copy of the Atmosphere catalog
+or another OAuth system. `my-apps.js` renders that selection through the existing
+Creator draft and navigation. No custom URL, token, provider permission or
+connection claim is accepted from a saved app entry.
+
+**Working locally:** Add, Launch in a separate tab, Return, Remove, category/name
+filter, earlier/later ordering, public Streamplace handle configuration, existing
+public music search and existing optional viewer. Launch keeps the creative tab
+open, sends no draft data and uses `noopener noreferrer` and no-referrer.
+No application is installed by Add or Launch. Native/PWA installation stays
+with the target and platform; this slice does not claim an installer.
+
+**Persistence:** app IDs/order and the optional public viewer handle travel in
+`environment.apps` in the existing `pixie-artist-draft/v1`. Older drafts without
+apps still import. Unknown/duplicate IDs and unsafe handle values are rejected;
+extra credentials, URLs, owner claims and connection flags are stripped. Public
+sharing text excludes the collection. In a connected project, app choices are
+kept by the same reviewed Companion save as the creative draft; reopen that
+project to resume. This is a per-project collection, not a claimed global account
+catalog. Private selections never write the device shortcut key. Locally, only
+public shortcut preferences use `pixie.creator.apps.v1`, following the existing
+device-preference localStorage pattern. Storage denial is disclosed; export is
+the fallback. Clear this workspace removes those local app preferences.
+
+**State:** Available/Added describe catalog and selection, not proof of a live
+service. Connected requires the existing explicit Companion project handoff.
+Authorization required points to that handoff, not a second browser key. A tab
+without a handoff does not know whether Companion is signed in; the badge and
+My Apps now state that fact. Unsupported labels the unimplemented **account
+control** operation, not the ability to launch an app. atcash is Unavailable
+because a supported destination was not verified. No third-party account is
+marked connected merely because the person signed in to Atmosphere. The
+Streamplace control requests public viewing only; no broadcast or account grant.
+
+**Consent/revocation:** connect the selected private project using Companion's
+existing consent and Disconnect clears that granted context. Existing Streamplace
+Load/Remove player controls start/stop its public frame. Removing a shortcut does
+not revoke a provider grant. Third-party OAuth control adapters are not implemented;
+authorize and revoke in the source app/account host. This work adds no scopes.
+
+**Maintained discovery, verified 27 October 2026:**
+[Atmosphere Account Apps](https://atmosphereaccount.com/apps) provides an app
+catalog and categories; [Eurosky Portal](https://portal.eurosky.tech/) provides
+app discovery and its own account-management UI. PIXIE links them on demand.
+Neither has a verified catalog-sync API in this review; no account scraping,
+catalog mirroring, auto-sync or private data request is made. The existing
+canonical ecosystem map and source links above retain project responsibility.
+App descriptions are concise summaries, not endorsement or affiliation claims.
+Approved third-party logo artifacts were not recovered in this checkout; this
+slice uses actual app names and no invented logos. The referenced Eurosky
+screenshot was not available in the current attachments; no screenshot was copied.
+
+Presentation authority and preserved tokens are recorded in existing
+[design QA](../design-qa.md). Every executable HTML page now loads only
+`styles.css`, with surface-scoped rules preserving existing layouts and identities.
+
+### Repeatable checks
+
+- `node tests/my-apps.test.js`: registry, state, strict portable preferences,
+  backward compatibility, sole stylesheet and no inline competing rules.
+- `node tests/browser-my-apps.test.js`: Add/configure/order/Launch/return/restore/
+  Remove, denied storage, filtering, keyboard, large text and page layout smoke.
+  Uses the existing Playwright dependency; `PIXIE_CHROMIUM` can select a local
+  Chromium executable. External launch destinations are synthetic fixtures.
+- `PIXIE_CREATOR_ROOT=$PWD PIXIE_COMPANION_ROOT=/path/to/reviewed/apps/companion
+  node tests/browser-companion-apps.cjs`: extends the existing paired Companion
+  acceptance journey using its actual server/private storage and synthetic OAuth
+  fixtures. Use reviewed Companion commit `fbd7d3f`; no live credentials. Checks
+  Add/Launch/return/private save/reopen/Remove, exact project continuity,
+  isolation, sign-out and explicit connection revocation. This paired test is
+  local acceptance, not Creator-only CI or a production release.
+
+The paired Companion correction remains separately staged and release-blocked.
+The protected Vercel preview cannot demonstrate private handoff: its origin is
+not trusted, and that boundary is preserved. Live OAuth/provider revocation,
+service availability, native/PWA installation and physical iPad Safari/VoiceOver
+remain unverified. No merge, Companion branch update, Railway change or production
+publication is authorized by this amendment.

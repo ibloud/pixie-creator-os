@@ -38,6 +38,7 @@
       label: adapter.label || adapter.id,
       status: adapter.status || STATUS.PLANNED,
       capabilities: Object.freeze([...(adapter.capabilities || [])]),
+      app: adapter.app ? Object.freeze({ ...adapter.app }) : null,
       normalize: adapter.normalize || (record => normalizeRecord(record, adapter.id))
     }));
   }
@@ -196,6 +197,49 @@
   registerAdapter({ id: 'youtube', label: 'YOUTUBE', status: STATUS.PLANNED, capabilities: ['media-reference'] });
   registerAdapter({ id: 'spotify', label: 'SPOTIFY', status: STATUS.ADAPTER_READY, capabilities: ['media-reference'] });
 
+  // The existing adapter registry also owns launch metadata. A link is not an authorization.
+  const appDefinitions = [
+    ['companion','PIXIE Companion','https://pixie-project-companion-production.up.railway.app/#creator','Private projects, identity and reviewed creative continuity.','Workspace','companion'],
+    ['plyr-fm','plyr.fm','https://plyr.fm/','Listen to published audio; search public references here.','Audio','public-search'],
+    ['streamplace','Streamplace','https://stream.place/','Live video on AT Protocol; optional public viewer here.','Video','viewer'],
+    ['atmo-rsvp','atmo.rsvp','https://atmo.rsvp/','Discover calendars and events; RSVP in the source app.','Events','link'],
+    ['openmeet','OpenMeet','https://platform.openmeet.net/','Create and participate in events in OpenMeet.','Events','link'],
+    ['tickets','Atmosphere Tickets','https://atmosphere.tickets/','Open event ticketing; PIXIE checkout is not connected.','Events','link'],
+    ['atm','Atmosphere Money','https://atmosphere.money/','Payment information; no PIXIE wallet or checkout connection.','Money','link'],
+    ['made-sick','Made-Sick','https://made-sick.org/directory.html#resources','Discover evaluated resources for independent creative work.','Resources','link'],
+    ['duet','Duet','https://duet.loptrlab.com/','Accessible two-player strategy experience.','Play','link'],
+    ['50ways','50 Ways to Leave Another','https://50ways.loptrlab.com/','Creative and rights-aware learning.','Learning','link'],
+    ['tools','PIXIE tools','tools.html','Existing research, local audio and source stewardship tools.','Workspace','local'],
+    ['session','PIXIE practice session','session.html','Listen locally and export a reviewed next step.','Workspace','local'],
+    ['rave','Rave Lab alpha','rave.html','Local event and test-pass rehearsal; no actual ticket issuance.','Play','local'],
+    ['morgue','Morgue experience demo','morgue/','Local operator and participant rehearsal.','Play','local'],
+    ['bluesky','Bluesky','https://bsky.app/','Review and publish prepared work in the source application.','Social','link'],
+    ['repurpose','Repurpose.io','https://repurpose.io/','External media distribution workflow; not connected to PIXIE.','Video','link'],
+    ['obs','OBS Studio','https://obsproject.com/','External native production tool; download and setup at its source.','Video','link']
+  ];
+  appDefinitions.forEach(([id,label,url,description,category,mode]) => {
+    const existing=adapters.get(id);
+    registerAdapter({ ...existing, id,label,app:{url,description,category,mode,optional:true,availability:'available'} });
+  });
+  registerAdapter({id:'atcash',label:'atcash',status:STATUS.BLOCKED,app:{description:'Current source, permissions and supported destination remain unverified.',category:'Money',mode:'unsupported',availability:'unavailable',optional:true}});
+  function apps(){return [...adapters.values()].filter(a=>a.app).map(a=>({id:a.id,name:a.label,...a.app}));}
+  // Portable public app preferences only. Unknown records and credentials never become launch URLs.
+  function appSelection(value=[]){
+    if(!Array.isArray(value)||value.length>30)throw Error('Invalid app collection');
+    const seen=new Set();
+    return value.map(item=>{
+      if(!item||typeof item.id!=='string'||!adapters.get(item.id)?.app||adapters.get(item.id).app.availability!=='available'||seen.has(item.id))throw Error('Unknown or duplicate application');
+      seen.add(item.id);
+      if(item.viewerHandle!==undefined&&(item.id!=='streamplace'||typeof item.viewerHandle!=='string'||item.viewerHandle.length>253||!/^([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]*$/.test(item.viewerHandle)))throw Error('Use a public stream handle');
+      return {id:item.id,...(item.viewerHandle?{viewerHandle:item.viewerHandle}:{})};
+    });
+  }
+  function appState(app,selected,projectConnected=false){
+    if(app.availability==='unavailable')return {collection:'Unavailable',connection:'Unsupported',detail:'No verified launch destination or integration.'};
+    if(app.id==='companion')return {collection:selected?'Added':'Available',connection:projectConnected?'Connected':'Authorization required',detail:projectConnected?'Selected private project only; no third-party app grants.':'Open a project in Companion and approve its handoff. This is not a Companion sign-out status.'};
+    return {collection:selected?'Added':'Available',connection:app.mode==='viewer'?'Available':'Unsupported',detail:app.mode==='viewer'?'Public viewing only; no account authorization.':'PIXIE account control is unsupported. Launch and authorize separately in the source app.'};
+  }
+
   function installUI() {
     const run = document.getElementById('interopRun');
     const result = document.getElementById('interopResult');
@@ -226,17 +270,20 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', installUI);
+  if(typeof document!=='undefined')document.addEventListener('DOMContentLoaded', installUI);
 
-  window.PIXIEInterop = Object.freeze({
+  const api = Object.freeze({
     VERSION,
     STATUS,
     normalizeRecord,
     normalizeProvenance,
     validateProvenance,
     registerAdapter,
+    apps, appSelection, appState,
     match,
     buildSyncPlan,
     status
   });
+  if(typeof window!=='undefined')window.PIXIEInterop=api;
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })();

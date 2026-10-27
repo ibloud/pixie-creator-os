@@ -162,12 +162,11 @@ window.PIXIE_STORY_ENGINE = window.PIXIE_STORY_ENGINE || (() => {
     const notice = document.createElement('div');
     notice.setAttribute('role', 'alert');
     notice.hidden = true;
-    notice.style.cssText = 'position:fixed;z-index:10000;bottom:3rem;left:1rem;right:1rem;padding:1rem;background:#282033;color:white;border:2px solid #ffcf75';
+    notice.className = 'story-storage-notice';
     const message = document.createElement('span');
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = 'EXPORT RECOVERY DATA';
-    button.style.marginLeft = '1rem';
     button.addEventListener('click', () => {
       const blob = new Blob([exportRecovery()], { type: 'application/json' });
       const url = URL.createObjectURL(blob);

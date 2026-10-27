@@ -11,7 +11,8 @@
  }
  function disconnect(){
   if(linked)workspace.clear();linked=false;returned='';++searchVersion;$('plyr-results').replaceChildren();$('plyr-query').value='';
-  $('creator-session-badge').textContent='Local · not signed in';$('creator-connection-state').textContent='UNAVAILABLE · disconnected';
+  window.dispatchEvent(new CustomEvent('pixie-creator-connection',{detail:{connected:false}}));
+  $('creator-session-badge').textContent='Local workspace · no project connection';$('creator-connection-state').textContent='UNAVAILABLE · disconnected';
   $('creator-project-name').textContent='Private project context cleared';$('creator-project-purpose').textContent='Your saved Companion records are unchanged. Reopen from Companion to resume.';
   $('creator-return').disabled=true;$('creator-disconnect').disabled=true;refresh();
  }
@@ -27,6 +28,7 @@
    const restored=draft?M.validate(JSON.parse(draft)):null;
    if(workspace.draft().title&&!window.confirm('Replace this tab’s current creative draft with the selected Companion project? Download your current work first if needed.'))return;
    workspace.clear();if(restored)workspace.restore(restored);linked=true;
+   window.dispatchEvent(new CustomEvent('pixie-creator-connection',{detail:{connected:true}}));
    $('creator-session-badge').textContent='CONNECTED · Companion project';$('creator-connection-state').textContent='CONNECTED · explicit private handoff';
    $('creator-project-name').textContent=project.name;$('creator-project-purpose').textContent=project.purpose||'No purpose recorded.';
    $('creator-return').disabled=false;$('creator-disconnect').disabled=false;$('creator-save-status').textContent='Private context received from your Companion session. This tab has no independent server credential.';refresh();

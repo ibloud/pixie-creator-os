@@ -4,7 +4,7 @@ Owner direction, 25 October 2026: rehearse a Tarantula/Inpatient-referenced virt
 
 ## Existing-work check
 
-Reuse Creator OS's central `creator.css`, optional `streamplace.js` player, the existing Morgue scene rehearsal and the existing Tarantula learning repository. Read current Creator OS main, canonical ecosystem map, Tarantula and Ren Rhapsody READMEs before implementation. Rhapsody remains its separate musical-game project; this event flow does not change its canon or Halloween acceptance. No replacement repository, chat server, directory or account database is created.
+Reuse Creator OS's central `styles.css`, optional `streamplace.js` player, the existing Morgue scene rehearsal and the existing Tarantula learning repository. Read current Creator OS main, canonical ecosystem map, Tarantula and Ren Rhapsody READMEs before implementation. Rhapsody remains its separate musical-game project; this event flow does not change its canon or Halloween acceptance. No replacement repository, chat server, directory or account database is created.
 
 `rave.html` is a distinct event journey within Creator OS. Source stays in its existing GitHub repository. Companion's Tangled-ready static build is a separate integration change, with its existing Site identity preserved. Neither source publication nor a local pass establishes live attendance infrastructure.
 
