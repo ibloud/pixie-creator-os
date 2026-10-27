@@ -62,7 +62,7 @@ before(async () => {
   fixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pixie-import-tests-'));
   server = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1', '--directory', root], { stdio: 'ignore' });
   await waitForServer();
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({executablePath:process.env.PIXIE_CHROMIUM||undefined, headless: true });
 });
 
 after(async () => {

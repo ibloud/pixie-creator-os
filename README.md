@@ -26,7 +26,7 @@ and [consolidation release](https://github.com/ibloud/ibloud.github.io/blob/main
 
 ## Direction
 
-The default workflow is **My work → Prepare → Share**, with **Connections** explaining optional external services. It supports local audio/video/image previews, public references, caption/credits/accessibility text, reviewed manual handoffs to Bluesky or Repurpose, and self-reported publication links. It does not replace the artist’s DAW, OBS, or distribution services.
+The review slice keeps **My Studio → Prepare → Share**, with **My Apps** explaining optional external services and the remaining creator sections preserving their own boundaries. It supports local audio/video/image previews, public references, caption/credits/accessibility text, reviewed manual handoffs to Bluesky or Repurpose, and self-reported publication links. It does not replace the artist’s DAW, OBS, or distribution services.
 
 ### Product ownership
 
@@ -158,3 +158,12 @@ Open [the Morgue workspace](morgue/) to rehearse an Ink-driven experience with o
 ## Rave Lab event alpha
 
 Open `rave.html` from the existing workspace for a Tarantula/Inpatient-referenced event rehearsal. It implements local downloadable/returnable virtual test passes, an optional shared Streamplace viewer, quiet break/exit, public host configuration export and an explicit Roomy handoff. Real tickets, capacity enforcement, payments, live room moderation and reaction-camera production are not connected. See [onboarding, source research, test evidence and live-pilot requirements](docs/rave-alpha.md). The existing central `creator.css` styles this journey; no replacement app or chat system is created.
+
+### Creator environment review slice
+
+The existing Rave Lab review now also contains the bounded creator environment
+and explicit private-project handoff to Companion. Public production has not been
+updated. See the [existing workflow contract](docs/artist-workflow.md#atmosphere-creator-environment--review-slice-27-october-2026)
+for exact ownership, supported adapters, tests and blocked acceptance. Earlier
+“not connected” statements describe the existing public release, not successful
+acceptance of the two unreleased review candidates.

@@ -17,8 +17,8 @@
   }
   const run = fn => { try { fn(); } catch (e) { tell(e.message + '.'); $('workspace-status').focus(); } };
   function navigate(view) {
-    if (!['work', 'prepare', 'share', 'connections'].includes(view)) view = 'work';
-    for (const name of ['work', 'prepare', 'share', 'connections']) $('view-' + name).hidden = name !== view;
+    if (!['work','prepare','share','connections','audience','events','money','hardware','rights','pixie'].includes(view)) view = 'work';
+    for (const name of ['work','prepare','share','connections','audience','events','money','hardware','rights','pixie']) $('view-' + name).hidden = name !== view;
     document.querySelectorAll('[data-view]').forEach(b => {
       if (b.dataset.view === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
@@ -26,6 +26,7 @@
     $(view === 'work' ? 'work-heading' : view + '-heading').focus();
   }
   function render() {
+    if(window.PixieCreatorWorkspace)window.dispatchEvent(new Event('pixie-creator-draft-change'));
     $('active-heading').textContent = state.title.trim() || 'Untitled work';
     const reviewed = state.reviewedRevision === state.revision;
     const confirmed = state.confirmedRevision === state.revision;
@@ -169,5 +170,6 @@
   window.addEventListener('pagehide', () => { const player = $('media-preview').querySelector('audio,video'); if (player) player.pause(); });
   window.addEventListener('beforeunload', e => { if (state.title || state.caption || state.credits || state.link || state.description || media || state.receipts.length) { e.preventDefault(); e.returnValue = ''; } });
   window.PixieStreamplace.mount($('streamplace-creator'));
+  window.PixieCreatorWorkspace={draft:()=>M.exportDraft(state),restore:raw=>commitImport(M.validate(raw)),clear:()=>{clearMedia();state=M.create(makeId());syncFields();render();},context:patch=>{state=M.edit(state,{environment:{...state.environment,...patch}});render();tell('Creative context changed. Download or return the draft to keep it.');}};
   syncFields(); render(); navigate(location.hash.slice(1) || 'work');
 })();
