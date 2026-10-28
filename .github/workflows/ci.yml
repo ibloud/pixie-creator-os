@@ -54,10 +54,17 @@ jobs:
 
       - name: Install Chromium browser test dependency
         run: |
-          npm install --no-save --no-package-lock playwright
+          npm install --no-save --no-package-lock playwright @atmosphere-money/app-node@0.0.0-beta.5 @atmosphere-money/testing@0.0.0-beta.3
           npx playwright install --with-deps chromium
+      - name: Test current-shaped official ticket fixtures
+        run: node tests/tickets-fixture.test.js
+      - name: Check creator environment controller
+        run: |
+          node --check creator-environment.js
+          node --check my-apps.js
+          node tests/my-apps.test.js
       - name: Test draft import cancellation and timing races in Chromium
-        run: node --test tests/browser-import.test.js
+        run: node --test tests/browser-import.test.js tests/browser-my-apps.test.js
 
       - name: Test local Morgue Ink outcomes and operator boundaries
         run: node --test tests/morgue.test.js
@@ -68,3 +75,9 @@ jobs:
           node --check spotify-controller.js
           node --check storage-router.js
           node --test tests/tools.test.js
+
+      - name: Check Rave Lab alpha contracts
+        run: |
+          node --check rave.js
+          node --check rave-model.js
+          node --test tests/rave.test.js

@@ -16,7 +16,7 @@ The UI disclosure is: **LOCAL DEMO · no external crawl or message is sent.** Do
 
 ## Files
 - network-intelligence.js — behavior, demo state, provenance, actions, persistence seam.
-- network-intelligence.css — presentation.
+- styles.css — shared presentation; Network Intelligence rules are scoped to the tools surface.
 - index.html — asset loading.
 - docs/network-intelligence.md — this contract.
 

@@ -61,7 +61,9 @@ assert.equal(allowed.confidence, 1);
 
 const status = api.status();
 assert.equal(status.mode, 'LOCAL_ONLY');
-assert.equal(status.adapters.length, 7);
+assert.equal(new Set(status.adapters.map(a=>a.id)).size, status.adapters.length);
+for(const id of ['pixie','obsidian','atproto','unsplash','plyr-fm','youtube','spotify']) assert.ok(status.adapters.some(a=>a.id===id));
+assert.ok(api.apps().some(a=>a.id==='companion')); 
 assert.equal(
   status.adapters.find(a => a.id === 'unsplash').status,
   'ADAPTER READY'

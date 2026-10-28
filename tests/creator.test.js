@@ -82,3 +82,27 @@ test('draft fingerprint tracks exported content, including publication receipts,
   const runtimeOnly = { ...recorded, reviewedRevision: null, confirmedRevision: null };
   assert.equal(M.fingerprint(runtimeOnly), M.fingerprint(recorded));
 });
+test('creative context preserves provenance and synthetic event identity without importing authority',()=>{
+ const environment={event:{uri:'at://did:plc:aaaaaaaaaaaaaaaaaaaaaaaa/community.lexicon.calendar.event/pixie-synthetic',title:'PIXIE synthetic studio rehearsal'},music:{url:'https://plyr.fm/track/42',uri:'at://did:plc:aaaaaaaaaaaaaaaaaaaaaaaa/fm.plyr.track/one',cid:'bafy-source',title:'Original reference',attribution:'Synthetic creator',rights:'Attribution required',connected:true}};
+ const s=M.edit(ready(),{environment}),out=M.exportDraft(s),restored=M.validate({...out,ownerDid:'forged'});
+ assert.deepEqual(restored.environment,out.environment);assert.equal(restored.environment.music.cid,'bafy-source');assert.equal(restored.environment.music.rights,'Attribution required');assert.equal(restored.environment.music.connected,undefined);assert.equal(restored.ownerDid,undefined);assert.equal(restored.confirmedRevision,null);
+ for(const url of ['javascript:alert(1)','https://plyr.fm.evil/track/42','https://token@plyr.fm/track/42','https://plyr.fm/track/42?token=private'])assert.throws(()=>M.environment({music:{...environment.music,url}}));
+ assert.throws(()=>M.environment({event:{...environment.event,uri:'at://forged'}}));
+});
+test('public music discovery sends only the explicit query and fails without fabrication',async()=>{
+ let request;const results=await M.searchPlyr('studio',async(url,options)=>{request={url,options};return {ok:true,json:async()=>({results:[{type:'track',id:42,title:'Original reference',artist_handle:'creator.test',artist_display_name:'Synthetic creator'}]})};});
+ assert.equal(request.options.credentials,'omit');assert.equal(request.options.referrerPolicy,'no-referrer');assert.equal(new URL(request.url).searchParams.get('q'),'studio');assert.equal(new URL(request.url).searchParams.get('type'),'tracks');assert.equal(results[0].url,'https://plyr.fm/track/42');assert.match(results[0].rights,/Unverified/);
+ await assert.rejects(M.searchPlyr('a'));await assert.rejects(M.searchPlyr('studio',async()=>{throw Error('offline');}));assert.throws(()=>M.parsePlyrSearch({results:[{type:'track',id:'../private',title:'Unsafe',artist_handle:'x'}]}));
+});
+
+test('ticket availability presentation preserves zero and unknown counts without inventory mutations',()=>{
+ const input=require('../ticket-fixture.json');const value=M.ticketPresentation(input);assert.equal(value.types[0].available,'2');
+ const zero=structuredClone(input);zero.availability.ticketTypes[0].availableQuantity=0;assert.equal(M.ticketPresentation(zero).types[0].available,'0');delete zero.availability.ticketTypes[0].availableQuantity;assert.equal(M.ticketPresentation(zero).types[0].available,'not supplied');
+ zero.availability.ticketTypes[0].availableQuantity=-1;assert.throws(()=>M.ticketPresentation(zero));assert.throws(()=>M.ticketPresentation({...input,mode:'live'}));assert.deepEqual(input,require('../ticket-fixture.json'));
+});
+
+test('OpenMeet and atmo.rsvp keep the existing event source rather than create a duplicate',()=>{
+ const event={uri:'at://did:plc:bbbbbbbbbbbbbbbbbbbbbbbb/community.lexicon.calendar.event/existing',title:'Existing event',url:'https://platform.openmeet.net/events/synthetic',fixture:false};
+ const saved=M.environment({event}).event;assert.equal(saved.uri,event.uri);assert.equal(saved.url,event.url);assert.match(saved.mode,/not fetched or synchronized/);assert.equal(saved.fixture,false);
+ assert.throws(()=>M.environment({event:{...event,url:'https://platform.openmeet.net/events/synthetic?token=private'}}));assert.throws(()=>M.environment({event:{...event,uri:'at://did:plc:bbbbbbbbbbbbbbbbbbbbbbbb/other.collection/existing'}}));
+});
