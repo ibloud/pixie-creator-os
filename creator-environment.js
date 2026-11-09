@@ -3,31 +3,33 @@
  'use strict';
  const $=id=>document.getElementById(id),workspace=window.PixieCreatorWorkspace,M=window.PixieCreator;
  const companionOrigin='https://pixie-project-companion-production.up.railway.app';
- const parent=window.opener;let linked=false,searchVersion=0,returned='';
+ const parent=window.opener;let linked=false,searchVersion=0,returned='',standardContext=null;
  function refresh(){
   const context=workspace.draft().environment;
   $('creator-event-status').textContent=context.event?context.event.title+' · '+context.event.uri+' · '+context.event.mode:'No event associated with this draft.';
   $('plyr-reference').textContent=context.music?context.music.title+' · '+context.music.attribution+' · '+context.music.verification:'No music reference selected.';
  }
  function disconnect(){
-  if(linked)workspace.clear();linked=false;returned='';++searchVersion;$('plyr-results').replaceChildren();$('plyr-query').value='';
+  if(linked)workspace.clear();linked=false;returned='';standardContext=null;$('creator-standard-preview').textContent='';$('creator-standard-context').hidden=true;++searchVersion;$('plyr-results').replaceChildren();$('plyr-query').value='';
   window.dispatchEvent(new CustomEvent('pixie-creator-connection',{detail:{connected:false}}));
   $('creator-session-badge').textContent='Local workspace · no project connection';$('creator-connection-state').textContent='UNAVAILABLE · disconnected';
   $('creator-project-name').textContent='Private project context cleared';$('creator-project-purpose').textContent='Your saved Companion records are unchanged. Reopen from Companion to resume.';
   $('creator-return').disabled=true;$('creator-disconnect').disabled=true;refresh();
  }
- function ready(){if(parent&&!parent.closed)parent.postMessage({type:'pixie-creator-ready'},companionOrigin);else if(linked)disconnect();}
+ function ready(){if(parent&&!parent.closed)parent.postMessage({type:'pixie-creator-ready',standardContextVersions:[1]},companionOrigin);else if(linked)disconnect();}
  window.addEventListener('message',event=>{
   if(event.origin!==companionOrigin||event.source!==parent||!parent)return;
   if(event.data?.type==='pixie-creator-disconnect'){disconnect();return;}
   if(event.data?.type==='pixie-creator-saved'&&linked&&event.data.id===returned){$('creator-save-status').textContent='Confirmed saved in your Companion project. Publishing and payment remain separate.';return;}
-  if(event.data?.type!=='pixie-creator-project'||linked)return;
+  if(!['pixie-creator-project','pixie-creator-project/v2'].includes(event.data?.type)||linked)return;
   try{
    const {project,did,draft}=event.data;
+   const context=event.data.type==='pixie-creator-project/v2'?window.PIXIE_STANDARD_CONTEXT.read(event.data.standardContext):null;
+   if(context&&context.projectId!==project?.id)throw Error('Standard context destination mismatch');
    if(!project||typeof project.id!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(project.id)||typeof project.name!=='string'||project.name.length>160||typeof project.purpose!=='string'||project.purpose.length>4000||typeof did!=='string'||!/^did:(plc:[a-z2-7]{24}|web:[A-Za-z0-9._%:-]+)$/.test(did))throw Error('Invalid private project handoff');
    const restored=draft?M.validate(JSON.parse(draft)):null;
    if(workspace.draft().title&&!window.confirm('Replace this tab’s current creative draft with the selected Companion project? Download your current work first if needed.'))return;
-   workspace.clear();if(restored)workspace.restore(restored);linked=true;
+   workspace.clear();if(restored)workspace.restore(restored);standardContext=context;$('creator-standard-context').hidden=!context;$('creator-standard-preview').textContent=context?JSON.stringify(context,null,2):'';linked=true;
    window.dispatchEvent(new CustomEvent('pixie-creator-connection',{detail:{connected:true}}));
    $('creator-session-badge').textContent='CONNECTED · Companion project';$('creator-connection-state').textContent='CONNECTED · explicit private handoff';
    $('creator-project-name').textContent=project.name;$('creator-project-purpose').textContent=project.purpose||'No purpose recorded.';
@@ -38,7 +40,7 @@
   try{
    if(!linked||!parent||parent.closed)throw Error('Companion disconnected. Download a draft instead.');
    const draft=JSON.stringify(M.validate(workspace.draft()));if(draft.length>9000)throw Error('Draft exceeds private note limit; download it instead.');
-   returned=crypto.randomUUID();parent.postMessage({type:'pixie-creator-return',receipt:{schema:'pixie-creator-return/v1',id:returned,draft}},companionOrigin);
+   returned=crypto.randomUUID();const receipt={schema:standardContext?'pixie-creator-return/v2':'pixie-creator-return/v1',id:returned,draft,...(standardContext?{standardContext}:{})};if(JSON.stringify(receipt).length>9500)throw Error('Combined draft/context exceeds private note limit; download the artist draft and retain the source in Companion.');parent.postMessage({type:'pixie-creator-return',receipt},companionOrigin);
    $('creator-save-status').textContent='Returned for review, NOT saved. Confirm in Companion; only its successful response confirms persistence.';
   }catch(error){$('creator-save-status').textContent=error.message;}
  });
