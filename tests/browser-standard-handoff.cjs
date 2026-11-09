@@ -1,0 +1,51 @@
+// Extends the existing Companion browser acceptance journey; reuses its server and identity fixtures.
+// Run only against the reviewed checkout named by PIXIE_COMPANION_ROOT; no live credentials.
+// Two existing applications, real private HTTP routes, synthetic upstream OAuth.
+const {chromium}=require(process.env.PIXIE_PLAYWRIGHT_MODULE||'playwright');
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
+(async()=>{
+ if(!process.env.PIXIE_CREATOR_ROOT)throw Error('Set PIXIE_CREATOR_ROOT to the reviewed existing Creator OS checkout.');
+ const creatorRoot=await fs.realpath(process.env.PIXIE_CREATOR_ROOT),creatorOrigin='https://ibloud.github.io',creatorPath='/pixie-creator-os/';
+ const companionRoot=process.env.PIXIE_COMPANION_ROOT;if(!companionRoot)throw Error('Set PIXIE_COMPANION_ROOT to the reviewed existing Companion checkout.');
+ const {createCompanionServer}=await import(path.join(companionRoot,'server.mjs')),{createOwnerIdentity}=await import(path.join(companionRoot,'lib/owner-identity.mjs'));
+ const {syntheticProvider,fixtureFetch,origin,host}=await import(path.join(companionRoot,'tests/fixtures/owner-identity.mjs'));
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'pixie-creator-journey-')),provider=syntheticProvider();let server,context;
+ const browser=await chromium.launch({headless:true,executablePath:process.env.PIXIE_CHROMIUM||'/usr/bin/chromium',args:['--no-sandbox']});
+ try{
+  const identity=createOwnerIdentity({secret:'c'.repeat(64),file:path.join(dir,'identity.enc'),oauthFactory:provider.factory});await identity.ready();
+  server=createCompanionServer({identity,identityConfig:null,modelProvider:null,token:'synthetic-machine-only-'.repeat(3),workspaceFile:path.join(dir,'workspace.json')});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
+  context=await browser.newContext({viewport:{width:820,height:1180},hasTouch:true});const errors=[],external=[];
+  context.on('page',p=>{p.on('pageerror',e=>errors.push(e.message));p.on('dialog',d=>d.accept());});
+  await context.route('**/*',async route=>{
+   const request=route.request(),u=new URL(request.url());
+   if(u.origin==='https://identity.example.test'){const callback=origin+'/?state='+u.searchParams.get('state')+'&code='+(u.searchParams.get('login_hint')==='stranger.test'?'stranger':'owner')+'&iss='+encodeURIComponent('https://identity.example.test');return route.fulfill({contentType:'text/html',body:'<!doctype html><script>location.replace('+JSON.stringify(callback)+')</script>'});}
+   if(u.origin===creatorOrigin){let relative=u.pathname.slice(creatorPath.length)||'index.html';if(!u.pathname.startsWith(creatorPath)||relative.includes('..'))return route.abort();const filename=path.join(creatorRoot,relative);try{return route.fulfill({body:await fs.readFile(filename),contentType:relative.endsWith('.js')?'text/javascript':relative.endsWith('.css')?'text/css':relative.endsWith('.json')?'application/json':relative.endsWith('.svg')?'image/svg+xml':'text/html'});}catch{return route.fulfill({status:404,body:'Missing review asset'});}}
+   if(u.origin==='https://public.api.bsky.app'&&u.pathname.endsWith('searchActorsTypeahead'))return route.fulfill({contentType:'application/json',body:JSON.stringify({actors:[{did:'did:plc:bbbbbbbbbbbbbbbbbbbbbbbb',handle:'stranger.test',displayName:'Synthetic B'}]})});
+   if(u.origin==='https://api.plyr.fm'){external.push(request.url());assert.equal(u.searchParams.get('q'),'original');assert.equal(request.headers().authorization,undefined);return route.fulfill({contentType:'application/json',body:JSON.stringify({results:[{type:'track',id:42,title:'Synthetic published track',artist_handle:'creator.test',artist_display_name:'Synthetic creator'}],counts:{tracks:1}})});}
+   if(u.origin!==origin)return route.fulfill({contentType:'application/json',body:'{}'});
+   const headers={...request.headers(),Host:host};delete headers.host;
+   const response=await fixtureFetch(base+u.pathname+u.search,{method:request.method(),headers,body:request.postData()||undefined});const outgoing=Object.fromEntries(response.headers);if(response.headers.getSetCookie().length)outgoing['set-cookie']=response.headers.getSetCookie().join('\n');
+   // Chromium's fulfilled HTTP redirect chain can leave context.route on later
+   // navigations. Assert the real callback response, then keep this fixture's
+   // follow-up navigation routed locally; never contact the deployed service.
+   if(response.status===303){assert.equal(response.headers.get('location'),'/#account');delete outgoing.location;outgoing['content-type']='text/html';return route.fulfill({status:200,headers:outgoing,body:'<!doctype html><script>location.replace('+JSON.stringify(origin+'/#account')+')</script>'});}
+   return route.fulfill({status:response.status,headers:outgoing,body:Buffer.from(await response.arrayBuffer())});
+  });
+  const parent=await context.newPage();await parent.goto(origin+'/#account');await parent.getByLabel('Find your atmosphere account').fill('owner.test');await parent.getByRole('button',{name:'Continue with Atmosphere',exact:true}).click();await parent.getByText('Your atmosphere identity is connected.',{exact:true}).waitFor();await parent.getByRole('button',{name:'My projects',exact:true}).click();
+  await parent.getByLabel('Project name',{exact:true}).fill('Synthetic private studio');await parent.getByRole('button',{name:'Create and save project'}).click();await parent.getByRole('heading',{name:'Synthetic private studio',exact:true}).waitFor();
+  const sourceDid='did:plc:o6kuv3yieti2vqrb7ckmd5vg',publication=`at://${sourceDid}/site.standard.publication/pub`,sourceUri=`at://${sourceDid}/site.standard.document/doc`,cid='bafyreiaaaaaaaaaaaaaaaaaaaaa';
+  const {createStandardReader}=await import(path.join(companionRoot,'lib/standard-references.mjs'));
+  const reader=createStandardReader({fetcher:async url=>({ok:true,text:async()=>JSON.stringify(url.includes('resolveHandle')?{did:sourceDid}:url.includes('plc.directory')?{id:sourceDid,alsoKnownAs:['at://made-sick.org'],service:[{id:'#atproto_pds',type:'AtprotoPersonalDataServer',serviceEndpoint:'https://eurosky.social'}]}:url.includes('getRecord')?{uri:publication,cid,value:{$type:'site.standard.publication',name:'Source publication',url:'https://made-sick.pckt.blog'}}:{records:[{uri:sourceUri,cid,value:{$type:'site.standard.document',site:publication,path:'/fixture',title:'Reviewed source fixture',publishedAt:'2026-01-01T00:00:00Z',textContent:'Untrusted local source text',content:{$type:'blog.pckt.content',items:[]}}}]})})});
+  const reference=(await reader.page({account:'made-sick.org'})).references[0];
+  const definition={schema:'pixie.project-import/v1',collections:['site.standard.document'],operations:['content'],formats:['text/plain'],maxItems:10,maxTextLength:10000,destination:'sources',contentDestination:'imported-drafts',provenanceRequired:true,rightsRequired:true,conflictPolicy:'reject-revisions',reviewRequired:true,creatorDestination:true};
+  await parent.evaluate(async({reference,definition})=>{const caps=await(await fetch('/api/workspace/capabilities')).json();async function run(name,args){const r=await fetch('/api/workspace',{method:'POST',headers:{'Content-Type':'application/json','X-Pixie-CSRF':caps.csrf},body:JSON.stringify({name,args})});const value=await r.json();if(!r.ok)throw Error(value.error);return value;}const {selectedId}=await run('workspace_list',{});await run('workspace_configure_imports',{project_id:selectedId,definition_json:JSON.stringify(definition),reviewed:true});await run('workspace_import_standard',{project_id:selectedId,reference_json:JSON.stringify(reference),operation:'content',reviewed:true,rightsDeclaration:'Fixture source author granted private adaptation.'});},{reference,definition});
+  await parent.reload();await parent.getByRole('heading',{name:'Synthetic private studio',exact:true}).waitFor();
+  await parent.getByText('Optional reviewed Standard.site context for Creator OS',{exact:true}).click();await parent.getByLabel('Saved Standard.site context',{exact:true}).selectOption({label:'Reviewed source fixture · content'});await parent.getByRole('checkbox',{name:/I reviewed this exact source identity/}).check();
+  const popup=context.waitForEvent('page');await parent.getByRole('button',{name:'Open selected project in Creator OS'}).click();const studio=await popup;await studio.waitForFunction(()=>document.querySelector('#creator-project-name')?.textContent==='Synthetic private studio');
+  await studio.locator('[data-view="pixie"]').click();await studio.locator('#creator-standard-context summary').click();assert.match(await studio.locator('#creator-standard-preview').innerText(),/Untrusted local source text/);assert.match(await studio.locator('#creator-standard-preview').innerText(),/site.standard.document/);assert.equal(await studio.locator('#work-title').inputValue(),'');
+  await studio.locator('#creator-return').click();await parent.getByRole('heading',{name:'Review returned creative draft'}).waitFor();assert.match(await parent.locator('.report-content').innerText(),/pixie-creator-return\/v2/);await parent.getByRole('button',{name:'Save returned draft to its private project'}).click();await studio.locator('#creator-save-status').filter({hasText:'Confirmed saved'}).waitFor();
+  await parent.goto(origin+'/#account');await parent.getByRole('button',{name:'Sign out',exact:true}).click();await studio.waitForFunction(()=>document.querySelector('#creator-standard-preview')?.textContent==='');assert.equal(await studio.locator('#creator-standard-context').isHidden(),true);
+  assert.deepEqual(errors,[]);assert.equal(external.length,0);console.log('PASS reviewed Standard.site context → capability-negotiated Creator v2 → provenance-preserving reviewed return → real private save → logout clears memory. Synthetic upstream identity and source fixtures only.');
+  await context.close();
+ }finally{await browser.close();if(server)await new Promise(r=>server.close(r));await fs.rm(dir,{recursive:true,force:true});}
+})().catch(error=>{console.error(error);process.exitCode=1;});

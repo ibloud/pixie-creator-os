@@ -60,6 +60,8 @@ jobs:
         run: node tests/tickets-fixture.test.js
       - name: Check creator environment controller
         run: |
+          node --check standard-context.js
+          node --test tests/standard-context.test.js
           node --check creator-environment.js
           node --check my-apps.js
           node tests/my-apps.test.js

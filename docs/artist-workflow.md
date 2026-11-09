@@ -247,3 +247,49 @@ PR #5 and its existing deployment/RAILWAY.md cutover gates. The old Site remains
 a migration source pending verified private-data export/transfer, OAuth/client
 and MCP dependency resolution, live acceptance and explicit retirement approval.
 No Site, plugin, domain or production data change is made by this navigation patch.
+
+## Reviewed Standard.site context extension — review 9 November 2026
+
+The existing artist-draft v1 contract has no field for Standard.site identities or
+Companion imported drafts. Adding source text to its caption would lose that
+boundary. This increment therefore extends the existing origin-bound popup
+handoff with `pixie.standard-creator-context/v1` and a v2 message/receipt envelope;
+it does not replace artist-draft v1 or create another project store.
+
+Companion must first explicitly permit Creator OS in the selected project's
+import definition, select one saved source and review the exact outbound payload.
+The extension contains project ID; source AT-URI, CID, author DID, title, canonical
+URL and source/retrieval dates; permission declaration; and optionally a separately
+labelled local draft (maximum 5,000 characters). Its total context limit is 8,000
+characters. It excludes media, credentials, other imports, local file paths and
+rich-body structures. See `standard-context.js` for the strict shared validator;
+Companion uses its byte-identical copy.
+
+Creator advertises `standardContextVersions: [1]` in the existing ready message.
+Companion sends `pixie-creator-project/v2` only after this compatibility check;
+a v1-only receiver receives no project/context payload when the extension was
+requested. With no selected import context, existing v1 messages still work.
+Unknown context versions and mismatched project IDs fail explicitly. Incoming
+context is rendered with textContent under My PIXIE, remains untrusted and
+read-only, and is kept in memory. It is not merged into captions or canonical
+records, nor silently restored from a prior receipt.
+
+The explicit return sends `pixie-creator-return/v2`, retaining the original
+context beside the existing validated artist draft. The combined receipt limit
+is 9,500 characters, fitting the existing private-note pathway. If oversized,
+Creator reports the failure and offers the existing artist-draft download route;
+source context remains in Companion. No success acknowledgement is shown until
+Companion reviews and saves through its authorized project service. Companion
+rechecks initiating DID/project, the current destination permission, and unchanged
+source/local-draft payload before saving. A changed policy or local draft requires
+fresh review. Disconnect/sign-out clears the in-memory context and its preview.
+
+`tests/standard-context.test.js` covers strict schema/version, provenance, unsafe
+URL, rights and size rejection. `tests/browser-standard-handoff.cjs` extends the
+existing synthetic-identity Companion/Creator test harness with a real private
+save and logout clearing. Set `PIXIE_COMPANION_ROOT` and `PIXIE_CREATOR_ROOT` to
+the reviewed checkouts. No external account or publishing credential is used.
+The normal Creator unit/browser suite and existing artist handoff remain
+regression checks. Physical Safari/VoiceOver and compatible live releases at both
+approved origins remain separate acceptance gates. No Pages release, OAuth
+change, publishing scope, automatic upload or synchronization is performed.
