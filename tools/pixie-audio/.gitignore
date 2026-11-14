@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.wav
+*.aiff
+*.aif
+*.flac
+*.mp3

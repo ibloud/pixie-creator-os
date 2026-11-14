@@ -83,3 +83,24 @@ jobs:
           node --check rave.js
           node --check rave-model.js
           node --test tests/rave.test.js
+
+  pixie-audio:
+    name: PIXIE Audio synthetic tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: tools/pixie-audio/requirements-test.txt
+      - name: Install isolated audio test stack (no Demucs)
+        run: python -m pip install -r tools/pixie-audio/requirements-test.txt
+      - name: Check macOS setup shell syntax
+        run: bash -n tools/pixie-audio/setup_pixie.sh
+      - name: Test synthetic audio, filesystem guards and real MCP stdio
+        run: python -m pytest tools/pixie-audio/test_pixie_audio.py -q

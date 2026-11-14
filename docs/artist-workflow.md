@@ -293,3 +293,41 @@ The normal Creator unit/browser suite and existing artist handoff remain
 regression checks. Physical Safari/VoiceOver and compatible live releases at both
 approved origins remain separate acceptance gates. No Pages release, OAuth
 change, publishing scope, automatic upload or synchronization is performed.
+
+## Assistant-producer audio requirements — owner direction, 14 November 2026
+
+The primary [Companion use-case record](https://github.com/Loptr-Lab/pixie-ecosystem-guide/blob/docs/assistant-producer-use-case/apps/companion/review/ASSISTANT_PRODUCER_USE_CASE.md)
+owns the intended journey: PIXIE walks the owner through a producer's directions
+while the owner uses GarageBand on iPad/iPhone and the producer uses Logic on a
+Mac. This section records supporting audio requirements, not a second app or
+use-case authority. The owner does not need to operate a Mac for their side.
+
+Reuse Creator OS's local media selection/preview, draft, provenance and reviewed
+handoff seams. Required audio work is still missing or unverified:
+
+- A take/reference identity and selection contract preserving original audio,
+  versions and attribution. Existing Companion context messages do not carry
+  arbitrary audio; extend only through an explicitly reviewed contract.
+- Vocal pitch analysis against an intended melody/reference, timing comparison,
+  confidence and limitations. Loudness, band balance and clipping hints cannot
+  substitute for performance assessment. Real-time versus after-take analysis
+  remains to be specified; this record chooses neither.
+- A device-tested iPad/iPhone audio workflow alongside GarageBand, including
+  permissions, interrupted work, readable/accessible feedback and deliberate
+  review before saving or sharing. No microphone/DAW-control access is established.
+- Verified exchange with the producer's Logic workflow and preservation of source
+  takes/local edits. Do not assume desktop plugin settings, MIDI or editable
+  project structure survive an untested round trip.
+
+[Draft PR #64](https://github.com/ibloud/pixie-creator-os/pull/64) provides a possible
+macOS measurement/DSP component. It does not deliver the mobile assistant,
+vocal-pitch/timing feedback, recording or GarageBand/Logic control. Its setup still
+registers with Claude Desktop under an earlier specification; that is superseded
+as the intended app onboarding and needs correction in a separately scoped change.
+The draft must not be presented as the owner's usable iPad/iPhone workflow.
+
+Document implementation choices against these requirements before expanding the
+runtime. This documentation adds no native wrapper, cloud service, model, audio
+upload, project database, synchronization, publishing or new identity authority.
+Use synthetic repository fixtures; private recordings/instructions stay private.
+No merge, deployment or release is authorized by these requirements.
