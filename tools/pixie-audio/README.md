@@ -1,5 +1,15 @@
 # PIXIE Audio — native macOS MCP review candidate
 
+**Scope correction — owner direction, 14 November 2026:** this draft is a
+possible supporting audio component. The owner's app use case is PIXIE assisting
+them in GarageBand on iPad/iPhone while their producer uses Logic on a Mac. It is
+not delivered by this server. See the [Companion use-case record](https://github.com/Loptr-Lab/pixie-ecosystem-guide/blob/docs/assistant-producer-use-case/apps/companion/review/ASSISTANT_PRODUCER_USE_CASE.md)
+and [Creator audio requirements](../../docs/artist-workflow.md#assistant-producer-audio-requirements--owner-direction-14-november-2026).
+The Claude registration instructions below describe the still-present initial
+implementation, not approved PIXIE onboarding. Removing/replacing that setup and
+providing the actual PIXIE connection remain outstanding; no code change is made
+by this documentation correction.
+
 A local Python stdio tool for preparing, measuring and drafting audio. PIXIE acts
 as a junior audio engineer; a human makes final listening and release decisions.
 This is an optional native tool in Creator OS's existing repository, **not** a
