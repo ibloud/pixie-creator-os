@@ -4,16 +4,16 @@
 
 1. Open `index.html`. Select an audio/video/image file, or continue to Prepare with a public work link.
 2. Add title, caption, credits and rights, and an accessibility description. Confirm that you own or have permission to share the selected work and public details.
-3. Choose Bluesky or Repurpose in Share. Review the exact plain text and confirm the current handoff.
-4. Copy or download sharing text; copy the separate accessibility description into the destination media field. Optionally download the original selected media. Open the chosen service and finish there.
-5. Optionally record the resulting public HTTPS link. It is user-reported, not fetched or verified.
+3. Choose an intended destination for local draft review. Review the exact plain text and confirm only that local review; it is not clearance approval.
+4. External-sharing copy/download/destination handoffs are unavailable pending clearance verification. Keep preparing privately and use Download draft for recovery; this build does not offer an external sharing path from this screen.
+5. Optionally record an existing public HTTPS link as self-reported history. It is not fetched, verified or proof that PIXIE published anything.
 6. Download a draft before closing/reloading. Import it later to restore text, identity and reported links; select media again and review again.
 
 Clear this workspace asks for confirmation and clears only this tab. Original files and downloads are not modified. No private note field is added to the public preparation form. The existing practice-session note exclusion remains unchanged.
 
 ## What is connected
 
-Nothing is authenticated in this workflow. External services are links/manual handoffs. Core work does not contact a service. ATProto sign-in, live posting, Repurpose API/workflows, recording, transcription, conversion, automatic clipping, instrument control, and external delivery verification are not implemented.
+Nothing is authenticated in this workflow. The artist sharing screen blocks its external handoffs pending clearance verification; other service links remain explicit navigation. Core work does not contact a service. ATProto sign-in, live posting, Repurpose API/workflows, recording, transcription, conversion, automatic clipping, instrument control, and external delivery verification are not implemented.
 
 Repurpose does not accept direct media uploads: connect a supported source such as Dropbox. Bluesky is a video destination, not a source, in Repurpose's supported-platform list. A JSON draft or public work URL is not a media source. Audio/image compatibility depends on the selected Repurpose workflow; the interface does not assert that they can be sent to Bluesky through Repurpose.
 
@@ -293,3 +293,87 @@ The normal Creator unit/browser suite and existing artist handoff remain
 regression checks. Physical Safari/VoiceOver and compatible live releases at both
 approved origins remain separate acceptance gates. No Pages release, OAuth
 change, publishing scope, automatic upload or synchronization is performed.
+
+## Assistant-producer audio requirements — owner direction, 14 November 2026
+
+The primary [Companion use-case record](https://github.com/Loptr-Lab/pixie-ecosystem-guide/blob/docs/assistant-producer-use-case/apps/companion/review/ASSISTANT_PRODUCER_USE_CASE.md)
+owns the intended journey: PIXIE walks the owner through a producer's directions
+while the owner uses GarageBand on iPad/iPhone and the producer uses Logic on a
+Mac. This section records supporting audio requirements, not a second app or
+use-case authority. The owner does not need to operate a Mac for their side.
+
+Reuse Creator OS's local media selection/preview, draft, provenance and reviewed
+handoff seams. Required audio work is still missing or unverified:
+
+- A take/reference identity and selection contract preserving original audio,
+  versions and attribution. Existing Companion context messages do not carry
+  arbitrary audio; extend only through an explicitly reviewed contract.
+- Vocal pitch analysis against an intended melody/reference, timing comparison,
+  confidence and limitations. Loudness, band balance and clipping hints cannot
+  substitute for performance assessment. Real-time versus after-take analysis
+  remains to be specified; this record chooses neither.
+- A device-tested iPad/iPhone audio workflow alongside GarageBand, including
+  permissions, interrupted work, readable/accessible feedback and deliberate
+  review before saving or sharing. No microphone/DAW-control access is established.
+- Verified exchange with the producer's Logic workflow and preservation of source
+  takes/local edits. Do not assume desktop plugin settings, MIDI or editable
+  project structure survive an untested round trip.
+
+[Draft PR #64](https://github.com/ibloud/pixie-creator-os/pull/64) provides a possible
+macOS measurement/DSP component. It does not deliver the mobile assistant,
+vocal-pitch/timing feedback, recording or GarageBand/Logic control. Its setup
+installs a vendor-neutral local stdio server without desktop AI-client registration.
+PIXIE remains the assistant and OpenAI is preferred; no app/provider connection
+is claimed until its permissions and behavior are tested.
+The draft must not be presented as the owner's usable iPad/iPhone workflow.
+
+Document implementation choices against these requirements before expanding the
+runtime. This documentation adds no native wrapper, cloud service, model, audio
+upload, project database, synchronization, publishing or new identity authority.
+Use synthetic repository fixtures; private recordings/instructions stay private.
+No merge, deployment or release is authorized by these requirements.
+
+## Clearance enforcement inventory — review 15 November 2026
+
+Owner requirement: creator-controlled media preparation and reviewed sharing must
+retain attribution and permissions. Uncleared samples, disputed licences, missing
+permissions or incomplete attribution must block any external sharing action that
+requires those clearances. Proposed checks are not implemented enforcement.
+
+| Check | Current owning source / evidence | Status and limit |
+| --- | --- | --- |
+| Self-declared right to share | creator-model.js review; tests/creator.test.js rejects rights:false | Implemented boolean gate, not source/licence verification. A true checkbox cannot establish sample clearance. |
+| Current preview and explicit confirmation | review/confirm/requireConfirmed; edits/import invalidate review | Implemented revision gate; existing creator tests exercise fresh review and invalidation. Does not resolve disputed rights. |
+| Source/credits/accessibility text | Prepare form, export and sharingText | Informational creator-supplied fields. Completeness and the truth of attribution are not independently verified. |
+| Sample/composition/master permissions and disputed licences | No verified clearance-state contract/test found in the inspected default artist workflow | Required, not implemented. Do not claim automatic rights approval or lawful publication from existing flags. |
+| Manual handoffs and public links | creator.js copy/download/service actions; self-reported publication records | No connected publisher or automatic upload. A manual action can still expose uncleared work, so its availability needs the required gate. |
+
+External sharing requiring verified clearance is a release blocker until the
+app can represent unresolved/disputed/missing permissions and attribution and
+executable negative tests demonstrate refusal at every applicable handoff. A
+visible blocked/unavailable state is required where enforcement is absent; a
+warning or checkbox alone must not be described as enforcement. The owner authorized the visible sharing block for this review.
+Do not infer clearance from a public source, analysis, transformation, stem split,
+AI suggestion or imported Standard.site reference. Keep private drafts and
+originals recoverable while a share is held; build no parallel rights registry.
+
+The separate real Charlie J services concept in 50 Ways is unapproved and
+non-operational. Fictional Charlie/NIGHT BUS in Creator OS are design material,
+not endorsement, likeness permission or an agreed producer engagement. Johnson's
+pre-hire lessons likewise create no contract; Companion's project assistance
+follows separately agreed scope. Existing cross-project identities remain distinct.
+
+### Visible hold implemented on the review branch
+
+External sharing is now visibly unavailable pending clearance verification.
+`externalSharingStatus` has no UI or imported-field bypass; the shared
+`requireExternalSharing` guard refuses even a self-declared, reviewed and locally
+confirmed draft. The existing public text/accessibility copy, sharing-text/media
+download and destination handoff controls are disabled/blocked in the artist
+workflow, including forced event invocation. Editing, media preview, private draft
+backup/import, local review and the existing private Companion return remain.
+This is an unavailable gate, not a clearance verifier. No registry or automated
+rights decision was added. Manually recorded links remain self-reported history.
+Other research/tool surfaces retain their own existing contracts; this change does
+not claim universal enforcement throughout every prototype. Synthetic unit/browser
+negative tests must pass before treating this artist-workflow block as verified.

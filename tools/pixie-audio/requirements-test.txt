@@ -1,0 +1,8 @@
+# Runtime stack plus isolated test runner. No Demucs/model downloads in CI.
+mcp[cli]<2
+numpy
+scipy
+soundfile
+pyloudnorm
+pedalboard
+pytest>=8,<10
