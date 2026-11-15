@@ -12,7 +12,7 @@ by this documentation correction.
 
 A local Python stdio tool for preparing, measuring and drafting audio. PIXIE acts
 as a junior audio engineer; a human makes final listening and release decisions.
-This is an optional native tool in Creator OS's existing repository, **not** a
+This native tool is an optional component in Creator OS's existing repository, **not** a
 browser feature, web backend, DAW controller, shared Companion store or installed
 plugin release. No automatic bridge to Creator OS or Companion is added.
 
@@ -182,3 +182,12 @@ On a real Mac, a human must:
 
 Not included: de-esser, reference matching, A/B comparison, DAW or RipX control,
 recording, publishing, browser synchronization or automatic mastering approval.
+
+### Separate artist-workflow review change
+
+On 15 November the owner additionally approved a visible clearance hold in the
+existing browser artist workflow. The same draft PR therefore includes that
+narrow UI/model gate and its synthetic negative tests, separately from this native
+server. It does not connect or deploy the Python server or add DAW control. The
+native task's no-deployment restriction remains. Real-Mac acceptance is still
+required separately from synthetic tests and browser clearance checks.
