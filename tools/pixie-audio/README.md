@@ -5,10 +5,11 @@ possible supporting audio component. The owner's app use case is PIXIE assisting
 them in GarageBand on iPad/iPhone while their producer uses Logic on a Mac. It is
 not delivered by this server. See the [Companion use-case record](https://github.com/Loptr-Lab/pixie-ecosystem-guide/blob/docs/assistant-producer-use-case/apps/companion/review/ASSISTANT_PRODUCER_USE_CASE.md)
 and [Creator audio requirements](../../docs/artist-workflow.md#assistant-producer-audio-requirements--owner-direction-14-november-2026).
-The Claude registration instructions below implement the separately requested
-macOS MCP client setup. They do not define PIXIE's product identity or deliver
-the intended app connection. That connection remains outstanding; no client
-integration is activated by this documentation correction.
+PIXIE remains the product identity. OpenAI is the preferred provider. The local
+MCP interface remains vendor-neutral; installation does not register any desktop
+AI client, configure credentials or establish an OpenAI connection. The existing
+Companion server-side model adapter is a possible authorized seam, not a verified
+connection to this stdio server. No new provider integration is added here.
 
 A local Python stdio tool for preparing, measuring and drafting audio. PIXIE acts
 as a junior audio engineer; a human makes final listening and release decisions.
@@ -44,23 +45,20 @@ bash setup_pixie.sh --no-demucs
 ```
 
 Requires Python 3.10–3.12. Uses `/opt/homebrew/bin` and `/usr/local/bin` as well as
-the inherited PATH. Setup creates `~/PIXIE/_server/.venv`, installs the server and
-stack, then merges only the `pixie-audio` entry into
-`~/Library/Application Support/Claude/claude_desktop_config.json`.
-`PIXIE_ROOT` overrides the asset root and installation location. No setup is run
-by opening the browser site. Quit/reopen Claude Desktop after setup.
+the inherited PATH. Setup creates `~/PIXIE/_server/.venv`, copies the server and
+installs the requested stack. `PIXIE_ROOT` overrides the asset root and installation
+location. It prints the exact command to start the server on stdio; it does not
+modify any desktop-client config, register an AI account or activate a provider.
+No setup is run by opening the browser site.
 
-Existing config settings/servers are retained. Before replacing the config,
-setup writes a uniquely named, private backup beside it, then uses an atomic
-replacement. Malformed config is left untouched. Re-running is supported,
-including from the installed server folder; an unsupported existing venv requires
-manual review/replacement, rather than silent deletion. Do not edit Claude's
-config simultaneously with setup. Backups can contain other servers' secrets:
-keep them private. Dependencies are not fully lock-pinned; installation requires
-network access and may update the venv. `mcp[cli]<2` is intentionally required for
-this FastMCP API. `torch<2.9` and `torchaudio<2.9` are **unverified precautionary
-Demucs constraints**, not a tested compatibility guarantee. `--no-demucs` does
-not uninstall an existing Demucs installation.
+Re-running is supported, including from the installed server folder; an unsupported
+existing venv requires manual review/replacement rather than silent deletion.
+If an earlier setup was run, its unrelated client settings are left untouched.
+Dependencies are not fully lock-pinned; installation requires network access and
+may update the venv. `mcp[cli]<2` is intentionally required for this FastMCP API.
+`torch<2.9` and `torchaudio<2.9` remain **unverified precautionary Demucs constraints**,
+not a tested compatibility guarantee. `--no-demucs` does not uninstall an existing
+Demucs installation.
 
 Install ffmpeg separately if needed (`brew install ffmpeg`); setup reports when
 it is missing. Demucs may fetch model weights on its first run. MP3/AIFF/FLAC
@@ -158,16 +156,16 @@ bash -n setup_pixie.sh
 Tests generate synthetic waveforms in temporary directories; no music or audio
 fixtures are committed. Tests exercise actual built-in DSP and real MCP stdio,
 plus a real built-in worker render. **Demucs is mocked and has not been run.**
-Plugin loading/worker orchestration is mocked; no real AU/VST3 is tested. Config
-merge/re-run/malformed-input tests execute the setup script's Python block in a
-temporary directory, not a real Claude Desktop profile. CI covers Python
+Plugin loading/worker orchestration is mocked; no real AU/VST3 is tested. Setup/re-run tests simulate the macOS shell boundary and package installation in
+a temporary directory; they do not install on a real Mac or contact a provider. CI covers Python
 3.10/3.11/3.12 on Linux; it is not Apple Silicon or macOS acceptance.
 
 On a real Mac, a human must:
 
-1. Run setup (first with `--no-demucs`, then with Demucs if desired), inspect the
-   private config backup/merged entry, and verify Claude Desktop lists seven tools
-   after restart. Handle Music/Documents/macOS folder permission prompts for only
+1. Run setup (first with `--no-demucs`, then with Demucs if desired), verify the
+   printed stdio launch command and seven-tool discovery with an authorized local
+   MCP test client. No desktop AI registration is required. Handle macOS folder
+   permission prompts for only
    intended folders; no permissions bypass is implemented.
 2. Generate or use their own authorized synthetic test audio, import it, measure,
    process, reopen outputs and make listening decisions. Confirm original hashes

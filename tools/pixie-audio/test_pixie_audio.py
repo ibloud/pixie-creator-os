@@ -279,27 +279,46 @@ def test_mcp_stdio_seven_tools(tmp_path):
     asyncio.run(run())
 
 
-def test_setup_config_merge_and_repeat(tmp_path):
-    script = (HERE / 'setup_pixie.sh').read_text()
-    code = script.split("<<'PY'\n", 1)[1].split('\nPY\n', 1)[0]
-    code = code.replace('pathlib.Path.home()', f'pathlib.Path({str(tmp_path)!r})')
-    config = tmp_path / 'Library/Application Support/Claude/claude_desktop_config.json'
-    config.parent.mkdir(parents=True)
-    original = {'otherSetting': True, 'mcpServers': {'existing': {'command': 'keep'}}}
-    config.write_text(json.dumps(original))
+@pytest.mark.parametrize('no_demucs', [True, False])
+def test_setup_install_and_repeat_without_client_registration(tmp_path, no_demucs):
+    # Simulate only the macOS/package-manager boundary. Never install packages,
+    # alter a real client profile, or change HOME during this test.
+    wrapper = tmp_path / 'fake-python'
+    log = tmp_path / 'pip-calls.jsonl'
+    wrapper.write_text('#!' + sys.executable + '\n' + r"""
+import json, os, pathlib, sys
+args = sys.argv[1:]
+if args[:2] == ['-m', 'venv']:
+    target = pathlib.Path(args[2]) / 'bin'
+    target.mkdir(parents=True)
+    (target / 'python').write_text(pathlib.Path(__file__).read_text())
+    (target / 'python').chmod(0o700)
+elif args[:2] == ['-m', 'pip']:
+    with open(os.environ['PIXIE_TEST_LOG'], 'a') as handle:
+        handle.write(json.dumps(args) + '\n')
+else:
+    os.execv(sys.executable, [sys.executable] + args)
+""")
+    wrapper.chmod(0o700)
+    root = tmp_path / 'PIXIE local root'
+    env = {**os.environ, 'PIXIE_ROOT': str(root), 'PIXIE_TEST_PY': str(wrapper), 'PIXIE_TEST_LOG': str(log)}
+    command = r'uname() { printf "Darwin\n"; }; python3.12() { "$PIXIE_TEST_PY" "$@"; }; export -f uname python3.12; bash "$@"'
+    flags = ['--no-demucs'] if no_demucs else []
     for _ in range(2):
-        subprocess.run([sys.executable, '-c', code, '/fake/venv/python', '/fake/server.py', '/fake/PIXIE'], check=True, capture_output=True)
-    result = json.loads(config.read_text())
-    assert result['otherSetting'] is True
-    assert result['mcpServers']['existing'] == original['mcpServers']['existing']
-    assert result['mcpServers']['pixie-audio']['command'] == '/fake/venv/python'
-    backups = list(config.parent.glob('*.backup-*.json'))
-    assert len(backups) == 2
-    assert all(p.stat().st_mode & 0o777 == 0o600 for p in backups)
-    config.write_text('{bad json')
-    failure = subprocess.run([sys.executable, '-c', code, '/fake/python', '/fake/server', '/fake/root'], capture_output=True)
-    assert failure.returncode != 0 and config.read_text() == '{bad json'
-    assert 'mcp[cli]<2' in script and 'torch<2.9' in script and 'torchaudio<2.9' in script
+        result = subprocess.run(['bash', '-c', command, 'setup-test', str(HERE / 'setup_pixie.sh'), *flags], env=env, capture_output=True, text=True, check=True)
+        assert 'No AI-client registration or provider connection was configured.' in result.stdout
+        assert str(root) in result.stdout
+    assert (root / '_server/pixie_audio_mcp.py').read_bytes() == (HERE / 'pixie_audio_mcp.py').read_bytes()
+    calls = [json.loads(line) for line in log.read_text().splitlines()]
+    assert sum('mcp[cli]<2' in call for call in calls) == 2
+    assert sum('demucs' in call for call in calls) == (0 if no_demucs else 2)
+    for call in calls:
+        if 'demucs' in call:
+            assert 'torch<2.9' in call and 'torchaudio<2.9' in call
+    script = (HERE / 'setup_pixie.sh').read_text()
+    assert 'Application Support' not in script
+    assert 'mcpServers' not in script
+    assert 'config.json' not in script
     subprocess.run(['bash', '-n', str(HERE / 'setup_pixie.sh')], check=True)
 
 
