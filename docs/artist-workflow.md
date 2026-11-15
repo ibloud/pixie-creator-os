@@ -331,3 +331,34 @@ runtime. This documentation adds no native wrapper, cloud service, model, audio
 upload, project database, synchronization, publishing or new identity authority.
 Use synthetic repository fixtures; private recordings/instructions stay private.
 No merge, deployment or release is authorized by these requirements.
+
+## Clearance enforcement inventory — review 15 November 2026
+
+Owner requirement: creator-controlled media preparation and reviewed sharing must
+retain attribution and permissions. Uncleared samples, disputed licences, missing
+permissions or incomplete attribution must block any external sharing action that
+requires those clearances. Proposed checks are not implemented enforcement.
+
+| Check | Current owning source / evidence | Status and limit |
+| --- | --- | --- |
+| Self-declared right to share | creator-model.js review; tests/creator.test.js rejects rights:false | Implemented boolean gate, not source/licence verification. A true checkbox cannot establish sample clearance. |
+| Current preview and explicit confirmation | review/confirm/requireConfirmed; edits/import invalidate review | Implemented revision gate; existing creator tests exercise fresh review and invalidation. Does not resolve disputed rights. |
+| Source/credits/accessibility text | Prepare form, export and sharingText | Informational creator-supplied fields. Completeness and the truth of attribution are not independently verified. |
+| Sample/composition/master permissions and disputed licences | No verified clearance-state contract/test found in the inspected default artist workflow | Required, not implemented. Do not claim automatic rights approval or lawful publication from existing flags. |
+| Manual handoffs and public links | creator.js copy/download/service actions; self-reported publication records | No connected publisher or automatic upload. A manual action can still expose uncleared work, so its availability needs the required gate. |
+
+External sharing requiring verified clearance is a release blocker until the
+app can represent unresolved/disputed/missing permissions and attribution and
+executable negative tests demonstrate refusal at every applicable handoff. A
+visible blocked/unavailable state is required where enforcement is absent; a
+warning or checkbox alone must not be described as enforcement. The exact UI
+change for this review is pending the owner's response to the scope question.
+Do not infer clearance from a public source, analysis, transformation, stem split,
+AI suggestion or imported Standard.site reference. Keep private drafts and
+originals recoverable while a share is held; build no parallel rights registry.
+
+The separate real Charlie J services concept in 50 Ways is unapproved and
+non-operational. Fictional Charlie/NIGHT BUS in Creator OS are design material,
+not endorsement, likeness permission or an agreed producer engagement. Johnson's
+pre-hire lessons likewise create no contract; Companion's project assistance
+follows separately agreed scope. Existing cross-project identities remain distinct.
