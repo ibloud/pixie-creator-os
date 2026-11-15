@@ -66,7 +66,7 @@ jobs:
           node --check my-apps.js
           node tests/my-apps.test.js
       - name: Test draft import cancellation and timing races in Chromium
-        run: node --test tests/browser-import.test.js tests/browser-my-apps.test.js
+        run: node --test tests/browser-import.test.js tests/browser-my-apps.test.js tests/browser-clearance.test.js
 
       - name: Test local Morgue Ink outcomes and operator boundaries
         run: node --test tests/morgue.test.js

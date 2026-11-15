@@ -73,6 +73,14 @@
   function requireConfirmed(s) {
     if (s.confirmedRevision !== s.revision) throw new Error('Review and confirm the current handoff first');
   }
+  function externalSharingStatus() {
+    return { available: false, status: 'unavailable', reason: 'External sharing unavailable pending clearance verification. Self-declared rights and local review do not verify samples, licences, permissions or attribution.' };
+  }
+  function requireExternalSharing(s) {
+    requireConfirmed(s);
+    const status = externalSharingStatus();
+    if (!status.available) throw new Error(status.reason);
+  }
   function recordPublication(s, url, now) {
     requireConfirmed(s);
     const publicUrl = https(text(url.trim(), 2000));
@@ -103,7 +111,7 @@
     return {mode:input.mode,types};
   }
   function fingerprint(s) { return JSON.stringify(exportDraft(s)); }
-  const api = { ticketPresentation,parsePlyrSearch,searchPlyr,environment, create, validate, edit, review, confirm, requireConfirmed, sharingText, accessibilityText, captionSuggestion, recordPublication, exportDraft, fingerprint, https };
+  const api = { ticketPresentation,parsePlyrSearch,searchPlyr,environment, create, validate, edit, review, confirm, requireConfirmed, externalSharingStatus, requireExternalSharing, sharingText, accessibilityText, captionSuggestion, recordPublication, exportDraft, fingerprint, https };
   root.PixieCreator = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window === 'undefined' ? globalThis : window);

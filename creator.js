@@ -35,7 +35,10 @@
     $('confirm').disabled = confirmed;
     $('public-preview').value = reviewed ? M.sharingText(state) : '';
     $('accessibility-preview').value = reviewed ? M.accessibilityText(state) : '';
-    $('copy-description').disabled = !state.description.trim();
+    const clearance = M.externalSharingStatus();
+    $('clearance-status').textContent = clearance.reason;
+    for (const id of ['copy-text','copy-description','download-text','download-media']) $(id).disabled = !clearance.available;
+    $('copy-description').disabled = !clearance.available || !state.description.trim();
     $('description-count').textContent = state.description.length + ' / 2000 text units. Keep it as short as the work needs; check the destination’s limit.';
     $('caption-suggestion').textContent = M.captionSuggestion(state, $('caption-style').value);
     $('publication-link').value = '';
@@ -43,8 +46,13 @@
     $('destination-help').textContent = repurpose ? 'Upload media to your chosen supported source, such as Dropbox. Then choose its workflow in Repurpose. PIXIE is not connected to that account.' : 'Sign in in your chosen atmosphere app, then paste your text, attach your media, set accessibility descriptions, and review before posting. The button below opens Bluesky; open another app yourself if you prefer. PIXIE is not signed in.';
     $('destination-check').textContent = repurpose ? 'For a Bluesky destination, Repurpose supports video, not text or image posts. Audio needs a supported destination or a video you make in another tool. A work link or PIXIE JSON is not a media source.' : 'Check the destination’s post and media limits. This workspace does not trim, split, transcode, or upload your work.';
     $('handoff-instructions').textContent = repurpose ? 'Keep the media file, upload it to a supported source, and set up or run the workflow in Repurpose. Sharing text is a separate reference; it is not imported automatically.' : 'Copy or download this text. Open Bluesky, attach the original media from Files, then review and publish there. You can shorten the text in Bluesky as needed.';
-    $('open-destination').href = repurpose ? 'https://repurpose.io/' : 'https://bsky.app/';
-    $('open-destination').textContent = repurpose ? 'Open Repurpose ↗' : 'Open Bluesky ↗';
+    $('open-destination').removeAttribute('href');
+    $('open-destination').setAttribute('aria-disabled', 'true');
+    $('open-destination').setAttribute('role', 'link');
+    $('open-destination').tabIndex = 0;
+    $('open-destination').textContent = (repurpose ? 'Repurpose' : 'Bluesky') + ' handoff unavailable';
+    $('handoff-instructions').textContent = 'Keep preparing privately. External-sharing controls are unavailable pending clearance verification; this local review is not rights approval.';
+    $('destination-help').textContent = 'Destination information only. PIXIE cannot verify the required clearances and will not open an external-sharing handoff from this screen.';
     $('text-count').textContent = M.sharingText(state).length + ' text units. Review length in the destination composer; its limits and counting may differ.';
     $('download-media').hidden = !media;
     const list = $('receipt-list'); list.replaceChildren();
@@ -105,16 +113,18 @@
   }
   $('copy-text').addEventListener('click', async () => {
     const revision = state.revision;
-    try { M.requireConfirmed(state); await navigator.clipboard.writeText(M.sharingText(state)); if (state.revision === revision) tell('Sharing text copied. Attach media separately in your chosen service.'); }
-    catch { $('public-preview').focus(); $('public-preview').select(); tell('Copy unavailable. Select and copy the preview, or download the text.'); }
+    try { M.requireExternalSharing(state); await navigator.clipboard.writeText(M.sharingText(state)); if (state.revision === revision) tell('Sharing text copied. Attach media separately in your chosen service.'); }
+    catch (e) { if (!M.externalSharingStatus().available) { tell(e.message); $('workspace-status').focus(); return; } $('public-preview').focus(); $('public-preview').select(); tell('Copy unavailable. Select and copy the preview, or download the text.'); }
   });
-  $('download-text').addEventListener('click', () => run(() => { M.requireConfirmed(state); download(new Blob([M.sharingText(state)], { type: 'text/plain;charset=utf-8' }), state.pixie_id + '-share.txt'); }));
+  $('download-text').addEventListener('click', () => run(() => { M.requireExternalSharing(state); download(new Blob([M.sharingText(state)], { type: 'text/plain;charset=utf-8' }), state.pixie_id + '-share.txt'); }));
   $('copy-description').addEventListener('click', async () => {
     const revision = state.revision;
-    try { M.requireConfirmed(state); await navigator.clipboard.writeText(M.accessibilityText(state)); if (state.revision === revision) tell('Accessibility description copied. Paste it into the media accessibility field in your destination.'); }
-    catch { $('accessibility-preview').focus(); $('accessibility-preview').select(); tell('Copy unavailable. Select and copy the accessibility preview.'); }
+    try { M.requireExternalSharing(state); await navigator.clipboard.writeText(M.accessibilityText(state)); if (state.revision === revision) tell('Accessibility description copied. Paste it into the media accessibility field in your destination.'); }
+    catch (e) { if (!M.externalSharingStatus().available) { tell(e.message); $('workspace-status').focus(); return; } $('accessibility-preview').focus(); $('accessibility-preview').select(); tell('Copy unavailable. Select and copy the accessibility preview.'); }
   });
-  $('download-media').addEventListener('click', () => run(() => { M.requireConfirmed(state); if (!media) throw new Error('Select media again'); download(media, media.name); }));
+  $('download-media').addEventListener('click', () => run(() => { M.requireExternalSharing(state); if (!media) throw new Error('Select media again'); download(media, media.name); }));
+  $('open-destination').addEventListener('click', e => { e.preventDefault(); run(() => M.requireExternalSharing(state)); });
+  $('open-destination').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); run(() => M.requireExternalSharing(state)); } });
   $('record-publication').addEventListener('click', () => run(() => { closeImportConfirm(); state = M.recordPublication(state, $('publication-link').value, new Date().toISOString()); pendingImport++; render(); tell('Publication link recorded by you; not independently verified. Download the draft to keep it.'); }));
   $('download-draft').addEventListener('click', () => run(() => { M.validate(M.exportDraft(state)); const fingerprint = M.fingerprint(state); download(new Blob([JSON.stringify(M.exportDraft(state), null, 2)], { type: 'application/json' }), state.pixie_id + '-draft.json'); downloadedPrint = fingerprint; }));
   $('draft-file').addEventListener('change', async () => {

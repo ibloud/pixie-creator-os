@@ -106,3 +106,13 @@ test('OpenMeet and atmo.rsvp keep the existing event source rather than create a
  const saved=M.environment({event}).event;assert.equal(saved.uri,event.uri);assert.equal(saved.url,event.url);assert.match(saved.mode,/not fetched or synchronized/);assert.equal(saved.fixture,false);
  assert.throws(()=>M.environment({event:{...event,url:'https://platform.openmeet.net/events/synthetic?token=private'}}));assert.throws(()=>M.environment({event:{...event,uri:'at://did:plc:bbbbbbbbbbbbbbbbbbbbbbbb/other.collection/existing'}}));
 });
+
+test('external handoffs stay unavailable despite self-declared rights and local confirmation', () => {
+  const confirmed = M.confirm(M.review(ready(), false));
+  assert.equal(M.externalSharingStatus().available, false);
+  assert.throws(() => M.requireExternalSharing(confirmed), /clearance verification/);
+  const imported = M.validate({ ...M.exportDraft(confirmed), clearanceVerified: true, externalSharingAvailable: true });
+  const reviewedImport = M.confirm(M.review(imported, false));
+  assert.throws(() => M.requireExternalSharing(reviewedImport), /clearance verification/);
+  assert.equal(M.exportDraft(confirmed).pixie_id, confirmed.pixie_id);
+});
