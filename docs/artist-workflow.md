@@ -321,9 +321,9 @@ handoff seams. Required audio work is still missing or unverified:
 
 [Draft PR #64](https://github.com/ibloud/pixie-creator-os/pull/64) provides a possible
 macOS measurement/DSP component. It does not deliver the mobile assistant,
-vocal-pitch/timing feedback, recording or GarageBand/Logic control. Its setup still
-registers with Claude Desktop under an earlier specification; that is superseded
-as the intended app onboarding and needs correction in a separately scoped change.
+vocal-pitch/timing feedback, recording or GarageBand/Logic control. Its setup
+registers the separately requested Mac MCP client with Claude Desktop. That client
+setup is not PIXIE's product identity or the intended app connection.
 The draft must not be presented as the owner's usable iPad/iPhone workflow.
 
 Document implementation choices against these requirements before expanding the
