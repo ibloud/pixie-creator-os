@@ -79,3 +79,10 @@ No credentials are hard-coded in the prototype.
 ## Morgue local rehearsal
 
 `morgue/` is a separate optional workspace linked from the artist entry page. A bundled Ink runtime executes its original demo story; the ephemeral session model controls pause, end, choice and cue release. Operator and participant views share one session on one device. No existing PIXIE identity/storage contracts are changed. Germ, Roomy, remote transport and migrated bot logic are not connected. See [ADR 003](adr-003-morgue-demo.md).
+
+
+## Digital Jockey / community radio extension
+
+The creator-side workflow is **Creator OS → My Audience → Digital Jockey Studio**. It supports a local project brief and reusable prompt generator. The public-facing reference experience is **Play It Forward → Your Week on Air**. Creator OS and Play It Forward are related products, not one shared runtime or database.
+
+The social model is one network, many stations: DJ identity, station profile, show archive, tracklist, credits, discovery, follows, recommendations and collaboration. AT Protocol / Atmosphere is the intended portable social layer; authentication, public records, follows, feeds, moderation and publishing are still planned. See [Digital Jockey Network](digital-jockey-network.md) for the phased architecture and explicit boundaries.
