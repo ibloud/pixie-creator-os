@@ -82,3 +82,35 @@ Each phase requires source review, capability/permission matrix, tests, accessib
 - Copy/download is a user-initiated action.
 - The page labels the integration and publishing limitations.
 - No credentials, account data, or private listening history are collected.
+
+
+## Capability disclosure — works / planned / needed
+
+This is the source-of-truth status distinction for the Digital Jockey workstream. “Planned” is not a shipped capability; “needed” lists work that must be completed and verified before a feature is described as available.
+
+### Works now (in the proposed review branches)
+
+- Creator OS Digital Jockey Studio renders a project brief form and generates an editable prompt in the browser; copy and download are user-initiated.
+- Play It Forward / Your Week on Air lets a person manually enter a show title, DJ note, track title, artist, and external listening URL; it encodes the show in a URL fragment and provides a read-only share view.
+- The prompt and show builder do not require an account connection. Play It Forward's share payload is not uploaded to the server.
+- The cross-project links explain how to move between the creator-side project starter and the public-facing show experience; they do not connect identities or data stores.
+
+### Planned (not implemented or not yet verified)
+
+- Persistent DJ/station identity, profile pages, archives, follows, discovery feeds, recommendations, track submissions, comments, collaboration, and moderation.
+- Apple Music authorization/import, automatic recent-played collection, timestamped listening history, and a verified weekly listening archive.
+- AT Protocol authentication, portable DJ records, publishing, feed distribution, and account interoperability.
+- Audio hosting, live broadcasting, scheduling, and any rebroadcast functionality.
+
+### Needed for development and acceptance
+
+1. **Product and governance:** decide profile ownership, public/private defaults, show visibility, edit/delete semantics, blocking/reporting, moderation responsibility, age/safety expectations, and community rules.
+2. **Apple Music:** configure the developer identifier/token and MusicKit; implement explicit opt-in, token handling, scopes, revocation, data minimization, and tests against the exact API response. Do not promise timestamped seven-day history unless the source provides timestamped play events and the collection is enabled prospectively.
+3. **Portable social layer:** review AT Protocol authentication, PDS hosting/identity, existing Lexicons, record ownership, moderation labels, deletion and migration semantics; implement and test a narrow publishing slice before feeds or follows.
+4. **Persistent services:** choose and threat-model the backend, database, hosting, retention, backups, export/delete flows, rate limits, abuse reporting, and operational ownership for profiles and social functions.
+5. **Rights and safety:** confirm link/provider terms, attribution requirements, music licensing and performance rights before any audio hosting or broadcast; external links alone are not rebroadcast permission.
+6. **Quality and release:** write acceptance criteria; test consent/denial/revocation, private-data leakage, link tampering, accessibility, mobile behavior, moderation, recovery, and deployment rollback. Publish evidence and limitations with each release.
+
+### Non-negotiable disclosure
+
+A manually assembled tracklist is not proof of listening history. Playlist membership is not a play event. A tracklist/share link is not audio hosting or permission to rebroadcast. Private listening history is never public by default. Creator OS and Play It Forward remain separate applications and data authorities until a separately reviewed integration is built and explicitly authorized.
