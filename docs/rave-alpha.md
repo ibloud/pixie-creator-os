@@ -48,3 +48,9 @@ Desktop layout visually inspected. Physical iPad Safari, VoiceOver, narrow-devic
 4. Decide whether tickets are attendance keepsakes, scarce admission or payment-linked entitlements. Verify the stream provider's supported access enforcement before promising a paywall; static browser checks are bypassable.
 5. If participant reaction video is desired, confirm who opts in, recording/redistribution permissions and an actual production tool. The 29-reaction reference does not establish synchronized camera capture, chat recording or a rights grant. Current alpha offers text-chat handoff and external broadcast viewing only.
 6. Confirm Tangled account consent, public repository mirror and static site publication; preserve GitHub issue authority and current hosting until verified replacement acceptance.
+
+## Review update — event journey and provider boundaries (15 November 2026)
+
+On the existing Creator OS review branch, `index.html#events` now explains the learner, organizer, rehearsal-attendee and real-ticket paths. `rave.html` explicitly links back to My Events and clarifies the distinction between an alpha pass, a real ticket, and a payment. The existing Tarantula Sonic Pi lesson and Johnson remain the education route; Rave Lab remains the experience rehearsal. The My Money view retains ATM as an information-only payment candidate and atcash as unverified.
+
+No changes were made to ticket-pass generation, state, admission, checkout, Streamplace/Roomy interfaces, or service credentials. Reviewers should inspect actual Vercel **page** previews, not source-code pages. Validate both directions of navigation, readable onboarding text, keyboard focus, 320px reflow, external-link disclosures and that no live-ticket claim appears. Browser-device acceptance and provider sandbox access remain outstanding. GitHub Pages production must be updated only by merging approved changes to the existing GitHub main branch; Vercel is preview only.
