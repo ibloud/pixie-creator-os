@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17191d">
+<title>PIXIE — Digital Jockey Studio</title>
+<meta name="description" content="Shape a community-radio or digital-jockey project, generate a reusable build prompt, and prepare a show to share.">
+<link rel="canonical" href="https://ibloud.github.io/pixie-creator-os/digital-jockey.html">
+<link rel="stylesheet" href="styles.css">
+<style>
+.dj-studio{max-width:1100px;margin:0 auto;padding:clamp(1.25rem,4vw,3rem);color:var(--ink,#20242a)}
+.dj-studio .dj-hero{padding:clamp(2rem,6vw,5rem);background:#17191d;color:#f5f2e9;border-radius:1rem;margin:1rem 0 2rem}
+.dj-studio .eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:.75rem}
+.dj-studio h1{font-size:clamp(2.8rem,8vw,6rem);line-height:.9;letter-spacing:-.06em;margin:.8rem 0}
+.dj-studio h1 em{font-style:normal;color:#b6ef56}
+.dj-studio .lede{max-width:65ch;line-height:1.6}
+.dj-studio .dj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1rem}
+.dj-studio .dj-card{border:1px solid #c9c9c3;border-radius:.8rem;padding:1.25rem;background:#fff}
+.dj-studio label{display:grid;gap:.4rem;margin:1rem 0;font-weight:650}
+.dj-studio input,.dj-studio select,.dj-studio textarea{width:100%;padding:.8rem;border:1px solid #888;border-radius:.35rem;font:inherit;background:#fff;color:#17191d}
+.dj-studio textarea{min-height:8rem}
+.dj-studio .dj-output{min-height:22rem;font-family:ui-monospace,monospace;font-size:.9rem;line-height:1.5}
+.dj-studio .dj-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0}
+.dj-studio button,.dj-studio .dj-link{display:inline-flex;align-items:center;justify-content:center;padding:.75rem 1rem;border:1px solid #242a27;border-radius:999px;background:#242a27;color:white;text-decoration:none;font:inherit;cursor:pointer}
+.dj-studio button.secondary,.dj-studio .dj-link.secondary{background:transparent;color:#242a27}
+.dj-studio .dj-note{padding:1rem;border-left:4px solid #8aa83b;background:#f1f4e9;line-height:1.6}
+.dj-studio .dj-breadcrumb{font-size:.9rem}
+.dj-studio .dj-breadcrumb a{color:inherit}
+.dj-studio :focus-visible{outline:3px solid #a5cc45;outline-offset:3px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to Digital Jockey Studio</a>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span>PIXIE <span>Creator workspace</span></a><span class="local-badge">Local project builder · no account connection</span></header>
+<main id="main" class="dj-studio">
+<nav class="dj-breadcrumb" aria-label="Breadcrumb"><a href="index.html">PIXIE Creator OS</a> / <a href="index.html#audience">My Audience</a> / Digital Jockey Studio</nav>
+<header class="dj-hero">
+<p class="eyebrow">PIXIE CREATOR OS · DIGITAL JOCKEY / COMMUNITY RADIO</p>
+<h1>MAKE A SHOW.<br><em>BUILD A WORLD.</em></h1>
+<p class="lede">A digital jockey is more than a playlist. It is a point of view, a listening ritual, a community, and a trail of discoveries. Shape your idea, generate a build prompt, and decide where your show lives.</p>
+<div class="dj-actions"><a class="dj-link" href="https://loptr-lab.github.io/pay-it-forward/radio/">Open Your Week on Air ↗</a><a class="dj-link secondary" href="index.html">Back to Creator OS</a></div>
+</header>
+<section class="dj-grid" aria-label="Digital jockey project builder">
+<article class="dj-card">
+<p class="eyebrow">01 · DEFINE YOUR SHOW</p><h2>Project brief</h2>
+<form id="dj-form">
+<label>Show or project name<input id="name" maxlength="100" value="My Listening Station" required></label>
+<label>What kind of project?
+<select id="kind"><option>Weekly personal radio show</option><option>Community digital-jockey network</option><option>Artist / label listening club</option><option>Tour or city listening guide</option><option>Collaborative playlist exchange</option><option>Independent music discovery project</option></select></label>
+<label>Who is it for?<input id="audience" maxlength="180" placeholder="Friends, local scene, fans, independent artists…"></label>
+<label>What is the listening point of view?<textarea id="voice" maxlength="500" placeholder="Genres, moods, scenes, themes, stories, values…"></textarea></label>
+<label>How should people participate?
+<select id="participation"><option>Listen and share a show link</option><option>Follow DJs and discover their shows</option><option>Submit tracks and recommendations</option><option>Collaborate on shows and playlists</option><option>Host live sessions and scheduled broadcasts</option></select></label>
+<label>Where should it connect?
+<select id="platform"><option>Start as a standalone web project</option><option>Play It Forward community</option><option>AT Protocol / Atmosphere social network (planned integration)</option><option>Creator OS local-first workspace</option><option>Multi-platform, with portable identity</option></select></label>
+<label>What should the first version include?<textarea id="features" maxlength="700" placeholder="e.g. weekly tracklist, cover art, DJ note, Apple Music links, follow, comments, guest mixes…"></textarea></label>
+<div class="dj-actions"><button type="submit">Generate my project prompt ↗</button><button type="reset" class="secondary">Reset brief</button></div>
+</form>
+</article>
+<article class="dj-card">
+<p class="eyebrow">02 · YOUR BUILD PROMPT</p><h2>Take the idea forward</h2>
+<p>Generated in this browser from your answers. It is a reusable brief for a developer or AI coding assistant—not an automatic build, deployment, account connection, or publishing action.</p>
+<label for="output">Editable project prompt<textarea id="output" class="dj-output" placeholder="Your generated prompt will appear here." spellcheck="false"></textarea></label>
+<div class="dj-actions"><button type="button" id="copy">Copy prompt</button><button type="button" id="download" class="secondary">Download prompt</button></div>
+<p id="status" role="status" aria-live="polite"></p>
+</article>
+</section>
+<section class="dj-card" style="margin-top:1rem">
+<p class="eyebrow">03 · THE SOCIAL RADIO MODEL</p><h2>One network, many stations.</h2>
+<div class="dj-grid">
+<div><h3>Digital jockey profiles</h3><p>Each DJ owns their voice, station identity, show archive, credits, and publishing choices.</p></div>
+<div><h3>Shows and tracklists</h3><p>Weekly editions, themed sets, guest selections, artist notes, links, and accessible descriptions.</p></div>
+<div><h3>Discovery and community</h3><p>Follow stations, pass shows forward, discover adjacent scenes, submit recommendations, and collaborate by invitation.</p></div>
+<div><h3>Creator project generator</h3><p>Turn the idea into a project brief, product scope, technical architecture, prompt, milestones, and a test plan.</p></div>
+</div>
+<p class="dj-note"><strong>Integration boundary:</strong> this studio currently generates a prompt locally. Creator OS does not yet authenticate to Apple Music, read private listening history, publish AT Protocol records, run a public social feed, or host audio broadcasts. The Play It Forward Week on Air MVP is a manual, share-by-link show builder. Keep each service connection opt-in and accurately labelled until implemented and tested.</p>
+</section>
+</main>
+<script>
+(function(){
+ const $=id=>document.getElementById(id),form=$('dj-form');
+ form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const v={name:$('name').value.trim(),kind:$('kind').value,audience:$('audience').value.trim()||'People who want to discover and share music',voice:$('voice').value.trim()||'A distinct, welcoming editorial point of view',participation:$('participation').value,platform:$('platform').value,features:$('features').value.trim()||'A simple show page, DJ note, curated tracklist, artist credits, and external listening links'};
+  $('output').value=[
+   'PROJECT: '+v.name,
+   '',
+   'Act as a senior product designer, full-stack engineer, and accessibility reviewer. Help me plan and build this project in small, verifiable increments.',
+   '',
+   'PROJECT TYPE: '+v.kind,
+   'AUDIENCE: '+v.audience,
+   'EDITORIAL POINT OF VIEW: '+v.voice,
+   'PARTICIPATION: '+v.participation,
+   'PLATFORM DIRECTION: '+v.platform,
+   'FIRST VERSION: '+v.features,
+   '',
+   'PRODUCT INTENT',
+   'Create a social digital-jockey experience where people can curate listening shows, share playlists with context, discover other DJs, and grow a community around music rather than engagement metrics.',
+   '',
+   'REQUIRED DELIVERABLES',
+   '1. A concise product brief, user journeys, non-goals, and measurable acceptance criteria.',
+   '2. Information architecture for DJ profiles, stations, shows, tracklists, artist credits, discovery, follows, and sharing.',
+   '3. A permission and data-ownership map. The DJ controls what is public; private listening history is never exposed by default.',
+   '4. A technical architecture that reuses the existing project stack and avoids unnecessary services, duplicate identities, and new databases.',
+   '5. A working MVP with accessible responsive UI, empty/error/loading states, export/recovery, and clear integration status.',
+   '6. Provider adapter contracts for Apple Music and other listening services. Do not invent API capabilities or scrape private account data.',
+   '7. A portable social-network strategy. Evaluate AT Protocol records and existing Lexicons before proposing custom schemas. Separate local drafts from public records.',
+   '8. A prompt/brief generator that lets another creator describe and scaffold a project like this without copying private data or assuming shared ownership.',
+   '9. Automated tests, negative permission tests, accessibility checks, deployment plan, rollback, and a release record.',
+   '',
+   'SAFETY AND QUALITY RULES',
+   '- Distinguish implemented, planned, connected, and unavailable capabilities.',
+   '- Never claim an exact seven-day listening history without timestamped source data.',
+   '- Do not host or rebroadcast copyrighted audio without the required rights and provider permission; link to the authorized listening service instead.',
+   '- Require explicit user review before publishing, following, messaging, or importing private listening data.',
+   '- Preserve attribution, artist links, source provenance, and user corrections.',
+   '- Optimize for discovery, agency, accessibility, and meaningful participation—not endless engagement.',
+   '- Inspect the existing repository and its instructions before changing files. Keep game/story systems and unrelated projects separate.',
+   '',
+   'Start by auditing the current code and returning a source-linked implementation plan. Do not modify production or merge until tests and preview review pass.'
+  ].join('\n');
+  $('status').textContent='Prompt generated locally. Review and edit it before copying or downloading.';
+ });
+ $('copy').addEventListener('click',async()=>{try{if(!$('output').value)throw Error('Generate a prompt first.');await navigator.clipboard.writeText($('output').value);$('status').textContent='Prompt copied.';}catch(e){$('status').textContent=e.message||'Copy unavailable. Select the prompt and copy it.';}});
+ $('download').addEventListener('click',()=>{if(!$('output').value){$('status').textContent='Generate a prompt first.';return;}const blob=new Blob([$('output').value],{type:'text/markdown;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='digital-jockey-project-prompt.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('status').textContent='Download requested. Check your Downloads folder.';});
+})();
+</script>
+</body></html>
