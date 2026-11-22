@@ -41,3 +41,18 @@ This does not authorize remote logo tracking or scraping a catalog's artwork.
 Validation must include keyboard, 28px text at 320/390/820/1440px, contrast and
 preserved functional layouts. Chromium evidence does not establish physical iPad
 Safari or VoiceOver acceptance.
+
+
+## Creator OS interaction polish — UI SDK Sink review, 22 November 2026
+
+The UI SDK Sink was reviewed as a behavior reference, not as a dependency or design system. Creator OS remains vanilla JavaScript and keeps the shared stylesheet, local-first draft/storage contracts, explicit service boundaries and current focus-management model.
+
+Implemented on the review branch:
+- My Apps filtering now announces a concise count of added and available matches through a polite status region.
+- Removing an app returns focus to its newly available Add action instead of losing focus in a replaced card. Existing add, reorder and configure actions continue to focus their surviving card controls.
+- Empty filtered states remain explicit in the list content; the result announcement makes the counts discoverable to screen-reader users.
+- Browser tests cover count announcements, zero-result messaging and focus recovery after removal.
+
+Deferred: framework/UI SDK adoption, command palette, virtualized catalog, drag-only reorder, timeline/canvas and broad visual redesign. These require a concrete use case and must preserve keyboard alternatives and the current architecture.
+
+Acceptance: run the existing Creator unit/browser suite, especially `tests/my-apps.test.js` and `tests/browser-my-apps.test.js`. Confirm the browser test uses a local HTTP server and synthetic external destinations only. Physical Safari/iPad/VoiceOver validation remains outstanding; Chromium test coverage is not device certification.

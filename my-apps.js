@@ -13,7 +13,14 @@
   }catch(error){changing=false;say(error.message);}
  }
  function button(text,fn){const b=document.createElement('button');b.type='button';b.textContent=text;b.addEventListener('click',fn);return b;}
- function focusApp(id){const section=document.querySelector('[data-app-id="'+id+'"]');(section?.querySelector('button,a')||$('connections-heading')).focus();}
+ function focusApp(id){
+  const section=document.querySelector('[data-app-id="'+id+'"]');
+  const target=section?.querySelector('button,a');
+  if(target){target.focus();return;}
+  const app=catalog.find(item=>item.id===id);
+  const add=app&&[...$('available-apps').querySelectorAll('button')].find(b=>b.textContent.trim()==='Add '+app.name+' to My Apps');
+  (add||$('connections-heading')).focus();
+ }
  function route(view){document.querySelector('[data-view="'+view+'"]').click();}
  function card(app,item,index,items){
   const article=document.createElement('article');article.className='card app-card';article.dataset.appId=app.id;
@@ -44,6 +51,7 @@
  function render(){
   const items=selection(),query=$('app-search').value.toLowerCase().trim(),category=$('app-category').value;
   const matches=app=>(!category||app.category===category)&&(!query||[app.name,app.description,app.category].join(' ').toLowerCase().includes(query));
+  $('my-apps-results').textContent='Showing '+items.filter(item=>matches(catalog.find(app=>app.id===item.id))).length+' added and '+catalog.filter(app=>!items.some(x=>x.id===app.id)&&matches(app)).length+' available apps.';
   $('added-apps').replaceChildren();$('available-apps').replaceChildren();
   items.forEach((item,index)=>{const app=catalog.find(a=>a.id===item.id);if(matches(app))$('added-apps').append(card(app,item,index,items));});
   catalog.filter(app=>!items.some(x=>x.id===app.id)&&matches(app)).forEach(app=>$('available-apps').append(card(app,null,0,items)));
