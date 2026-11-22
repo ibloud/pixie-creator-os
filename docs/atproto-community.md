@@ -172,3 +172,12 @@ For Creator OS-specific implementation questions, open an issue in this reposito
 - Creator OS — local-first creation/workspace implementation
 
 The architecture should remain deliberately small until the community identifies a concrete interoperability requirement.
+
+
+## Digital Jockey / community radio use case
+
+The Digital Jockey Network is a concrete use case for the Creator OS ↔ ATmosphere seam: DJs publish show metadata and curated tracklists; listeners discover stations and share shows; creators retain ownership of their voice, credits, and publication choices. The first Play It Forward MVP is manual and share-by-link, not an ATProto social network.
+
+Potential portable records should be evaluated against existing ATProto Lexicons before custom schemas are proposed. Distinguish public DJ/station profiles and show records from private drafts, private listening history, and recommendation inferences. A playlist link is not proof of a play event; a public tracklist is not permission to rebroadcast audio. User consent, moderation, block/report, deletion, attribution, and source provenance are required design work before a public network launch.
+
+**Breadcrumb:** [Creator OS → Digital Jockey Studio](../digital-jockey.html) → [Digital Jockey Network architecture](digital-jockey-network.md) → AT Protocol community review. ATProto sign-in/publishing is not yet connected in Creator OS.
