@@ -51,6 +51,7 @@
  function render(){
   const items=selection(),query=$('app-search').value.toLowerCase().trim(),category=$('app-category').value;
   const matches=app=>(!category||app.category===category)&&(!query||[app.name,app.description,app.category].join(' ').toLowerCase().includes(query));
+  $('my-apps-results').textContent='Showing '+items.filter(item=>matches(catalog.find(app=>app.id===item.id))).length+' added and '+catalog.filter(app=>!items.some(x=>x.id===app.id)&&matches(app)).length+' available apps.';
   $('added-apps').replaceChildren();$('available-apps').replaceChildren();
   items.forEach((item,index)=>{const app=catalog.find(a=>a.id===item.id);if(matches(app))$('added-apps').append(card(app,item,index,items));});
   catalog.filter(app=>!items.some(x=>x.id===app.id)&&matches(app)).forEach(app=>$('available-apps').append(card(app,null,0,items)));
