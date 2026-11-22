@@ -179,3 +179,18 @@ nor authorization to control an app. All pages reuse the authoritative shared
 `styles.css`; existing surface identities are preserved. See the [working scope,
 states, permissions and checks](docs/artist-workflow.md#my-apps-amendment--27-october-2026)
 and [existing design/token record](design-qa.md).
+
+
+## Atmosphere Control Plane — app coordination and privacy
+
+**Breadcrumb:** [Creator OS](README.md) → My Apps / Connections → [PIXIE Holdings control plane](https://github.com/ibloud/pixie-holdings) → [PIXIE Ecosystem Guide](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
+
+Creator OS coordinates creative projects and user-selected services across Atmosphere; it is not a replacement for blog, audio, streaming, messaging, DAW, or distribution apps. My Apps should separate four states: **Discovered** (catalog entry), **Added** (user selected), **Connected** (explicit supported authorization), and **Adapter available** (capability implemented but not necessarily authorized). A launch, viewer, URL, or manual handoff is not a service connection.
+
+The curated catalog should be provenance-aware: source URL/type, discovered/checked timestamps, confidence, supported capabilities, compatibility and limitations, and status. Prior candidates such as Leaflet, Streamplace, WhiteWind, and Plyr.fm remain candidates until individually re-verified and capability-tested; do not describe them as installed or connected. Hardware services require separate device evidence and permission checks.
+
+Private project context belongs to the existing Companion/private persistence boundary. Handoffs carry only the minimum user-reviewed draft/context, destination, and stable PIXIE IDs; no credentials, unrelated project data, or media bytes. PDS is for user-approved portable records—not private storage. Disconnect/revoke and export/recovery must be explicit and tested.
+
+**Delivery path:** audit the current adapter registry and My Apps behavior → define catalog provenance and capability contract → implement one verified adapter/handoff → test consent, denial, disconnect, stale entries, focus/accessibility, and leakage → publish a reviewable demo with limitations. This is a plan, not a claim that these integrations are currently live.
+
+See the [Holdings control-plane proposal](https://github.com/ibloud/pixie-holdings) and the [ecosystem decision/review breadcrumb](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
