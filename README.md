@@ -194,3 +194,14 @@ Private project context belongs to the existing Companion/private persistence bo
 **Delivery path:** audit the current adapter registry and My Apps behavior → define catalog provenance and capability contract → implement one verified adapter/handoff → test consent, denial, disconnect, stale entries, focus/accessibility, and leakage → publish a reviewable demo with limitations. This is a plan, not a claim that these integrations are currently live.
 
 See the [Holdings control-plane proposal](https://github.com/ibloud/pixie-holdings) and the [ecosystem decision/review breadcrumb](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
+
+
+## Digital Jockey Network — product space and breadcrumbs
+
+**Breadcrumb:** [PIXIE Creator OS](README.md) → **My Audience** → [Digital Jockey Studio](digital-jockey.html) → [Digital Jockey Network architecture](docs/digital-jockey-network.md) → [Play It Forward / Your Week on Air](https://loptr-lab.github.io/pay-it-forward/radio/).
+
+Creator OS is the creator-side operating workspace: define a station, prepare a show, generate a reusable project prompt, preserve credits and rights, and choose where to publish. Play It Forward is the public-facing community experience and first reference implementation. The two products remain separate and keep their own source-of-truth and data boundaries.
+
+The Digital Jockey Studio prompt generator is a local browser utility. It turns a creator's answers into an editable project prompt; it does not call an AI model, transmit the brief, create a repository, connect accounts, or deploy anything. See [Digital Jockey Network](docs/digital-jockey-network.md) for product roles, phases, permissions, social-network direction, and acceptance gates.
+
+The intended social model is **one network, many stations**: DJs own their profiles and shows; listeners can discover and follow stations, share tracks with context, recommend artists, and collaborate. AT Protocol / Atmosphere is the preferred interoperability direction, but Creator OS currently has no ATProto authentication or publishing connection. Do not describe planned follows, feeds, public profiles, Apple Music import, or live broadcasting as working features.
