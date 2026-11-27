@@ -16,7 +16,9 @@ Candidate first tools: propose caption copy, propose an accessibility descriptio
 
 The [Mubert API documentation](https://mubert.com/api/docs) describes a REST API and an MCP server for integrating music generation, library search, editing, and streaming into products. The documented API includes text-to-music and image-to-music, track generation and editing, stem replacement/removal, and streaming controls. Its MCP server exposes both read-only tools and quota-consuming generation/edit actions. The documentation says generated-track links expire and stream URLs carry access tokens.
 
-This makes Mubert a technically plausible **optional music-service adapter** for a defined Creator OS use case. It does not make Mubert a current integration or an automatic product choice.
+Mubert’s [use-cases page](https://mubert.com/api/use-cases) explicitly targets apps, games, and creator tools, with pages for video editing, music creation and practice, podcasting, streaming, and interactive-story apps. It showcases integrations or partnership examples involving Canva, Picsart, and Restream. These are Mubert’s own market-positioning claims: they show intended product fit and examples of embedding the API, but do not independently establish customer outcomes, license scope, or fit for Creator OS.
+
+This makes Mubert a technically plausible **optional music-service adapter** with an explicit creator-tools market fit. It does not make Mubert a current integration or an automatic product choice.
 
 ### Why Creator OS remains in research
 
@@ -44,6 +46,7 @@ If a future, approved Creator OS feature uses Mubert, it would be evaluated as a
 
 Sources checked 2026-11-27:
 - [Mubert AI Music API documentation](https://mubert.com/api/docs) — first-party technical description of API, MCP, authentication, licensing controls, track/library/stream endpoints, and plan cards visible on the documentation page. Documentation is product material, not independent legal review or proof that any account is entitled to a feature.
+- [Mubert API use cases](https://mubert.com/api/use-cases) — first-party claims about target product categories and example integrations; not independent verification or proof of Creator OS fit.
 - [PIXIE Creator OS README](../README.md) — current local-first workflow, manual reviewed handoff, and service-catalog provenance/status requirements.
 - [PIXIE × AT Protocol — Community Workspace](atproto-community.md) — current Creator OS and AT Protocol boundaries, writable-PDS fallback semantics, and unimplemented authentication/publishing.
 - [PIXIE Creator OS Integration Architecture](PIXIE-INTEGRATION-ARCHITECTURE.md) — optional-service and graceful-degradation principles.
